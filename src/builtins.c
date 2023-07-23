@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/23 15:47:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/23 21:59:08 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	builtins(char *str, t_env_list *my_env)
 	}
 	if (ft_strncmp(str, "cd", 2) == 0)
 	{
+		pwd_init(my_env);
 		arr = ft_split(str, ' ');
 		if (!arr[1])
 		{
@@ -46,9 +47,27 @@ void	builtins(char *str, t_env_list *my_env)
 		}
 		else if (chdir(arr[1]) != 0)
 			perror("Minishell: cd ");
+		tmp = my_env;
+		while (tmp != NULL)
+		{
+			if (ft_strcmp(tmp->key, "PWD") == 0)
+			{
+				// free(tmp->key);
+				// free(tmp->line);
+				getcwd(buff, sizeof(buff));
+				tmp->data = ft_strdup(buff);
+				tmp->line = ft_strdup("");
+				tmp->line = ft_strjoin(tmp->line, "PWD");
+				tmp->line = ft_strjoin(tmp->line, "=");
+				tmp->line = ft_strjoin(tmp->line, tmp->data);
+				break ;
+			}
+			tmp = tmp->next;
+		}
 	}
 	if (ft_strncmp(str, PWD, ft_strlen(PWD)) == 0)
 	{
+
 		if (getcwd(buff, sizeof(buff)) != NULL)
 			printf("%s\n", buff);
 		else

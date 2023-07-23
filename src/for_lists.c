@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/23 12:47:15 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/23 21:54:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,12 @@ t_env_list	*push_back(t_env_list **list, t_env_list *new)
 void	unset_fnc(t_env_list *list, char *str)
 {
 	t_env_list	*tmp;
-	int			a;
 
 	tmp = list;
-	a = 1;
 	while (tmp != NULL)
 	{
 		if (ft_strcmp(tmp->key, str) == 0)
-			tmp->flag = &a;
+			tmp->flag = 1;
 		tmp = tmp->next;
 	}
 }
