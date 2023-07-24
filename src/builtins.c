@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
 /*   Updated: 2023/07/24 20:12:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:23:33 by rmkrtchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +115,11 @@ void	builtins_2(char *str, t_env_list *my_env)
 			ft_printf(2, "exit\n");
 			exit (EXIT_FAILURE);
 		}
+	}
+	if (ft_strcmp(str, "echo") == 0)
+	{
+		i = 1;
+		arr = ft_split(str, ' ');
+		if(ft_strcmp(arr[i], "-n"))
 	}
 }
