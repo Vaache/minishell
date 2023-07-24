@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 20:13:36 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/24 12:46:55 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/02/09 20:03:53 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/07/24 19:09:58 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strdup(char *str)
+int	ft_print_str(char *s, int fd)
 {
-	int		len;
-	char	*s;
+	size_t	i;
 
-	// if (!str)
-	// 	return (0);
-	len = 0;
-	while (str && str[len])
-		len++;
-	s = (char *)malloc(len + 1);
-	if (s == NULL)
-		return (NULL);
-	while (len >= 0)
+	i = 0;
+	if (!s)
 	{
-		s[len] = str[len];
-		len--;
+		write(fd, "(null)", 6);
+		return (6);
 	}
-	return (s);
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	return (i);
 }

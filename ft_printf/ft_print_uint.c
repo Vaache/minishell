@@ -1,34 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_print_uint.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 20:13:36 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/24 12:46:55 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/02/09 20:03:56 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/07/24 19:13:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strdup(char *str)
+static int	ft_intlen(long int nb)
 {
-	int		len;
-	char	*s;
+	int	len;
 
-	// if (!str)
-	// 	return (0);
 	len = 0;
-	while (str && str[len])
-		len++;
-	s = (char *)malloc(len + 1);
-	if (s == NULL)
-		return (NULL);
-	while (len >= 0)
+	if (nb == 0)
 	{
-		s[len] = str[len];
-		len--;
+		len++;
+		return (len);
 	}
-	return (s);
+	while (nb != 0)
+	{
+		len++;
+		nb = nb / 10;
+	}
+	return (len);
+}
+
+int	ft_print_uint(unsigned int n, int fd)
+{
+	if (n > 9)
+	{
+		ft_print_uint(n / 10, fd);
+		ft_print_uint((n % 10), fd);
+	}
+	else
+		ft_print_char((n + 48), fd);
+	return (ft_intlen(n));
 }

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/23 21:54:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:19:08 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ t_env_list	*malloc_list(char *env)
 	t_env_list	*tmp;
 	int			i;
 
-	i = -1;
+	i = 0;
 	tmp = (t_env_list *)malloc(sizeof(t_env_list));
 	tmp->next = NULL;
 	tmp->prev = NULL;
-	while (env[++i] != '=')
-		;
+	while (env && env[i] != '\0' && env[i] != '=')
+		i++;
 	tmp->key = ft_substr(env, 0, (size_t)i);
 	tmp->data = ft_substr(env, i + 1, ft_strlen(&env[i + 1]));
 	tmp->line = ft_strdup(env);

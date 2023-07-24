@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/23 21:59:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:03:50 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	builtins(char *str, t_env_list *my_env)
 		{
 			if (ft_strcmp(tmp->key, "PWD") == 0)
 			{
-				// free(tmp->key);
-				// free(tmp->line);
+				free(tmp->data);
+				free(tmp->line);
 				getcwd(buff, sizeof(buff));
 				tmp->data = ft_strdup(buff);
 				tmp->line = ft_strdup("");
@@ -64,6 +64,7 @@ void	builtins(char *str, t_env_list *my_env)
 			}
 			tmp = tmp->next;
 		}
+		free_2d(arr, strlen_2d(arr));
 	}
 	if (ft_strncmp(str, PWD, ft_strlen(PWD)) == 0)
 	{
@@ -71,10 +72,7 @@ void	builtins(char *str, t_env_list *my_env)
 		if (getcwd(buff, sizeof(buff)) != NULL)
 			printf("%s\n", buff);
 		else
-		{
-			perror("getcwd ");
-			exit(EXIT_FAILURE);
-		}
+			perror("getcwd");
 	}
 	if (ft_strncmp(str, UNSET, ft_strlen(UNSET)) == 0)
 	{
@@ -92,5 +90,22 @@ void	builtins(char *str, t_env_list *my_env)
 			check_unset(arr[i], my_env);
 			unset_fnc(my_env, arr[i]);
 		}
+		free_2d(arr, strlen_2d(arr));
+	}
+}
+
+void	builtins_2(char *str, t_env_list *my_env)
+{
+	char		**arr;
+	char		*s;
+	long long	exit;
+	
+	if (ft_strcmp(str, "exit") == 0)
+	{
+		arr = ft_split(str, ' ');
+		exit = ft_atll(str);
+		s = ft_itul(exit);
+		my_env = 0;
+		// if ()
 	}
 }

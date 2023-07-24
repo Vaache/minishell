@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:54:38 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/23 11:47:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/24 12:52:11 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_chek_str(char s, char const *str)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	size_t	i;
 	size_t	start;
@@ -49,5 +49,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (end > start)
 		str[i++] = s1[start++];
 	str[i] = '\0';
+	free(s1);
 	return (str);
 }

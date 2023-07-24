@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 20:38:05 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/23 22:16:32 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/24 19:21:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	pwd_init(t_env_list *my_env)
 {
 	t_env_list	*tmp;
 	char		*str;
-	static	int	i;
+	static	int	i = 0;
 
 	tmp = my_env;
 	str = NULL;
@@ -39,6 +39,7 @@ void	pwd_init(t_env_list *my_env)
 	{
 		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && i == 1)
 		{
+			free(tmp->line);
 			tmp->line = ft_strdup("");
 			tmp->line = ft_strjoin(tmp->line, "OLDPWD");
 			tmp->line = ft_strjoin(tmp->line, "=");
@@ -47,6 +48,8 @@ void	pwd_init(t_env_list *my_env)
 		}
 		else if (ft_strcmp(tmp->key, "OLDPWD") == 0 && i == 0)
 		{
+			free(tmp->data);
+			free(tmp->line);
 			tmp->data = ft_strdup(str);
 			tmp->line = ft_strdup("");
 			tmp->line = ft_strjoin(tmp->line, "OLDPWD");
@@ -61,4 +64,5 @@ void	pwd_init(t_env_list *my_env)
 			tmp = my_env;
 		}
 	}
+	free(str);
 }

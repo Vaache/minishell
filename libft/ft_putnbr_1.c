@@ -1,17 +1,17 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void ft_putchar(int c)
+void ft_putchar(int c, int fd)
 {
-	write(1, &c, 1);
+	write(fd, &c, 1);
 }
 
-void ft_putnbr_1(int nb)
+void ft_putnbr_1(int nb, int fd)
 {
 	long n = nb;
 	if (nb < 0)
 	{
-		write(1, "-", 1);
+		write(fd, "-", 1);
 		n *= -1;
 	}
 	while (1)
@@ -21,11 +21,6 @@ void ft_putnbr_1(int nb)
 		else if (n == 0)
 			exit (1);
 		else
-			ft_putchar(nb % 10 + 48);
+			ft_putchar(nb % 10 + 48, fd);
 	}
-}
-#include <stdio.h>
-int main()
-{
-	ft_putnbr_1(1);
 }
