@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/24 19:03:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:23:33 by rmkrtchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ void	builtins(char *str, t_env_list *my_env)
 		}
 		i = 0;
 		while (arr && arr[++i])
-		{
 			check_unset(arr[i], my_env);
-			unset_fnc(my_env, arr[i]);
-		}
 		free_2d(arr, strlen_2d(arr));
 	}
 }
@@ -99,6 +96,7 @@ void	builtins_2(char *str, t_env_list *my_env)
 	char		**arr;
 	char		*s;
 	long long	exit;
+	int			i;
 	
 	if (ft_strcmp(str, "exit") == 0)
 	{
@@ -107,5 +105,11 @@ void	builtins_2(char *str, t_env_list *my_env)
 		s = ft_itul(exit);
 		my_env = 0;
 		// if ()
+	}
+	if (ft_strcmp(str, "echo") == 0)
+	{
+		i = 1;
+		arr = ft_split(str, ' ');
+		if(ft_strcmp(arr[i], "-n"))
 	}
 }
