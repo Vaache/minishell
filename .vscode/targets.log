@@ -1,0 +1,425 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+
+# Make data base, printed on Mon Jul 24 19:35:17 2023
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# makefile (from `Makefile', line 9)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+# makefile (from `Makefile', line 5)
+SRC = $(wildcard $(SRC_DIR)/*.c)
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/vhovhann/Desktop/minishell
+# makefile (from `Makefile', line 16)
+MK = mkdir -p
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"3689cb335afcb2fb0efcb1f311d613e8.ru","_translationsConfigFile":"/Users/vhovhann/Library/Application Support/Code/clp/3689cb335afcb2fb0efcb1f311d613e8.ru/tcf.json","_cacheRoot":"/Users/vhovhann/Library/Application Support/Code/clp/3689cb335afcb2fb0efcb1f311d613e8.ru","_resolvedLanguagePackCoreLocation":"/Users/vhovhann/Library/Application Support/Code/clp/3689cb335afcb2fb0efcb1f311d613e8.ru/441438abd1ac652551dbe4d408dfcec8a499b8bf","_corruptedFile":"/Users/vhovhann/Library/Application Support/Code/clp/3689cb335afcb2fb0efcb1f311d613e8.ru/corrupted.info","_languagePackSupport":true}
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 15)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDE) -g3 -fsanitize=address
+# makefile (from `Makefile', line 19)
+BLUE = "\033[38;2;158;204;245m"
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# makefile (from `Makefile', line 7)
+OBJ_DIR = obj
+# environment
+VSCODE_CWD = /
+# environment
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.MSEy5GTqoE/Render
+# environment
+PATH = /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+# makefile (from `Makefile', line 18)
+TEXT = "\033[6;1m"
+# makefile (from `Makefile', line 14)
+LINKERS = -L./libft -lft -L./readline_update/lib -lreadline -L./ft_printf -lftprintf
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# makefile (from `Makefile', line 20)
+PURPLE = "\033[38;2;0;138;240m"
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.51d7Pt2Yed/Listeners
+# automatic
+%F = $(notdir $%)
+# environment
+PWD = /Users/vhovhann/Desktop/minishell
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /Users/vhovhann
+# default
+MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/vhovhann/Library/Application Support/Code/CachedData/441438abd1ac652551dbe4d408dfcec8a499b8bf
+# environment
+LOGNAME = vhovhann
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# makefile (from `Makefile', line 17)
+PREFIX = $(shell find ${HOME} -name readline_update 2>/dev/null)
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XPC_FLAGS = 0x0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+SHLVL = 1
+# makefile (from `Makefile', line 11)
+CC = cc
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = vhovhann
+# makefile
+.DEFAULT_GOAL := all
+# makefile (from `Makefile', line 13)
+INCLUDE = -Iincludes -I./readline_update/include -Ilibft -Ift_printf
+# makefile (from `Makefile', line 1)
+NAME = minishell
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n000chlm00344x/T/
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/vhovhann/Library/Application Support/Code/1.75.1-main.sock
+# environment
+MallocNanoZone = 0
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+XPC_SERVICE_NAME = com.microsoft.VSCode.3476
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = file:///Users/vhovhann/.vscode/extensions/ms-ceintl.vscode-language-pack-ru-1.79.2023061409/translations/extensions/vscode.json-language-features.i18n.json
+# automatic
++F = $(notdir $+)
+# environment
+__CF_USER_TEXT_ENCODING = 0x1909D:0x7:0x31
+# default
+MAKEFILES := 
+# makefile (from `Makefile', line 3)
+SRC_DIR = src
+# automatic
+<F = $(notdir $<)
+# environment
+LC_ALL = C
+# makefile (from `Makefile', line 21)
+RESET = "\033[0m"
+# makefile (from `Makefile', line 12)
+HEADER = $(wildcard includes/*.h) $(wildcard libft/libft.h) $(wildcard ft_printf/ft_printf.h)
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# environment
+LANG = C
+# environment
+VSCODE_PID = 15921
+# variable set hash-table stats:
+# Load=74/1024=7%, Rehash=0, Collisions=4/113=4%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777224, inode 1469218): 13 files, no impossibilities.
+# includes (device 16777224, inode 1469353): 4 files, no impossibilities.
+# src (device 16777224, inode 1469358): 14 files, no impossibilities.
+# ft_printf (device 16777224, inode 1469352): 11 files, no impossibilities so far.
+# libft (device 16777224, inode 1469354): 50 files, no impossibilities so far.
+
+# 92 files, no impossibilities in 5 directories.
+
+# Implicit Rules
+
+obj/%.o: src/%.c includes/get_next_line_bonus.h includes/minishell.h libft/libft.h ft_printf/ft_printf.h Makefile
+#  commands to execute (from `Makefile', line 26):
+	@echo $(BLUE) "$(CC) $(CFLAGS) -c $< -o $@" $(RESET)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+obj/env_init.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+obj/pars.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: ft_printf libft obj minishell
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/2=0%
+
+.PHONY: all libft ft_printf clean fclean re
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ft_printf:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := ft_printf
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/10=10%
+#  commands to execute (from `Makefile', line 36):
+	@make -C ft_printf
+	
+
+libft:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 33):
+	@make -C libft
+	
+
+# Not a target:
+obj/main.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2023-07-24 19:30:55
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+ 
+minishell: obj/builtins.o obj/env_init.o obj/env_pwds.o obj/for_lists.o obj/get_next_line_bonus.o obj/get_next_line_utils_bonus.o obj/main.o obj/pars.o obj/print_42.o obj/signals.o obj/utils.o includes/get_next_line_bonus.h includes/minishell.h libft/libft.h ft_printf/ft_printf.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 42):
+	@$(CC) $(CFLAGS) $() $(LINKERS) $(LIBFT) -o $(NAME) $(OBJ)
+	@echo $(PURPLE) $(TEXT) COPILED$(RESET)
+	
+
+# Not a target:
+obj/print_42.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+obj/for_lists.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+fclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 51):
+	@rm -f $(NAME)
+	@rm -rf $(OBJ_DIR)
+	@make fclean -C libft
+	@make fclean -C ft_printf
+	
+
+obj:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 30):
+	@$(MK) $(OBJ_DIR)
+	
+
+# Not a target:
+obj/get_next_line_utils_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+obj/signals.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+obj/env_pwds.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+re: fclean all
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 46):
+	@rm -f $(OBJ)
+	@make fclean -C libft
+	@make clean -C ft_printf
+	
+
+# Not a target:
+obj/utils.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+ft_printf/ft_printf.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+readline:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 39):
+	cd readline-master && make clean && ./configure --prefix=$(PREFIX) && make && make install
+	
+
+# Not a target:
+obj/builtins.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/libft.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+includes/minishell.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+obj/get_next_line_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+includes/get_next_line_bonus.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=28/1024=3%, Rehash=0, Collisions=0/70=0%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 1
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
+
+# Finished Make data base on Mon Jul 24 19:35:17 2023
+
+ 

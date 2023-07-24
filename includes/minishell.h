@@ -35,10 +35,10 @@ int						strlen_2d(char **str);
 void					call_signals();
 void					check_unset(char *arr, t_env_list *my_env);
 void					builtins(char *str, t_env_list *my_env);
+void					builtins_2(char *str, t_env_list *my_env);
 t_env_list				*env_init(char **env, t_env_list *my_env);
 t_env_list				*push_back(t_env_list **list, t_env_list *new);
 t_env_list				*malloc_list(char *env);
-void					unset_fnc(t_env_list *list, char *str);
 void					pwd_init(t_env_list *my_env);
 
 #endif
