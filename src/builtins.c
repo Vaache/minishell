@@ -6,6 +6,7 @@
 /*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/07/24 20:12:23 by vhovhann         ###   ########.fr       */
 /*   Updated: 2023/07/24 20:23:33 by rmkrtchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -25,7 +26,7 @@ void	builtins(char *str, t_env_list *my_env)
 		while (tmp != NULL)
 		{
 			if (tmp->flag == 0)
-				printf("%s\n", tmp->line);
+				ft_printf(1, "%s\n", tmp->line);
 			tmp = tmp->next;
 		}
 	}
@@ -46,7 +47,7 @@ void	builtins(char *str, t_env_list *my_env)
 			chdir(tmp->data);
 		}
 		else if (chdir(arr[1]) != 0)
-			perror("Minishell: cd ");
+				ft_printf(1, "cd: no such file or directory: %s\n", arr[1]);
 		tmp = my_env;
 		while (tmp != NULL)
 		{
@@ -89,22 +90,31 @@ void	builtins(char *str, t_env_list *my_env)
 			check_unset(arr[i], my_env);
 		free_2d(arr, strlen_2d(arr));
 	}
+	builtins_2(str, my_env);
 }
 
 void	builtins_2(char *str, t_env_list *my_env)
 {
 	char		**arr;
 	char		*s;
-	long long	exit;
-	int			i;
+	long long	exit_num;
+	(void)my_env;
 	
-	if (ft_strcmp(str, "exit") == 0)
+	if (ft_strncmp(str, "exit", ft_strlen("exit")) == 0)
 	{
 		arr = ft_split(str, ' ');
-		exit = ft_atll(str);
-		s = ft_itul(exit);
-		my_env = 0;
-		// if ()
+		exit_num = ft_atll(arr[1]);
+		s = ft_itul(exit_num);
+		if (arr[0] && arr[1] == NULL)
+		{
+			ft_printf(1, "exit\n");
+			exit(EXIT_SUCCESS);
+		}
+		else if (ft_strcmp(s, exit_num) == 0 && arr[1] != NULL)
+		{
+			ft_printf(2, "exit\n");
+			exit (EXIT_FAILURE);
+		}
 	}
 	if (ft_strcmp(str, "echo") == 0)
 	{
