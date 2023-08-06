@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:20:50 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 14:01:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:31:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2 && s2[j] != '\0')
 		str[i++] = s2[j++];
 	str[i] = '\0';
-	free(s1);
+	// free(s1);
 	return (str);
 }
