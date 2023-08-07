@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 15:50:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:10:22 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ char					*trim_zeroes(char *s);
 unsigned long long int	ft_atll(char *str);
 int						strlen_2d(char **str);
 int						onlyspace(char *str);
+int						parse_error(int fd, char *err);
 
 void					call_signals(void);
 void					check_unset(char *arr, t_env_list *my_env);
@@ -143,6 +144,8 @@ t_pars					*lstadd(char *string, t_type type, int prc, int flag);
 
 int						handel_dquotes(t_pars **pars, char *line, int i, int start);
 int						handel_squotes(t_pars **pars, char *line, int i, int start);
+
+int						handel_xor(t_pars **pars, char *line, int i, int start);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 16:00:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:20:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,15 @@ int	lexer(char *line, t_pars **pars)
 		{
 			if (line[i] == '"')
 				l = handel_dquotes(pars, line, i, start) + 1;	
-			if (line[i] == '\'')
-				l = handel_squotes(pars, line, i, start) + 1;	
+			else if (line[i] == '\'')
+				l = handel_squotes(pars, line, i, start) + 1;
+			else if (line[i] == '|' && line[i + 1] == '|')
+				l = handel_xor(pars, line, i, start);
+			else
+			{
+				i++;
+				continue ;
+			}
 			if (l == 0)
 				return (0);
 			else if (l > 0)

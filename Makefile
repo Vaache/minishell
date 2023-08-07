@@ -38,11 +38,11 @@ RESET		= "\033[0m"
 all: $(LIBS) $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(BLUE) "$(CC) $(CFLAGS) $(SANITIZER) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(BLUE) "$(CC) $(CFLAGS) $(SANITIZER) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJ_DIR):

@@ -6,9 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
 
-# Make data base, printed on Sun Aug  6 16:06:03 2023
+# Make data base, printed on Mon Aug  7 14:39:52 2023
 
 # Variables
 
@@ -49,7 +48,7 @@ OBJ_DIR = obj
 # environment
 VSCODE_CWD = /
 # environment
-Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.yC0gHYuXvf/Render
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.BOsxvBgukg/Render
 # environment
 PATH = /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
 # makefile (from `Makefile', line 30)
@@ -65,7 +64,7 @@ LIBFT_DIR = ./libs/libft
 # makefile (from `Makefile', line 32)
 PURPLE = "\033[38;2;0;138;240m"
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.N6o5yhpJie/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.iJtTIhmbHf/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -171,7 +170,7 @@ SUBDIRS = lexer get_next_line builtins utils
 # environment
 LANG = C
 # environment
-VSCODE_PID = 69499
+VSCODE_PID = 87531
 # variable set hash-table stats:
 # Load=80/1024=8%, Rehash=0, Collisions=4/133=3%
 
@@ -182,27 +181,27 @@ VSCODE_PID = 69499
 # Directories
 
 # ./libs (device 16777224, inode 1561398): 4 files, no impossibilities.
-# . (device 16777224, inode 1561193): 12 files, no impossibilities.
-# ./libs/Fdprintf (device 16777224, inode 1561405): 5 files, no impossibilities.
+# . (device 16777224, inode 1561193): 14 files, no impossibilities.
+# ./libs/Fdprintf (device 16777224, inode 1561405): 7 files, no impossibilities.
 # includes (device 16777224, inode 1561397): 4 files, no impossibilities.
 # src/utils (device 16777224, inode 1561788): 6 files, no impossibilities.
 # src/get_next_line (device 16777224, inode 1561779): 4 files, no impossibilities.
 # src/lexer (device 16777224, inode 1561782): 6 files, no impossibilities.
 # src/builtins (device 16777224, inode 1561771): 9 files, no impossibilities.
 
-# 50 files, no impossibilities in 8 directories.
+# 54 files, no impossibilities in 8 directories.
 
 # Implicit Rules
 
 obj/%.o: src/%.c includes/get_next_line_bonus.h includes/minishell.h   Makefile
 #  commands to execute (from `Makefile', line 41):
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(BLUE) "$(CC) $(CFLAGS) $(SANITIZER) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 
 obj/%.o: src/*/%.c includes/get_next_line_bonus.h includes/minishell.h   Makefile
 #  commands to execute (from `Makefile', line 45):
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(BLUE) "$(CC) $(CFLAGS) $(SANITIZER) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 
@@ -257,6 +256,7 @@ libft:
 # automatic
 # * := 
 # automatic
+ 
 # + := 
 # automatic
 # | := 
@@ -274,7 +274,6 @@ libft:
 
 # Not a target:
 obj/main.o:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -288,7 +287,7 @@ obj/main.o:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2023-08-06 12:43:41
+#  Last modified 2023-08-06 16:58:23
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -472,6 +471,6 @@ includes/get_next_line_bonus.h:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun Aug  6 16:06:03 2023
+# Finished Make data base on Mon Aug  7 14:39:52 2023
 
  
