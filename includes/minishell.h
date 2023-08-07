@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/07 16:10:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:18:40 by rmkrtchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,10 @@ int						handel_dquotes(t_pars **pars, char *line, int i, int start);
 int						handel_squotes(t_pars **pars, char *line, int i, int start);
 
 int						handel_xor(t_pars **pars, char *line, int i, int start);
+int						handel_xand(t_pars **pars, char *line, int i, int start);
+
+int						handel_oprnth(t_pars **pars, char *line, int i, int start);
+int						handel_clprnth(t_pars **pars, char *line, int i, int start);
 
 
 #endif

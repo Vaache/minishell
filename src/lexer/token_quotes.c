@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/07 16:09:55 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:35:05 by rmkrtchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handel_dquotes(t_pars **pars, char *line, int i, int start)
 		lstback(pars, lstadd(ft_substr(line, i + 1, count - i - 1), DQUOTE, 0, 0));
 	else
 		return (parse_error(2, "Minishell : Syntax Error Duble Qoutes `\"\'\n"));
-	return (count - 1);
+	return (count);
 }
 
 int	handel_squotes(t_pars **pars, char *line, int i, int start)
@@ -56,7 +56,7 @@ int	handel_squotes(t_pars **pars, char *line, int i, int start)
 		lstback(pars, lstadd(ft_substr(line, i + 1, count - i - 1), DQUOTE, 0, 0));
 	else
 		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'\n"));
-	return (count - 1);
+	return (count);
 }
 
 

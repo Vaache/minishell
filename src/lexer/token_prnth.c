@@ -1,40 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_delims.c                                     :+:      :+:    :+:   */
+/*   token_prnth.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 15:59:24 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/07 20:18:22 by rmkrtchy         ###   ########.fr       */
+/*   Created: 2023/08/07 18:48:35 by rmkrtchy          #+#    #+#             */
+/*   Updated: 2023/08/07 20:14:46 by rmkrtchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handel_xor(t_pars **pars, char *line, int i, int start);
-int	handel_xand(t_pars **pars, char *line, int i, int start);
+int	handel_oprnth(t_pars **pars, char *line, int i, int start)
+{
+	int	prnth;
+	int	count;
 
-int	handel_xor(t_pars **pars, char *line, int i, int start)
+	prnth = 1;
+	if (!ft_isspace(line, i, start) && is_delim(*pars))
+		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
+	else if (!ft_isspace(line, i, start))
+		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
+	lstback(pars, lstadd("(", SUBSH_OPEN, 1, 1));
+	count = i;
+	while (prnth && line[count])
+	{
+		count++;
+		if (line[count] == '(')
+			prnth++;
+		else if(line[count] == ')')
+			prnth--;
+	}
+	if (line[count] == ')')
+		return (1);
+	else
+		return (parse_error(2, "Minishell : Syntax Error `('\n"));
+	
+}
+
+int	handel_clprnth(t_pars **pars, char *line, int i, int start)
 {
 	if (!ft_isspace(line, i, start) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
 	else if (!ft_isspace(line, i, start))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
-	if (!(*pars))
-		return (parse_error(2, "Minishell : Syntax Error XOR `||'\n"));
-	lstback(pars, lstadd("||", XOR, 2, 1));
-	return (i + 1);
-}
-
-int	handel_xand(t_pars **pars, char *line, int i, int start)
-{
-	if (!ft_isspace(line, i, start) && is_delim(*pars))
-		lstback(pars,(lstadd(ft_substr(line, start, i - start), WORD, 0, 1)));
-	else if (!ft_isspace(line, i, start))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
-	if (!(*pars))
-		return (parse_error(2, "Minishell : Syntax Error XAND `&&'\n"));
-	lstback(pars, lstadd("&&", XAND, 2, 1));
+	lstback(pars, lstadd(")", SUBSH_CLOSE, 1, 1));
 	return (i + 1);
 }
