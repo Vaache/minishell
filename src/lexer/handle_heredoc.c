@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redir.c                                     :+:      :+:    :+:   */
+/*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 16:38:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 20:42:40 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	int		end;
 	int		k;
 
-	if (!ft_isspace(line, i, start) && is_delim(*pars))
+	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
-	else if (!ft_isspace(line, i, start))
+	else if (!ft_isspace(line, start, i))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
 	if (is_delim(*pars))
 		lstback(pars, lstadd(NULL, WORD, 0, 1));
@@ -40,7 +40,9 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 		{
 			end = i + k;
 			limiter = ft_substr(line, first, end - first + 1);
-			if (ft_strncmp(limiter, "&", 1) == 0 || ft_strncmp(limiter, "|", 1) == 0 || ft_strncmp(limiter, ">", 1) == 0)
+			if (ft_strncmp(limiter, "&", 1) == 0 || \
+				ft_strncmp(limiter, "|", 1) == 0 || \
+				ft_strncmp(limiter, ">", 1) == 0)
 				return (parse_error(2, ft_substr(limiter, 0, 2)));
 			if (ft_strcmp(limiter, ">") == 0 || ft_strcmp(limiter, "<") == 0)
 				return (parse_error(2, ft_substr(limiter, 0, 1)));
@@ -50,7 +52,7 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	if (limiter)
 	{
 		handle_heredoc_input(limiter, pars);
-		return (end + 1);
+		return (end);
 	}
 	return (parse_error(2, "newline"));
 }

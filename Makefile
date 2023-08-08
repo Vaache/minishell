@@ -59,7 +59,7 @@ readline:
 
 $(NAME): $(OBJ) $(HEADER)
 	@$(CC) $(CFLAGS) $(LINKERS) $(LIBFT) -o $(NAME) $(OBJ)
-	@echo $(PURPLE) $(TEXT) COPILED$(RESET)
+	@echo $(PURPLE) $(TEXT) COMPILED$(RESET)
 
 
 clean:

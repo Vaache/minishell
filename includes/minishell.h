@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 13:08:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 20:44:16 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_env_list				*push_back(t_env_list **list, t_env_list *new);
 t_env_list				*malloc_list(char *env);
 void					pwd_init(t_env_list *my_env);
 void					lex(char *line, t_main *main);
-int						ft_isspace(char *str, int i, int j);
+int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_pars	*pars);
 
 t_pars					*lstlast(t_pars *lst);
@@ -150,6 +150,8 @@ int						handle_xor(t_pars **pars, char *line, \
 							int i, int start);
 int						handle_xand(t_pars **pars, char *line, \
 							int i, int start);
+int						handle_pipe(t_pars **pars, char *line, \
+							int i, int start);
 
 int						handle_oprnth(t_pars **pars, char *line, \
 							int i, int start);
@@ -159,5 +161,15 @@ int						handle_clprnth(t_pars **pars, char *line, \
 int						handle_heredoc(t_pars **pars, char *line, \
 							int i, int start);
 void					handle_heredoc_input(char *string, t_pars **pars);
+
+int						handle_append(t_pars **pars, char *line, \
+							int i, int start);
+int						handle_trunc(t_pars **pars, char *line, \
+							int i, int start);
+int						handle_infile(t_pars **pars, char *line, \
+							int i, int start);
+
+void					handle_space(t_pars **pars, char *line, \
+							int i, int start);
 
 #endif

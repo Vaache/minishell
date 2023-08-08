@@ -6,22 +6,22 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 12:15:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 20:22:21 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isspace(char *str, int i, int j);
+int	ft_isspace(char *str, int start, int i);
 int	is_delim(t_pars	*pars);
 
-int	ft_isspace(char *str, int i, int j)
+int	ft_isspace(char *str, int start, int i)
 {
-	while (i < j && str[i])
+	while (start < i && str[start])
 	{
-		if (str[i] != ' ' && str[i] != '\t')
+		if (str[start] != ' ' && str[start] != '\t')
 			return (0);
-		i++;
+		start++;
 	}
 	return (1);
 }

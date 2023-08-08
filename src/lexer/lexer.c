@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 12:15:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 20:39:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,19 @@ int	lexer(char *line, t_pars **pars)
 					l = 0;
 			}
 			else if (line[i] == '<' && line[i + 1] == '<')
-				handle_heredoc(pars, line, i, start);
+				l = handle_heredoc(pars, line, i, start);
+			else if (line[i] == '>' && line[i + 1] == '>')
+				l = handle_append(pars, line, i, start);
+			else if (line[i] == '>' && line[i + 1] != '>')
+				l = handle_trunc(pars, line, i, start);
+			else if (line[i] == '<' && line[i + 1] != '<')
+				l = handle_infile(pars, line, i, start);
+			else if (line[i] == '|')
+				l = handle_pipe(pars, line, i, start);
+			else if (ft_strchr(" \n\t\v\r\f", line[i]))
+				handle_space(pars, line, i, start);
+			else if (line[i + 1] == '\0')
+				handle_space(pars, line, i + 1, start);
 			else
 			{
 				i++;
