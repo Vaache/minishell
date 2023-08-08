@@ -6,14 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 20:22:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:09:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isspace(char *str, int start, int i);
-int	is_delim(t_pars	*pars);
+int		ft_isspace(char *str, int start, int i);
+int		is_delim(t_pars	*pars);
+int		check_types(t_type type);
+char	*type_is(t_type type);
+int		check_valid(t_main *main);
 
 int	ft_isspace(char *str, int start, int i)
 {
@@ -24,6 +27,38 @@ int	ft_isspace(char *str, int start, int i)
 		start++;
 	}
 	return (1);
+}
+
+char	*type_is(t_type type)
+{
+	if (type == XAND)
+		return ("&&");
+	else if (type == XOR)
+		return ("||");
+	else if (type == PIPE)
+		return ("|");
+	else if (type == HEREDOC)
+		return ("<<");
+	else if (type == INPUT)
+		return ("<");
+	else if (type == WRITE_APPEND)
+		return (">>");
+	else if (type == WRITE_TRUNC)
+		return (">");
+	else if (type == END)
+		return ("END");
+	return ("");	
+}
+
+int	check_types(t_type type)
+{
+	if (type == XOR || type == XAND || type == PIPE)
+		return (1);
+	if (type == HEREDOC || type == WRITE_APPEND)
+		return (2);
+	if (type == INPUT || type == WRITE_TRUNC)
+		return (2);
+	return (0);
 }
 
 int	is_delim(t_pars	*pars)
@@ -43,4 +78,22 @@ int	is_delim(t_pars	*pars)
 		return (1);
 	else
 		return (0);
+}
+
+int	check_valid(t_main *main)
+{
+	t_pars	*tmp;
+
+	tmp = main->lex;
+	if (!tmp)
+		return (0);
+	while (tmp->next != NULL)
+	{
+		if (check_types(tmp->type) && check_types(tmp->next->type) == 1)
+			return (parse_error(2, type_is(tmp->next->type)));
+		else if (check_types(tmp->type) && tmp->next->type == END)
+			return (parse_error(2, "newline"));
+		tmp = tmp->next;
+	}
+	return (1);
 }

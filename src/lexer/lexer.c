@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 20:39:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:03:46 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,16 @@ int	lexer(char *line, t_pars **pars)
 
 void	lex(char *line, t_main *main)
 {
-	lexer(line, &(main->lex));
+	if (!lexer(line, &(main->lex)))
+	{
+		destroy_main(main);
+		main->exit_status = 258;
+		return ;
+	}
+	if (!check_valid(main))
+	{
+		destroy_main(main);
+		main->exit_status = 258;
+		return ;
+	}
 }

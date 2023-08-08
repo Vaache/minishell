@@ -28,7 +28,7 @@ PREFIX		= $(shell find ${HOME} -name readline_update 2>/dev/null)
 
 
 TEXT		= "\033[6;1m"
-BLUE		= "\033[38;2;158;204;245m"
+GREEN		= "\033[38;2;49;247;196m"
 PURPLE		= "\033[38;2;0;138;240m"
 RESET		= "\033[0m"
 
@@ -38,11 +38,11 @@ RESET		= "\033[0m"
 all: $(LIBS) $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(GREEN) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(GREEN) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJ_DIR):

@@ -12,7 +12,7 @@ OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 HEADER	= $(wildcard ./includes/*.h)
 INCLUDE	= -Iincludes
 
-BLUE		= "\033[38;2;158;204;245m"
+GREEN		= "\033[38;2;49;247;196m"
 # PURPLE		= "\033[38;2;158;204;245m"
 RESET		= "\033[0m"
 
@@ -24,7 +24,7 @@ $(OBJ_DIR) :
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) -c $< -o $@" $(RESET)
+	@echo $(GREEN) "$(CC) $(CFLAGS) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 

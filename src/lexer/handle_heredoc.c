@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 20:42:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/09 00:54:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	if (limiter)
 	{
 		handle_heredoc_input(limiter, pars);
+		free(limiter);
 		return (end);
 	}
-	return (parse_error(2, "newline"));
+	return (parse_error(2, "newlineads"));
 }
 
 void	handle_heredoc_input(char *string, t_pars **pars)
@@ -66,16 +67,16 @@ void	handle_heredoc_input(char *string, t_pars **pars)
 	res = NULL;
 	while (1)
 	{
-		line = readline(">");
+		line = readline("> ");
 		if (!line)
-			return ;
+			break ;
 		if (ft_strcmp(string, line) == 0)
 			break ;
 		else
 			res = ft_strjoin(res, line, 1);
 		free(line);
 	}
+	free(line);
 	lstback(pars, lstadd(res, WORD, 0, 1));
-	free(string);
 	free(res);
 }

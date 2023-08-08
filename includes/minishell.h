@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 20:44:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:05:23 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,10 @@ void					pwd_init(t_env_list *my_env);
 void					lex(char *line, t_main *main);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_pars	*pars);
+char					*type_is(t_type type);
+int						check_valid(t_main *main);
+void					destroy_structure(t_pars *root);
+void					destroy_main(t_main *main);
 
 t_pars					*lstlast(t_pars *lst);
 void					lstclear(t_pars **lst);
