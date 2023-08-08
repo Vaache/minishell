@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 20:03:48 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:09:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:06:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_hexlen(unsigned long long int num)
 	return (len);
 }
 
-static void	ft_put_hex(unsigned int num,  char form, int fd)
+static void	ft_put_hex(unsigned int num, char form, int fd)
 {
 	if (num >= 16)
 	{
@@ -46,7 +46,7 @@ static void	ft_put_hex(unsigned int num,  char form, int fd)
 	}
 }
 
-int	ft_print_hex(unsigned int num,  char format, int fd)
+int	ft_print_hex(unsigned int num, char format, int fd)
 {
 	if (num == 0)
 		return (write(fd, "0", 1));

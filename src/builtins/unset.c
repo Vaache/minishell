@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:56:28 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 12:26:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:20:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	check_unset(char *arr, t_env_list *my_env)
 	t_env_list	*tmp;
 
 	tmp = my_env;
-	if (tmp != NULL && arr && (arr[0] == '_' || ((arr[0] >= 'a' && arr[0] <= 'z') || \
+	if (tmp != NULL && arr && (arr[0] == '_' || \
+		((arr[0] >= 'a' && arr[0] <= 'z') || \
 	(arr[0] >= 'A' && arr[0] <= 'Z'))))
 	{
 		while (tmp != NULL)

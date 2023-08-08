@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:20:33 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:10:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:02:23 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_strrchr(char *s, int c);
 char	*ft_strnstr(char *haystack, char *needle, size_t len);
 char	*ft_strdup(char *s1);
 char	*ft_substr(char *s, unsigned int start, size_t len);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *s1, char *s2, int flag);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_itoa(int n);
 char	*ft_itul(long long n);

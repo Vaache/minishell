@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 20:38:05 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 12:26:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:21:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pwd_init(t_env_list *my_env)
 {
 	t_env_list	*tmp;
 	char		*str;
-	static	int	i = 0;
+	static int	i = 0;
 
 	tmp = my_env;
 	str = NULL;
@@ -43,8 +43,8 @@ void	pwd_init(t_env_list *my_env)
 		{
 			free(tmp->line);
 			tmp->line = ft_strdup("");
-			tmp->line = ft_strjoin(tmp->line, "OLDPWD");
-			tmp->line = ft_strjoin(tmp->line, "=");
+			tmp->line = ft_strjoin(tmp->line, "OLDPWD", 1);
+			tmp->line = ft_strjoin(tmp->line, "=", 1);
 			i = 0;
 			break ;
 		}
@@ -54,9 +54,9 @@ void	pwd_init(t_env_list *my_env)
 			free(tmp->line);
 			tmp->data = ft_strdup(str);
 			tmp->line = ft_strdup("");
-			tmp->line = ft_strjoin(tmp->line, "OLDPWD");
-			tmp->line = ft_strjoin(tmp->line, "=");
-			tmp->line = ft_strjoin(tmp->line, tmp->data);
+			tmp->line = ft_strjoin(tmp->line, "OLDPWD", 1);
+			tmp->line = ft_strjoin(tmp->line, "=", 1);
+			tmp->line = ft_strjoin(tmp->line, tmp->data, 1);
 			break ;
 		}
 		tmp = tmp->next;

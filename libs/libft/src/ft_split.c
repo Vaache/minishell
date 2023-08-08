@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 16:58:07 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/27 14:18:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:01:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	skipquotes1(char **promt, int *j)
 	*j = i;
 }
 
-static size_t	ft_count(char  *str, char j)
+static size_t	ft_count(char *str, char j)
 {
 	size_t	i;
 	size_t	count;

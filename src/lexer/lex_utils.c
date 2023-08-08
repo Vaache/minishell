@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/04 21:50:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:15:43 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,4 @@ int	is_delim(t_pars	*pars)
 		return (1);
 	else
 		return (0);
-		
 }

@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:47:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:09:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:01:13 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_memcmp( void *s1,  void *s2, size_t n)
+int	ft_memcmp(void *s1, void *s2, size_t n)
 {
 	size_t	i;
 

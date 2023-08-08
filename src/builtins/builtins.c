@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 13:43:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:58:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	builtins(char *str, t_env_list *my_env)
 	if (ft_strncmp(str, "clear", ft_strlen("clear")) == 0)
 	{
 		printf("\033[2J");
-    	printf("\033[H");
+		printf("\033[H");
 	}
 	if (ft_strncmp(str, "cd", 2) == 0)
 	{
@@ -46,7 +46,7 @@ void	builtins(char *str, t_env_list *my_env)
 			chdir(tmp->data);
 		}
 		else if (chdir(arr[1]) != 0)
-				ft_printf(1, "cd: no such file or directory: %s\n", arr[1]);
+			ft_printf(1, "cd: no such file or directory: %s\n", arr[1]);
 		tmp = my_env;
 		while (tmp != NULL)
 		{
@@ -57,9 +57,9 @@ void	builtins(char *str, t_env_list *my_env)
 				getcwd(buff, sizeof(buff));
 				tmp->data = ft_strdup(buff);
 				tmp->line = ft_strdup("");
-				tmp->line = ft_strjoin(tmp->line, "PWD");
-				tmp->line = ft_strjoin(tmp->line, "=");
-				tmp->line = ft_strjoin(tmp->line, tmp->data);
+				tmp->line = ft_strjoin(tmp->line, "PWD", 1);
+				tmp->line = ft_strjoin(tmp->line, "=", 1);
+				tmp->line = ft_strjoin(tmp->line, tmp->data, 1);
 				break ;
 			}
 			tmp = tmp->next;
@@ -68,7 +68,6 @@ void	builtins(char *str, t_env_list *my_env)
 	}
 	if (ft_strncmp(str, PWD, ft_strlen(PWD)) == 0)
 	{
-
 		if (getcwd(buff, sizeof(buff)) != NULL)
 			printf("%s\n", buff);
 		else
@@ -82,30 +81,32 @@ void	builtins(char *str, t_env_list *my_env)
 			check_unset(arr[i], my_env);
 		free_2d(arr, strlen_2d(arr));
 	}
-	builtins_2(str, my_env);
+	builtins_2(str);
+	builtins_3(str);
+	builtins_4(str, my_env);
 }
 
-void	builtins_2(char *str, t_env_list *my_env)
+void	builtins_2(char *str)
 {
 	char		**arr;
 	char		*s;
 	char		*tmp;
 	long long	exit_num;
 	int			i;
-	(void)my_env;
-	
+
 	s = NULL;
 	i = 0;
 	tmp = NULL;
 	if (ft_strncmp(str, EXIT, ft_strlen(EXIT)) == 0)
 	{
 		arr = ft_split(str, ' ');
-		if (arr[1] != NULL && (arr[1][0] == '0' || arr[1][0] == '+' || arr[1][1] == '0'))
+		if (arr[1] != NULL && (arr[1][0] == '0' || \
+				arr[1][0] == '+' || arr[1][1] == '0'))
 			arr[1] = trim_zeroes(arr[1]);
 		exit_num = ft_atll(arr[1]);
 		s = ft_itul(exit_num);
 		if (arr[1] && arr[1][0] == '+')
-			s = ft_strjoin("+", s);
+			s = ft_strjoin("+", s, 0);
 		if (strlen_2d(arr) == 1 && arr[1] == NULL)
 		{
 			ft_printf(1, "exit\n");
@@ -118,11 +119,13 @@ void	builtins_2(char *str, t_env_list *my_env)
 				exit (EXIT_SUCCESS);
 			exit (exit_num % 256);
 		}
-		else if (ft_strlen(s) > 19 || check_digit(arr[1]) == 1 || ft_strcmp(s, arr[1]) != 0)
+		else if (ft_strlen(s) > 19 || check_digit(arr[1]) == 1 || \
+			ft_strcmp(s, arr[1]) != 0)
 		{
 			ft_printf(2, "exit\n");
-			ft_printf(2, "Minishell: exit: %s: numeric argument required\n", arr[1]);
-			exit(256);
+			ft_printf(2, "Minishell: exit: %s: numeric argument required\n", \
+				arr[1]);
+			exit(255);
 		}
 		else if (strlen_2d(arr) > 2 && check_digit(tmp) == 0)
 		{
@@ -130,18 +133,18 @@ void	builtins_2(char *str, t_env_list *my_env)
 			ft_printf(1, "Minishell: exit: too many arguments\n");
 		}
 	}
-	builtins_3(str);
-	builtins_4(str, my_env);
 }
 
 void	builtins_3(char *str)
 {
-	char		**arr;
-	
+	char	**arr;
+	int		j;
+	int		i;
+
 	if (ft_strncmp(str, "echo", 4) == 0)
 	{
-		int i = 1;
-		int j = 1;
+		i = 1;
+		j = 1;
 		arr = ft_split(str, ' ');
 		if (arr[1] == NULL)
 			ft_printf(1, "\n");
@@ -153,7 +156,7 @@ void	builtins_3(char *str)
 				while (arr[i][j] && arr[i][j] == 'n')
 					j++;
 				if (arr[i][j] != '\0')
-					break;
+					break ;
 				else if (arr[i + 1] && ft_strncmp(arr[i + 1], "-n", 2) != 0)
 				{
 					while (arr[i + 1])
@@ -177,9 +180,8 @@ void	builtins_3(char *str)
 				if (arr[i] == NULL)
 					return ;
 			}
-			
 		}
-		if(arr[i] && (ft_strncmp(arr[i], "-n", 2) != 0 || i == 1))
+		if (arr[i] && (ft_strncmp(arr[i], "-n", 2) != 0 || i == 1))
 		{
 			while (arr[i])
 			{
@@ -190,18 +192,17 @@ void	builtins_3(char *str)
 				if (arr[i] == NULL)
 					printf("\n");
 			}
-		}
-			
+		}	
 	}
 }
 
 void	builtins_4(char *str, t_env_list *my_env)
 {
-	char	**arr;
+	char		**arr;
 	t_env_list	*tmp;
-	int	i;
-	int	j;
-	
+	int			i;
+	int			j;
+
 	i = 1;
 	j = 0;
 	tmp = my_env;

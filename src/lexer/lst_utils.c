@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/06 10:36:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:13:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	lstclear(t_pars **lst);
 
 t_pars	*lstadd(char *string, t_type type, int prc, int flag)
 {
-	t_pars *tmp;
+	t_pars	*tmp;
 
 	tmp = (t_pars *)malloc(sizeof(t_pars));
 	if (!tmp)
@@ -38,8 +38,8 @@ t_pars	*lstadd(char *string, t_type type, int prc, int flag)
 
 void	lstback(t_pars **pars, t_pars *new)
 {
-	t_pars *tmp;
-	
+	t_pars	*tmp;
+
 	tmp = lstlast(*pars);
 	if (!tmp)
 		*pars = new;
@@ -53,14 +53,15 @@ void	lstback(t_pars **pars, t_pars *new)
 void	lstclear(t_pars **lst)
 {
 	t_pars	*tmp;
-	
+
 	tmp = NULL;
 	if (!lst || !(*lst))
 		return ;
 	while ((*lst))
 	{
 		tmp = (*lst);
-		free((*lst)->cmd);
+		if ((*lst)->cmd)
+			free((*lst)->cmd);
 		free((*lst));
 		(*lst) = tmp;
 	}
@@ -73,7 +74,7 @@ t_pars	*lstlast(t_pars *lst)
 
 	tmp = lst;
 	if (!tmp)
-		return(NULL);
+		return (NULL);
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	return (tmp);

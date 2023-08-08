@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:57:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/04 15:35:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:18:01 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	free_2d(char **s, int i)
 
 void	free_2dd(char **s)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!s)
 		return ;
 	while (s && s[i])
@@ -70,11 +72,12 @@ unsigned long long int	ft_atll(char *str)
 int	check_digit(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str && str[i] != '\0')
 	{
-		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'a' && str[i] <= 'Z'))
+		if ((str[i] >= 'a' && str[i] <= 'z') || \
+			(str[i] >= 'a' && str[i] <= 'Z'))
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:13:36 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/31 16:46:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:26:38 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*ft_strdup(char *str)
 	int		len;
 	char	*s;
 
-	// if (!str)
-	// 	return (0);
+	if (!str)
+		return (0);
 	len = 0;
 	while (str && str[len])
 		len++;

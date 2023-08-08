@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/07 20:18:40 by rmkrtchy         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:08:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef enum e_token_type
 	FILEOUT,
 	END,
 }	t_type;
-
 
 //	@brief
 //	@tparam char		*cmd
@@ -122,7 +121,7 @@ void					call_signals(void);
 void					check_unset(char *arr, t_env_list *my_env);
 
 void					builtins(char *str, t_env_list *my_env);
-void					builtins_2(char *str, t_env_list *my_env);
+void					builtins_2(char *str);
 void					builtins_3(char *str);
 void					builtins_4(char *str, t_env_list *my_env);
 void					ft_export(t_env_list *my_env);
@@ -142,14 +141,23 @@ void					lstclear(t_pars **lst);
 void					lstback(t_pars **pars, t_pars *new);
 t_pars					*lstadd(char *string, t_type type, int prc, int flag);
 
-int						handel_dquotes(t_pars **pars, char *line, int i, int start);
-int						handel_squotes(t_pars **pars, char *line, int i, int start);
+int						handle_dquotes(t_pars **pars, char *line, \
+							int i, int start);
+int						handle_squotes(t_pars **pars, char *line, \
+							int i, int start);
 
-int						handel_xor(t_pars **pars, char *line, int i, int start);
-int						handel_xand(t_pars **pars, char *line, int i, int start);
+int						handle_xor(t_pars **pars, char *line, \
+							int i, int start);
+int						handle_xand(t_pars **pars, char *line, \
+							int i, int start);
 
-int						handel_oprnth(t_pars **pars, char *line, int i, int start);
-int						handel_clprnth(t_pars **pars, char *line, int i, int start);
+int						handle_oprnth(t_pars **pars, char *line, \
+							int i, int start);
+int						handle_clprnth(t_pars **pars, char *line, \
+							int i, int start);
 
+int						handle_heredoc(t_pars **pars, char *line, \
+							int i, int start);
+void					handle_heredoc_input(char *string, t_pars **pars);
 
 #endif

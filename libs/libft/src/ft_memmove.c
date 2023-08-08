@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 14:05:29 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:09:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:01:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst,  void *src, size_t n)
+void	*ft_memmove(void *dst, void *src, size_t n)
 {
 	size_t	i;
 

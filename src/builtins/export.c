@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/06 16:02:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:20:21 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ void	ft_export(t_env_list *my_env)
 {
 	t_env_list	*tmp;
 	t_env_list	*tmp2;
-	int	flag;
+	int			flag;
 
 	tmp = my_env;
 	tmp2 = my_env;
 	flag = 0;
 	while (tmp)
 	{
-		if(tmp->flag == 0)
+		if (tmp->flag == 0)
 		{
 			printf("declare -x ");
 			printf("%s%c\"%s\"\n", tmp->key, '=', tmp->data);
 		}
-		if(tmp->flag == 2)
+		if (tmp->flag == 2)
 		{
 			printf("declare -x ");
 			printf("%s\n", tmp->key);
@@ -40,7 +40,7 @@ void	ft_export(t_env_list *my_env)
 		if (ft_strcmp(tmp2->key, "OLDPWD") == 0)
 		{
 			flag = 1;
-			break;
+			break ;
 		}
 		tmp2 = tmp2->next;
 	}
@@ -60,7 +60,7 @@ int	ft_check(t_env_list *my_env, char *str)
 	while (str[i])
 	{
 		if (str[i] == '=')
-			break;
+			break ;
 		i++;
 	}
 	while (tmp)
@@ -82,7 +82,7 @@ void	ft_add(t_env_list *my_env, char *str)
 	while (str[i])
 	{
 		if (str[i] == '=')
-			break;
+			break ;
 		i++;
 	}
 	while (tmp)
@@ -93,9 +93,9 @@ void	ft_add(t_env_list *my_env, char *str)
 			free(tmp->line);
 			tmp->line = ft_strdup("");
 			tmp->data = ft_strdup(str + i + 1);
-			tmp->line = ft_strjoin(tmp->line, tmp->key);
-			tmp->line = ft_strjoin(tmp->line, "=");
-			tmp->line = ft_strjoin(tmp->line, tmp->data);
+			tmp->line = ft_strjoin(tmp->line, tmp->key, 1);
+			tmp->line = ft_strjoin(tmp->line, "=", 1);
+			tmp->line = ft_strjoin(tmp->line, tmp->data, 1);
 			tmp->flag = 0;
 		}
 		tmp = tmp->next;

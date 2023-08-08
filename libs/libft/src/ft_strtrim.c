@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:54:38 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:09:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:04:43 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_chek_str(char s, char  *str)
+static int	ft_chek_str(char s, char *str)
 {
 	size_t	i;
 
@@ -26,7 +26,7 @@ static int	ft_chek_str(char s, char  *str)
 	return (0);
 }
 
-char	*ft_strtrim(char *s1, char  *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	size_t	i;
 	size_t	start;

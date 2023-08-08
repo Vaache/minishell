@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 11:27:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:09:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:04:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr( char *s1,  char *s2, size_t n)
+char	*ft_strnstr(char *s1, char *s2, size_t n)
 {
 	size_t	i;
 	size_t	k;

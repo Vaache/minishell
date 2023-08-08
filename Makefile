@@ -1,6 +1,6 @@
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 SRC_DIR 	= src
 SUBDIRS 	= lexer get_next_line builtins utils
@@ -20,7 +20,7 @@ HEADER		= $(wildcard includes/*.h) \
 				$(wildcard $(LIBFT_DIR)libft.h) \
 				$(wildcard $(PRINTF_DIR)/ft_printf.h)
 
-SANITIZER	= -g3 -fsanitize=address
+SANITIZ	= -g3 -fsanitize=address
 INCLUDE		= -Iincludes -I./readline_update/include -I$(PRINTF_DIR)/$(INCLUDES) -I$(LIBFT_DIR)/$(INCLUDES)
 LINKERS		= -L$(LIBFT_DIR) -lft -L./readline_update/lib -lreadline -L$(PRINTF_DIR) -lftprintf
 MK			= mkdir -p
@@ -38,11 +38,11 @@ RESET		= "\033[0m"
 all: $(LIBS) $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(SANITIZER) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c $(HEADER) Makefile
-	@echo $(BLUE) "$(CC) $(CFLAGS) $(SANITIZER) $(INCLUDE) -c $< -o $@" $(RESET)
+	@echo $(BLUE) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJ_DIR):
@@ -60,7 +60,8 @@ readline:
 $(NAME): $(OBJ) $(HEADER)
 	@$(CC) $(CFLAGS) $(LINKERS) $(LIBFT) -o $(NAME) $(OBJ)
 	@echo $(PURPLE) $(TEXT) COPILED$(RESET)
-	
+
+
 clean:
 	@rm -f $(OBJ)
 	@make fclean -C $(LIBFT_DIR)

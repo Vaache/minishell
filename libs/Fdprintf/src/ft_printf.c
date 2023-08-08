@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 20:03:58 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/27 17:28:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:06:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_chek_print(char c, va_list args, int fd)
 	return (i);
 }
 
-int	ft_printf(int fd,  char *s, ...)
+int	ft_printf(int fd, char *s, ...)
 {
 	int		i;
 	int		len;
