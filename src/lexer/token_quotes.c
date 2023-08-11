@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/10 18:37:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:20:49 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 
 int	handle_squotes(t_pars **pars, char *line, int i, int start)
 {
-	int	count;
+	int		count;
+	char	*str;
 
 	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
@@ -62,14 +63,23 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start)
 	while (line[count] && line[count] != '\'')
 		count++;
 	if (line[count] == '\'' && is_delim(*pars))
-		lstback(pars, lstadd(ft_substr(line, i + 1, \
-			count - i - 1), DQUOTE, 0, 1));
+	{
+		str = ft_substr(line, i + 1, count - i - 1);
+		lstback(pars, lstadd(str, DQUOTE, 0, 1));
+		free(str);
+	}
 	else if (line[count] == '\'' && i > 1 && line[count - 1] == ' ')
-		lstback(pars, lstadd(ft_substr(line, i + 1, \
-			count - i - 1), DQUOTE, 0, 2));
+	{
+		str = ft_substr(line, i + 1, count - i - 1);
+		lstback(pars, lstadd(str, DQUOTE, 0, 2));
+		free(str);
+	}
 	else if (line[count] == '\'')
-		lstback(pars, lstadd(ft_substr(line, i + 1, \
-			count - i - 1), DQUOTE, 0, 0));
+	{
+		str = ft_substr(line, i + 1, count - i - 1);
+		lstback(pars, lstadd(str, DQUOTE, 0, 0));
+		free(str);
+	}
 	else
 		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'", -1));
 	return (count);

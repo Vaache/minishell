@@ -21,18 +21,21 @@ void	delete(t_pars **opstack)
 {
 	t_pars	*tmp;
 
- 	if (!opstack || !(*opstack))
-        return;
+	if (!opstack || !(*opstack))
+		return ;
 	tmp = lstlast(*opstack);
 	if (!tmp)
 		*opstack = NULL;
 	if (tmp->prev)
 	{
 		tmp->prev->next = NULL;
+		tmp->prev = NULL;
+		free(tmp->cmd);
 		free(tmp);
 	}
 	else
 	{
+		free(tmp->cmd);
 		free(tmp);
 		*opstack = NULL;
 	}
@@ -44,7 +47,7 @@ void	push(t_pars **a, t_pars **b)
 	t_pars	*t2;
 
 	t1 = lstlast(*a);
- 	t2 = lstlast(*b);
+	t2 = lstlast(*b);
 	if (!t1)
 		return ;
 	else
@@ -64,18 +67,20 @@ void	push(t_pars **a, t_pars **b)
 void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack)
 {
 	if ((*tmp)->prc == 0)
-		lstback(postfix, lstadd((*tmp)->cmd, (*tmp)->type, (*tmp)->prc, (*tmp)->flag));
+		lstback(postfix, lstadd((*tmp)->cmd, (*tmp)->type, \
+			(*tmp)->prc, (*tmp)->flag));
 	else if ((*tmp)->prc > 0)
 	{
 		if ((*tmp)->type == SUBSH_CLOSE)
 		{
 			while (*opstack && lstlast(*opstack)->type != SUBSH_OPEN)
 				push(opstack, postfix);
-			delete(opstack);
+			delete(&(*opstack));
 		}
 		else if ((*tmp)->type != SUBSH_OPEN)
 		{
-			while (*opstack && lstlast(*opstack)->prc >= (*tmp)->prc && (*opstack)->type != SUBSH_OPEN)
+			while (*opstack && lstlast(*opstack)->prc >= (*tmp)->prc && \
+					(*opstack)->type != SUBSH_OPEN)
 				push(opstack, postfix);
 			lstback(opstack, lstadd((*tmp)->cmd, (*tmp)->type, \
 				(*tmp)->prc, (*tmp)->flag));
@@ -91,8 +96,7 @@ void	parsing(t_main **main)
 	t_pars	*tmp;
 	t_pars	*postfix;
 	t_pars	*opstack;
-	
-	
+
 	tmp = (*main)->lex;
 	postfix = NULL;
 	opstack = NULL;
@@ -103,4 +107,5 @@ void	parsing(t_main **main)
 	}
 	while (opstack)
 		push(&opstack, &postfix);
+	// lstclear(&postfix);
 }

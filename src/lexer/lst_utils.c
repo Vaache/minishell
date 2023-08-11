@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/10 22:24:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:55:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,19 @@ void	lstback(t_pars **pars, t_pars *new)
 
 void	lstclear(t_pars **lst)
 {
-	t_pars	*tmp;
+	t_pars	*ptr;
 
-	tmp = NULL;
-	if (!lst || !(*lst))
+	ptr = NULL;
+	if (!lst || !*lst)
 		return ;
 	while ((*lst))
 	{
-		tmp = (*lst);
-		if ((*lst)->cmd)
-			free((*lst)->cmd);
-		free((*lst));
-		(*lst) = tmp;
+		ptr = (*lst)->next;
+		free ((*lst)->cmd);
+		free (*lst);
+		(*lst) = ptr;
 	}
-	tmp = NULL;
+	ptr = NULL;
 }
 
 t_pars	*lstlast(t_pars *lst)
