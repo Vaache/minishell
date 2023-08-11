@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 18:48:35 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/08 20:50:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:39:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	handle_oprnth(t_pars **pars, char *line, int i, int start)
 	if (line[count] == ')')
 		return (1);
 	else
-		return (parse_error(2, "("));
+		return (parse_error(2, "(", -1));
 }
 
 int	handle_clprnth(t_pars **pars, char *line, int i, int start)

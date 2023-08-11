@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 23:05:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 22:16:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_pars
 	int				prc;
 	int				flag;
 	int				err_code;
+	int				shubshell_code;
 	int				*pipes;
 	struct s_pars	*next;
 	struct s_pars	*prev;
@@ -115,7 +116,7 @@ char					*trim_zeroes(char *s);
 unsigned long long int	ft_atll(char *str);
 int						strlen_2d(char **str);
 int						onlyspace(char *str);
-int						parse_error(int fd, char *err);
+int						parse_error(int fd, char *err, int mode);
 
 void					call_signals(void);
 void					check_unset(char *arr, t_env_list *my_env);
@@ -175,5 +176,12 @@ int						handle_infile(t_pars **pars, char *line, \
 
 void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
+
+
+void	parsing(t_main **main);
+void	delete(t_pars **opstack);
+void	push(t_pars **a, t_pars **b);
+void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
+
 
 #endif

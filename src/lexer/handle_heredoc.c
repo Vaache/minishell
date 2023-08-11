@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/09 00:54:44 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:37:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 			if (ft_strncmp(limiter, "&", 1) == 0 || \
 				ft_strncmp(limiter, "|", 1) == 0 || \
 				ft_strncmp(limiter, ">", 1) == 0)
-				return (parse_error(2, ft_substr(limiter, 0, 2)));
+				return (parse_error(2, ft_substr(limiter, 0, 2), 1));
 			if (ft_strcmp(limiter, ">") == 0 || ft_strcmp(limiter, "<") == 0)
-				return (parse_error(2, ft_substr(limiter, 0, 1)));
+				return (parse_error(2, ft_substr(limiter, 0, 1), 1));
 			break ;
 		}
 	}
@@ -55,7 +55,7 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 		free(limiter);
 		return (end);
 	}
-	return (parse_error(2, "newlineads"));
+	return (parse_error(2, "newlineads", -1));
 }
 
 void	handle_heredoc_input(char *string, t_pars **pars)
@@ -73,7 +73,10 @@ void	handle_heredoc_input(char *string, t_pars **pars)
 		if (ft_strcmp(string, line) == 0)
 			break ;
 		else
+		{
 			res = ft_strjoin(res, line, 1);
+			res = ft_strjoin(res, "\n", 1);
+		}
 		free(line);
 	}
 	free(line);

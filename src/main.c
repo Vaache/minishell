@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/09 00:33:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 22:02:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ int	main(int ac, char **av, char **env)
 		builtins(str, my_env);
 		free(str);
 	}
-	system("leaks minishell");
 	return (0);
 }

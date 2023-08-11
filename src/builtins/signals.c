@@ -6,14 +6,14 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:02:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 20:26:28 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:39:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	handler_stp(int sig);
-void	call_signals();
+void	call_signals(void);
 
 void	handler_stp(int sig)
 {
@@ -24,7 +24,7 @@ void	handler_stp(int sig)
 	rl_redisplay();
 }
 
-void	call_signals()
+void	call_signals(void)
 {
 	rl_catch_signals = 0;
 	signal(SIGINT, &handler_stp);

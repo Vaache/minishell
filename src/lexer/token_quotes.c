@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/09 00:36:07 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:37:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start);
 
 int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 {
-	int	count;
-	char *str;
+	int		count;
+	char	*str;
 
 	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
@@ -46,7 +46,7 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 		free(str);
 	}
 	else
-		return (parse_error(2, "Minishell : Syntax Error Duble Qoutes `\"\'"));
+		return (parse_error(2, "Minishell : Syntax Error Duble Qoutes `\"\'", -1));
 	return (count);
 }
 
@@ -71,7 +71,7 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start)
 		lstback(pars, lstadd(ft_substr(line, i + 1, \
 			count - i - 1), DQUOTE, 0, 0));
 	else
-		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'"));
+		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'", -1));
 	return (count);
 }
 

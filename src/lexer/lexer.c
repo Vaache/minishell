@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 23:03:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:14:55 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	lexer(char *line, t_pars **pars)
 					subsh--;
 				}
 				else
-					l = parse_error(2, "Minishell : Syntax Error `)'\n");
+					l = parse_error(2, "Minishell : Syntax Error `)'\n", 0);
 			}
 			else if (line[i] == '(')
 			{
@@ -108,4 +108,5 @@ void	lex(char *line, t_main *main)
 		main->exit_status = 258;
 		return ;
 	}
+	parsing(&main);
 }

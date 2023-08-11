@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/09 00:23:28 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:39:22 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ int	handle_append(t_pars **pars, char *line, int i, int start)
 			if (ft_strncmp(&line[i + k], "&", 1) == 0 || \
 				ft_strncmp(&line[i + k], "|", 1) == 0 || \
 				ft_strncmp(&line[i + k], ">", 1) == 0)
-				return (parse_error(2, ft_substr(&line[i + k], 0, 2)));
+				return (parse_error(2, ft_substr(&line[i + k], 0, 2), 1));
 			if (ft_strcmp(&line[i + k], ">") == 0 || \
 				ft_strcmp(&line[i + k], "<") == 0)
-				return (parse_error(2, ft_substr(&line[i + k], 0, 1)));
+				return (parse_error(2, ft_substr(&line[i + k], 0, 1), 1));
 			return (i + 2);
 		}
 	}
-	return (parse_error(2, "newline"));
+	return (parse_error(2, "newline", -1));
 }
 
 int	handle_trunc(t_pars **pars, char *line, int i, int start)
@@ -64,14 +64,14 @@ int	handle_trunc(t_pars **pars, char *line, int i, int start)
 			if (ft_strncmp(&line[i + k], "&", 1) == 0 || \
 				ft_strncmp(&line[i + k], "|", 1) == 0 || \
 				ft_strncmp(&line[i + k], ">", 1) == 0)
-				return (parse_error(2, ft_substr(&line[i + k], 0, 2)));
+				return (parse_error(2, ft_substr(&line[i + k], 0, 2), 1));
 			if (ft_strcmp(&line[i + k], ">") == 0 || \
 				ft_strcmp(&line[i + k], "<") == 0)
-				return (parse_error(2, ft_substr(&line[i + k], 0, 1)));
+				return (parse_error(2, ft_substr(&line[i + k], 0, 1), 1));
 			return (i + 1);
 		}
 	}
-	return (parse_error(2, ">"));
+	return (parse_error(2, ">", -1));
 }
 
 int	handle_infile(t_pars **pars, char *line, int i, int start)
@@ -93,12 +93,12 @@ int	handle_infile(t_pars **pars, char *line, int i, int start)
 			if (ft_strncmp(&line[i + k], "&", 1) == 0 || \
 				ft_strncmp(&line[i + k], "|", 1) == 0 || \
 				ft_strncmp(&line[i + k], ">", 1) == 0)
-				return (parse_error(2, ft_substr(&line[i + k], 0, 2)));
+				return (parse_error(2, ft_substr(&line[i + k], 0, 2), 1));
 			if (ft_strcmp(&line[i + k], ">") == 0 || \
 				ft_strcmp(&line[i + k], "<") == 0)
-				return (parse_error(2, ft_substr(&line[i + k], 0, 1)));
+				return (parse_error(2, ft_substr(&line[i + k], 0, 1), 1));
 			return (i + 1);
 		}
 	}
-	return (parse_error(2, "<"));
+	return (parse_error(2, "<", -1));
 }
