@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/10 22:02:37 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/12 15:20:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int ac, char **av, char **env)
 		if (onlyspace(str) == 1)
 		{
 			lex(str, &main);
+			destroy_main(&main);
 		}
 		builtins(str, my_env);
 		free(str);

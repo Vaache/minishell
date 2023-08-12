@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/11 16:23:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:19:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,5 @@ void	lex(char *line, t_main *main)
 		main->exit_status = 258;
 		return ;
 	}
-	parsing(&main);
+	parsing(main);
 }

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/11 15:55:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:22:07 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,10 @@ typedef struct s_pars
 	t_type			type;
 	int				prc;
 	int				flag;
+	char			*rpath;
+	char			*lpath;
 	int				err_code;
-	int				shubshell_code;
+	int				subshell_code;
 	int				*pipes;
 	struct s_pars	*next;
 	struct s_pars	*prev;
@@ -138,6 +140,7 @@ int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_pars	*pars);
 char					*type_is(t_type type);
 int						check_valid(t_main *main);
+int						check_types(t_type type);
 void					destroy_structure(t_pars *root);
 void					destroy_main(t_main *main);
 
@@ -178,10 +181,12 @@ void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
 
 
-void	parsing(t_main **main);
-void	delete(t_pars **opstack);
+void	parsing(t_main *main);
+void	delete_node(t_pars **opstack);
 void	push(t_pars **a, t_pars **b);
 void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
-
+t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack);
+void	print_ast(t_pars *ast, int indent, int lrc);
+t_pars	*most_prev(t_pars *stack);
 
 #endif

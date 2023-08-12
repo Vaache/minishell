@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void	parsing(t_main **main);
-void	delete(t_pars **opstack);
+void	parsing(t_main *main);
+void	delete_node(t_pars **opstack);
 void	push(t_pars **a, t_pars **b);
 void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
 
-void	delete(t_pars **opstack)
+void	delete_node(t_pars **opstack)
 {
 	t_pars	*tmp;
 
@@ -75,7 +75,8 @@ void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack)
 		{
 			while (*opstack && lstlast(*opstack)->type != SUBSH_OPEN)
 				push(opstack, postfix);
-			delete(&(*opstack));
+			delete_node(&(*opstack));
+			lstlast(*postfix)->subshell_code = 1;
 		}
 		else if ((*tmp)->type != SUBSH_OPEN)
 		{
@@ -91,21 +92,22 @@ void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack)
 	}
 }
 
-void	parsing(t_main **main)
+void	parsing(t_main *main)
 {
 	t_pars	*tmp;
 	t_pars	*postfix;
 	t_pars	*opstack;
 
-	tmp = (*main)->lex;
+	tmp = main->lex;
 	postfix = NULL;
 	opstack = NULL;
-	while (tmp->next)
+	while (tmp)
 	{
 		shunting_yard(&tmp, &postfix, &opstack);
 		tmp = tmp->next;
 	}
 	while (opstack)
 		push(&opstack, &postfix);
-	// lstclear(&postfix);
+	main->pars = abstract_syntax_tree(main, &postfix);
+	print_ast(main->pars, 0, 0);
 }

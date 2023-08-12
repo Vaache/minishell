@@ -14,13 +14,12 @@ OBJ 		= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 LIBS		= libft Fdprintf
 LIBFT_DIR	= ./libs/libft
 PRINTF_DIR	= ./libs/Fdprintf
-INCLUDES	= /includes
+INCLUDES	= includes
 
 HEADER		= $(wildcard includes/*.h) \
 				$(wildcard $(LIBFT_DIR)libft.h) \
 				$(wildcard $(PRINTF_DIR)/ft_printf.h)
 
-SANITIZ	= -g3 -fsanitize=address
 INCLUDE		= -Iincludes -I./readline_update/include -I$(PRINTF_DIR)/$(INCLUDES) -I$(LIBFT_DIR)/$(INCLUDES)
 LINKERS		= -L$(LIBFT_DIR) -lft -L./readline_update/lib -lreadline -L$(PRINTF_DIR) -lftprintf
 MK			= mkdir -p
