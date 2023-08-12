@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/10 18:40:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:19:47 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ int	is_delim(t_pars	*pars)
 {
 	t_pars	*tmp;
 
-	tmp = lstlast(pars);
+	tmp = pars;
 	if (!tmp)
-		return (0);
-	else if (tmp->type == PIPE || tmp->type == HEREDOC)
+		return (2);
+	tmp = lstlast(tmp);
+	if (tmp->type == PIPE || tmp->type == HEREDOC)
 		return (1);
 	else if (tmp->type == SUBSH_CLOSE || tmp->type == SUBSH_OPEN)
 		return (1);
