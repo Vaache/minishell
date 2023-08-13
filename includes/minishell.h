@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/12 14:22:07 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:13:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,15 @@ void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
 
 
-void	parsing(t_main *main);
-void	delete_node(t_pars **opstack);
-void	push(t_pars **a, t_pars **b);
-void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
-t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack);
-void	print_ast(t_pars *ast, int indent, int lrc);
-t_pars	*most_prev(t_pars *stack);
+void					parsing(t_main *main);
+void					delete_node(t_pars **opstack);
+void					push(t_pars **a, t_pars **b);
+void					shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
+t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack, t_pars *new);
+void					print_ast(t_pars *ast, int indent, int lrc);
+t_pars					*most_prev(t_pars *stack);
+t_pars					*pars_help(t_main **main, t_pars **tmp, t_pars **stack, t_pars *new);
+t_pars					*pars_help2(t_main **main, t_pars **tmp, t_pars **stack, t_pars *new);
+
 
 #endif
