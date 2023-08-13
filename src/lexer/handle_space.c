@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:10:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/11 15:55:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:19:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ void	handle_space(t_pars **pars, char *line, int i, int start)
 	{
 		str = ft_substr(line, start, i - start);
 		lstback(pars, lstadd(str, WORD, 0, 3));
-		free(str);
 	}
 	else
 	{
 		str = ft_substr(line, start, i - start);
 		lstback(pars, lstadd(str, WORD, 0, 2));
-		free(str);
 	}
+	free(str);
 }
