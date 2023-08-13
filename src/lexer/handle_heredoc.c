@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/11 15:55:27 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:51:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,21 @@ void	handle_heredoc_input(char *string, t_pars **pars);
 int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 {
 	char	*limiter;
+	char	*nil;
 	int		first;
 	int		end;
 	int		k;
 
+	nil = NULL;
 	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
 	else if (!ft_isspace(line, start, i))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
 	if (is_delim(*pars))
-		lstback(pars, lstadd(NULL, WORD, 0, 1));
+	{
+		nil = "(NULL)";
+		lstback(pars, lstadd(nil, WORD, 0, 1));
+	}
 	lstback(pars, lstadd("<<", HEREDOC, 4, 1));
 	k = 1;
 	first = 0;
@@ -53,9 +58,9 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	{
 		handle_heredoc_input(limiter, pars);
 		free(limiter);
-		return (end);
+		return (end + 1);
 	}
-	return (parse_error(2, "newlineads", -1));
+	return (parse_error(2, "newline", -1));
 }
 
 void	handle_heredoc_input(char *string, t_pars **pars)
@@ -70,16 +75,19 @@ void	handle_heredoc_input(char *string, t_pars **pars)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strcmp(string, line) == 0)
-			break ;
-		else
+		if (ft_strcmp(line, string) == 0)
 		{
+			free(line);
+			break ;
+		}
+		else 
+		{
+			if (res)
+				res = ft_strjoin(res, "\n", 1);
 			res = ft_strjoin(res, line, 1);
-			res = ft_strjoin(res, "\n", 1);
 		}
 		free(line);
 	}
-	free(line);
 	lstback(pars, lstadd(res, WORD, 0, 1));
 	free(res);
 }
