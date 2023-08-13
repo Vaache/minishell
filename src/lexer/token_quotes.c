@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/11 16:20:49 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:18:38 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,20 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 	{
 		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 1));
-		free(str);
 	}
 	else if (line[count] == '"' && i > 1 && line[count - 1] == ' ')
 	{
 		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 2));
-		free(str);
 	}
 	else if (line[count] == '"')
 	{
 		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 0));
-		free(str);
 	}
 	else
 		return (parse_error(2, "Minishell : Syntax Error Duble Qoutes `\"\'", -1));
+	free(str);
 	return (count);
 }
 
@@ -66,22 +64,20 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start)
 	{
 		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 1));
-		free(str);
 	}
 	else if (line[count] == '\'' && i > 1 && line[count - 1] == ' ')
 	{
 		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 2));
-		free(str);
 	}
 	else if (line[count] == '\'')
 	{
 		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 0));
-		free(str);
 	}
 	else
 		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'", -1));
+	free(str);
 	return (count);
 }
 
