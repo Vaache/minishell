@@ -16,7 +16,7 @@ GREEN		= "\033[38;2;49;247;196m"
 # PURPLE		= "\033[38;2;158;204;245m"
 RESET		= "\033[0m"
 
-.PHONY : all clean fclear  re
+.PHONY : all clean fclear re
 
 all : $(OBJ_DIR) $(NAME)
 
@@ -24,7 +24,7 @@ $(OBJ_DIR) :
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HEADER) Makefile
-	@echo $(GREEN) "$(CC) $(CFLAGS) -c $< -o $@" $(RESET)
+	@echo $(GREEN) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 

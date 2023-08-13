@@ -24,7 +24,7 @@ $(OBJ_DIR) :
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HEADER) Makefile
-	@echo $(GREEN) "$(CC) $(CFLAGS) -c $< -o $@" $(RESET)
+	@echo $(GREEN) "$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@" $(RESET)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 
