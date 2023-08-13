@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/10 18:39:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:15:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,20 @@ int	handle_infile(t_pars **pars, char *line, int i, int start);
 
 int	handle_append(t_pars **pars, char *line, int i, int start)
 {
-	int	k;
+	int		k;
+	char	*nil;
 
 	k = 1;
+	nil = NULL;
 	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
 	else if (!ft_isspace(line, start, i))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
 	if (is_delim(*pars))
-		lstback(pars, lstadd(NULL, WORD, 0, 1));
+	{
+		nil = "(NULL)";
+		lstback(pars, lstadd(nil, WORD, 0, 1));
+	}
 	lstback(pars, lstadd(">>", WRITE_APPEND, 4, 1));
 	while (line[i + ++k])
 	{
@@ -47,14 +52,19 @@ int	handle_append(t_pars **pars, char *line, int i, int start)
 
 int	handle_trunc(t_pars **pars, char *line, int i, int start)
 {
-	int	k;
+	int		k;
+	char	*nil;
 
+	nil = NULL;
 	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
 	else if (!ft_isspace(line, start, i))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
 	if (is_delim(*pars))
-		lstback(pars, lstadd(NULL, WORD, 0, 1));
+	{
+		nil = "(NULL)";
+		lstback(pars, lstadd(nil, WORD, 0, 1));
+	}
 	lstback(pars, lstadd(">", WRITE_TRUNC, 4, 1));
 	k = 0;
 	while (line[i + ++k])
@@ -76,14 +86,19 @@ int	handle_trunc(t_pars **pars, char *line, int i, int start)
 
 int	handle_infile(t_pars **pars, char *line, int i, int start)
 {
-	int	k;
+	int		k;
+	char	*nil;
 
+	nil = NULL;
 	if (!ft_isspace(line, start, i) && is_delim(*pars))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
 	else if (!ft_isspace(line, start, i))
 		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
 	if (is_delim(*pars))
-		lstback(pars, lstadd(NULL, WORD, 0, 1));
+	{
+		nil = "(NULL)";
+		lstback(pars, lstadd(nil, WORD, 0, 1));
+	}
 	lstback(pars, lstadd("<", INPUT, 4, 1));
 	k = 0;
 	while (line[i + ++k])
