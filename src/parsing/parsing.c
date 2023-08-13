@@ -97,10 +97,12 @@ void	parsing(t_main *main)
 	t_pars	*tmp;
 	t_pars	*postfix;
 	t_pars	*opstack;
+	t_pars	*new;
 
 	tmp = main->lex;
 	postfix = NULL;
 	opstack = NULL;
+	new = NULL;
 	while (tmp)
 	{
 		shunting_yard(&tmp, &postfix, &opstack);
@@ -108,6 +110,6 @@ void	parsing(t_main *main)
 	}
 	while (opstack)
 		push(&opstack, &postfix);
-	main->pars = abstract_syntax_tree(main, &postfix);
+	main->pars = abstract_syntax_tree(main, &postfix, new);
 	print_ast(main->pars, 0, 0);
 }
