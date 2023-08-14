@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/13 12:13:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:14:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@
 # define UNSET	"unset"
 # define EXPORT	"export"
 
-typedef struct s_env_list
+typedef struct s_env
 {
-	struct s_env_list	*next;
-	struct s_env_list	*prev;
+	struct s_env	*next;
+	struct s_env	*prev;
 	char				*data;
 	char				*key;
 	char				*line;
 	int					flag;
-}	t_env_list;
+}	t_env;
 
 typedef enum e_token_type
 {
@@ -119,22 +119,30 @@ unsigned long long int	ft_atll(char *str);
 int						strlen_2d(char **str);
 int						onlyspace(char *str);
 int						parse_error(int fd, char *err, int mode);
+char					*strjoin_mode(char *s1, char *s2, int mode);
 
+/***********************************************/
+/************* MINISHELL_BUILTINS **************/
+/***********************************************/
+void					builtins(char *str);
+void					minishell_env(char *str, t_env *env);
+void					minishell_echo(char *str);
+void					minishell_cd(char *str, t_env *my_env);
+void					minishell_exit(char *str);
+void					minishell_pwd(char *str);
+void					pwd_init(t_env *my_env);
+void					handler_stp(int sig);
 void					call_signals(void);
-void					check_unset(char *arr, t_env_list *my_env);
+void					check_unset(char *arr, t_env *my_env);
+void					minishell_unset(char *str, t_env *my_env);
+void					minishell_export(char *str, t_env *my_env);
+void					ft_export(t_env *my_env);
+int						ft_check(t_env *my_env, char *str);
+void					ft_add(t_env *my_env, char *str);
+t_env					*env_init(char **env, t_env *my_env);
+t_env					*push_back(t_env **list, t_env *new);
+t_env					*malloc_list(char *env);
 
-void					builtins(char *str, t_env_list *my_env);
-void					builtins_2(char *str);
-void					builtins_3(char *str);
-void					builtins_4(char *str, t_env_list *my_env);
-void					ft_export(t_env_list *my_env);
-int						ft_check(t_env_list *my_env, char *str);
-void					ft_add(t_env_list *my_env, char *str);
-
-t_env_list				*env_init(char **env, t_env_list *my_env);
-t_env_list				*push_back(t_env_list **list, t_env_list *new);
-t_env_list				*malloc_list(char *env);
-void					pwd_init(t_env_list *my_env);
 void					lex(char *line, t_main *main);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_pars	*pars);
@@ -181,15 +189,19 @@ void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
 
 
+char					*restore_cmds_line(t_pars *stack);
 void					parsing(t_main *main);
 void					delete_node(t_pars **opstack);
 void					push(t_pars **a, t_pars **b);
 void					shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
-t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack, t_pars *new);
+t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack);
 void					print_ast(t_pars *ast, int indent, int lrc);
 t_pars					*most_prev(t_pars *stack);
-t_pars					*pars_help(t_main **main, t_pars **tmp, t_pars **stack, t_pars *new);
+t_pars					*pars_help(t_main **main, t_pars **tmp, t_pars **stack);
 t_pars					*pars_help2(t_main **main, t_pars **tmp, t_pars **stack, t_pars *new);
 
+int						check_astree(t_main *main, t_pars *stack, t_env *env);
+int						cmds_execute(t_main *main, t_pars *pars, t_env *env, int status);
+int						check_builtins(t_main *main, t_pars *pars, t_env *env);
 
 #endif

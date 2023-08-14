@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/13 12:13:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:37:47 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack, t_pars *new);
+t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack);
 void	print_ast(t_pars *ast, int indent, int lrc);
 t_pars	*most_prev(t_pars *stack);
 
@@ -73,31 +73,66 @@ void	print_ast(t_pars *ast, int indent, int lrc)
 	print_ast(ast->left, indent + 1, 2);
 }
 
-t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack, t_pars *new)
+t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 {
 	t_pars	*tmp;
+	t_pars	*new;
 
 	tmp = lstlast(*stack);
+	new = NULL;
 	if (!tmp)
 		return (NULL);
 	else if (tmp->type == END)
 	{
 		new = lstadd(tmp->cmd, tmp->type, tmp->prc, tmp->flag);
 		delete_node(stack);
-		if (ft_strcmp(lstlast(*stack)->cmd, "(NULL)") != 0)
-			new->right = most_prev(abstract_syntax_tree(main, stack, new));
+		new->right = most_prev(abstract_syntax_tree(main, stack));
 		if (!new)
 			return (NULL);
 		return (new);
 	}
 	else if (check_types(tmp->type))
-		return (new = pars_help2(&main, &tmp, stack, new));
+	{
+		new = lstadd(tmp->cmd, tmp->type, tmp->prc, tmp->flag);
+		if (tmp->subshell_code)
+			new->subshell_code = 1;
+		delete_node(stack);
+		new->right = most_prev(abstract_syntax_tree(main, stack));
+		new->left = most_prev(abstract_syntax_tree(main, stack));
+		if (check_types(new->type) == 2)
+		{
+			if (new->left)
+				new->left->flag += 1 << 3;
+			if (new->right)
+				new->right->flag += 1 << 3;
+			if (new && new->right && new->right->cmd)
+				new->rpath = new->right->cmd;
+			if (new && new->left && new->left->cmd)
+				new->lpath = new->left->cmd;
+		}
+		return (new);
+	}
 	else if (tmp && tmp->type != END)
 	{
-		new = pars_help(&main, &tmp, stack, new);
-		if (!new)
-			return (NULL);
-		return (new);
+		while (tmp && tmp->cmd && (tmp->flag & 1) == 0)
+		{
+			push(stack, &main->temp);
+			tmp = lstlast(*stack);
+		}
+		if (tmp && tmp->cmd && (tmp->flag & 1) == 1)
+		{
+			new = lstadd(tmp->cmd, tmp->type, tmp->prc, tmp->flag);
+			if (tmp->subshell_code)
+				new->subshell_code = 1;
+			delete_node(stack);
+			while (main && main->temp)
+				push(&main->temp, &new);
+			return (new);
+		}
 	}
 	return (new);
 }
+
+// 0001 == 1
+// 0010 == 2
+// 0011 == 3

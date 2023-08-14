@@ -6,17 +6,30 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:56:28 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 12:20:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 12:45:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_unset(char *arr, t_env_list *my_env);
+void	check_unset(char *arr, t_env *my_env);
+void	minishell_unset(char *str, t_env *my_env);
 
-void	check_unset(char *arr, t_env_list *my_env)
+void	minishell_unset(char *str, t_env *my_env)
 {
-	t_env_list	*tmp;
+	char	**arr;
+	int		i;
+
+	arr = ft_split(str, ' ');
+	i = 0;
+	while (arr && arr[++i])
+		check_unset(arr[i], my_env);
+	free_2d(arr, strlen_2d(arr));
+}
+
+void	check_unset(char *arr, t_env *my_env)
+{
+	t_env	*tmp;
 
 	tmp = my_env;
 	if (tmp != NULL && arr && (arr[0] == '_' || \

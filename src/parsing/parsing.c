@@ -48,7 +48,7 @@ void	push(t_pars **a, t_pars **b)
 
 	t1 = lstlast(*a);
 	t2 = lstlast(*b);
-	if (!t1)
+	if (t1 == NULL)
 		return ;
 	else
 	{
@@ -97,12 +97,10 @@ void	parsing(t_main *main)
 	t_pars	*tmp;
 	t_pars	*postfix;
 	t_pars	*opstack;
-	t_pars	*new;
 
 	tmp = main->lex;
 	postfix = NULL;
 	opstack = NULL;
-	new = NULL;
 	while (tmp)
 	{
 		shunting_yard(&tmp, &postfix, &opstack);
@@ -110,6 +108,6 @@ void	parsing(t_main *main)
 	}
 	while (opstack)
 		push(&opstack, &postfix);
-	main->pars = abstract_syntax_tree(main, &postfix, new);
+	main->pars = abstract_syntax_tree(main, &postfix);
 	print_ast(main->pars, 0, 0);
 }

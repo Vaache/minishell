@@ -6,11 +6,14 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 12:18:38 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:57:43 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*strjoin_mode(char *s1, char *s2, int mode);
+char	*trim_zeroes(char *s);
 
 char	*trim_zeroes(char *s)
 {
@@ -20,7 +23,7 @@ char	*trim_zeroes(char *s)
 
 	j = 0;
 	str = NULL;
-	if (s[0] == '0' || s[1] == '0')
+	if (s[0] == '0' || (s[0] == '0' && s[1] == '0'))
 	{
 		while (s && s[j] != '\0')
 		{
@@ -40,9 +43,18 @@ char	*trim_zeroes(char *s)
 			str[i++] = s[j++];
 		str[i] = '\0';
 		if (s[0] != '\0' && s[0] == '-')
-			str = ft_strjoin(ft_strdup("-"), str, 1);
+			str = ft_strjoin("-", str, 1);
 		return (str);
 	}
+	return (s);
+}
+
+char	*strjoin_mode(char *s1, char *s2, int mode)
+{
+	if (mode == 1)
+		s1 = ft_strjoin(s1, "\n", 1);
 	else
-		return (s);
+		s1 = ft_strjoin(s1, " ", 1);
+	s1 = ft_strjoin(s1, s2, 1);
+	return (s1);
 }

@@ -1,22 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_pwds.c                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/23 20:38:05 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 12:21:26 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/08/14 19:30:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd_init(t_env_list *my_env);
+void	minishell_pwd(char *str);
+void	pwd_init(t_env *my_env);
 
-void	pwd_init(t_env_list *my_env)
+void	minishell_pwd(char *str)
 {
-	t_env_list	*tmp;
+	char	buff[1024];
+	(void)str;
+
+	// buff = (char *)malloc(sizeof(char) * 1024);
+	// if (!buff)
+	// 	return ;
+	if (getcwd(buff, sizeof(buff)) != NULL)
+		printf("%s\n", buff);
+	else
+		perror("getcwd");
+	// free(buff);
+}
+
+void	pwd_init(t_env *my_env)
+{
+	t_env		*tmp;
 	char		*str;
 	static int	i = 0;
 

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/12 19:10:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:07:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
-	t_env_list	*my_env;
+	t_env	*my_env;
 	t_main		main;
 
 	if (ac != 1 || av[1] != NULL)
@@ -45,11 +45,14 @@ int	main(int ac, char **av, char **env)
 		if (onlyspace(str) == 1)
 		{
 			lex(str, &main);
-			destroy_main(&main);
+			if (main.pars)
+			{
+				check_astree(&main, main.pars, my_env);
+				destroy_main(&main);
+			}
 		}
-		builtins(str, my_env);
+		builtins(str);
 		free(str);
 	}
-	system("leaks minishell");
 	return (0);
 }

@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_init.c                                         :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 10:30:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 12:14:13 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/08/14 20:16:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*env_init(char **env, t_env *my_env);
+char	*restore_cmds_line(t_pars *stack);
 
-t_env	*env_init(char **env, t_env *my_env)
+char	*restore_cmds_line(t_pars *stack)
 {
-	int	i;
+	char	*cmd;
+	int		mode;
+	t_pars	*tmp;
 
-	i = 0;
-	while (env[i])
+	cmd = NULL;
+	tmp = stack;
+	while (tmp && tmp->cmd)
 	{
-		my_env = push_back(&my_env, malloc_list(env[i]));
-		i++;
+		mode = (tmp->flag & (1 << 1)) && 1;
+		if (!cmd || (mode == 0 && \
+			(tmp->type == DQUOTE || tmp->type == SQUOTE)))
+				cmd = ft_strjoin(cmd, tmp->cmd, 1);
+		else
+			cmd = strjoin_mode(cmd, tmp->cmd, 0);
+		tmp = tmp->next;
 	}
-	return (my_env);
+	cmd[ft_strlen(cmd)] = '\0';
+	return (cmd);
 }

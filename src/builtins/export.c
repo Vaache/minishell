@@ -6,16 +6,63 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/08 12:20:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 12:45:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(t_env_list *my_env)
+void	minishell_export(char *str, t_env *my_env);
+void	ft_export(t_env *my_env);
+int		ft_check(t_env *my_env, char *str);
+void	ft_add(t_env *my_env, char *str);
+
+void	minishell_export(char *str, t_env *my_env)
 {
-	t_env_list	*tmp;
-	t_env_list	*tmp2;
+	char		**arr;
+	t_env	*tmp;
+	int			i;
+	int			j;
+
+	i = 1;
+	j = 0;
+	tmp = my_env;
+	if (ft_strncmp(str, "export", 6) == 0)
+	{
+		arr = ft_split(str, ' ');
+		if (arr[1] == NULL)
+		{
+			ft_export(my_env);
+			return ;
+		}
+		while (arr[i])
+		{
+			if (ft_strchr(arr[i], '=') != 0)
+			{
+				if (ft_check(my_env, arr[i]) == 0)
+					tmp = push_back(&tmp, malloc_list(arr[i]));
+				else
+					ft_add(my_env, arr[i]);
+			}
+			else
+			{
+				if (ft_check(my_env, arr[i]) == 0)
+				{
+					tmp = push_back(&tmp, malloc_list(arr[i]));
+					while (tmp->next)
+						tmp = tmp->next;
+					tmp->flag = 2;
+				}
+			}
+			i++;
+		}
+	}
+}
+
+void	ft_export(t_env *my_env)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
 	int			flag;
 
 	tmp = my_env;
@@ -48,9 +95,9 @@ void	ft_export(t_env_list *my_env)
 		printf("declare -x OLDPWD\n");
 }
 
-int	ft_check(t_env_list *my_env, char *str)
+int	ft_check(t_env *my_env, char *str)
 {
-	t_env_list	*tmp;
+	t_env	*tmp;
 	int			i;
 
 	tmp = my_env;
@@ -72,9 +119,9 @@ int	ft_check(t_env_list *my_env, char *str)
 	return (0);
 }
 
-void	ft_add(t_env_list *my_env, char *str)
+void	ft_add(t_env *my_env, char *str)
 {
-	t_env_list	*tmp;
+	t_env	*tmp;
 	int			i;
 
 	i = 0;
