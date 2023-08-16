@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 12:07:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:05:43 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	{
 		if (arr[1] != NULL)
 		{
+			ft_printf(2, "env: %s: No such file or directory\n", arr[1]);
 			free_2d(arr);
-			return (parse_error(2, "env: a: No such file or directory", 0));
+			return (0);
 		}
-		minishell_env(str, env);
+		minishell_env(arr[0], env);
 		free_2d(arr);
 		return (1);
 	}
@@ -79,6 +80,9 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 int	cmds_execute(t_main *main, t_pars *pars, t_env *env, int status)
 {
 	(void)status;
-	check_builtins(main, pars, env);
+	if (!check_builtins(main, pars, env))
+	{
+		main->exit_status = call_cmds(main, pars, env);
+	}
 	return (0);
 }

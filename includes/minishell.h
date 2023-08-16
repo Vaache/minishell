@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 12:04:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:13:38 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ int						strlen_2d(char **str);
 int						onlyspace(char *str);
 int						parse_error(int fd, char *err, int mode);
 char					*strjoin_mode(char *s1, char *s2, int mode);
+int						error_code(int error_num);
+int						lstsize(t_env *lst);
+char					**env_2d(t_env *env);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -199,11 +202,15 @@ void					shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
 t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack);
 void					print_ast(t_pars *ast, int indent, int lrc);
 t_pars					*most_prev(t_pars *stack);
-t_pars					*pars_help(t_main **main, t_pars **tmp, t_pars **stack);
-t_pars					*pars_help2(t_main **main, t_pars **tmp, t_pars **stack, t_pars *new);
 
 int						check_astree(t_main *main, t_pars *stack, t_env *env);
 int						cmds_execute(t_main *main, t_pars *pars, t_env *env, int status);
 int						check_builtins(t_main *main, t_pars *pars, t_env *env);
+int						check_xandxor(t_pars *stack);
+int						call_cmds(t_main *main, t_pars *stack, t_env *env);
+char					*check_cmd(char *cmd, char **path);
+void					find_path(t_main *main, t_env *env);;
+char					*fill_path_cmd(char *cmd, char **path);
+int						exec_cmds(char *path_cmd, char **cmd_arr, char **env);
 
 #endif

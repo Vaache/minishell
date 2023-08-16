@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 20:07:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:53:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
-	t_env	*my_env;
+	t_env		*my_env;
 	t_main		main;
 
 	if (ac != 1 || av[1] != NULL)

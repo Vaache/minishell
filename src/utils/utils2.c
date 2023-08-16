@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/15 21:04:51 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:19:38 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*strjoin_mode(char *s1, char *s2, int mode);
 char	*trim_zeroes(char *s);
 char	*search_redir(char *str);
+int		error_code(int error_num);
 
 char	*trim_zeroes(char *s)
 {
@@ -44,7 +45,7 @@ char	*trim_zeroes(char *s)
 			str[i++] = s[j++];
 		str[i] = '\0';
 		if (s[0] != '\0' && s[0] == '-')
-			str = ft_strjoin("-", str, 1);
+			str = ft_strjoin("-", str, -1);
 		return (str);
 	}
 	return (s);
@@ -85,4 +86,11 @@ char	*search_redir(char *str)
 		i++;
 	}
 	return (NULL);
+}
+
+int	error_code(int error_num)
+{
+	if (error_num == 256)
+		return (1);
+	return (error_num % 256);
 }

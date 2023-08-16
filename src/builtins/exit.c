@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 12:07:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 14:12:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	minishell_exit(char **arr)
 	exit_num = ft_atll(arr[1]);
 	s = ft_itul(exit_num);
 	if (arr[1] && arr[1][0] == '+')
-		s = ft_strjoin("+", s, 0);
+		s = ft_strjoin("+", s, -1);
 	if (strlen_2d(arr) == 1 && arr[1] == NULL)
 	{
 		ft_printf(1, "exit\n");

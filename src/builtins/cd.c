@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 12:10:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:40:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	minishell_cd(char **arr, t_env *my_env);
 void	minishell_cd(char **arr, t_env *my_env)
 {
 	t_env	*tmp;
-	char	buff[1024];
+	char	*buff;
 
+	buff = NULL;
 	pwd_init(my_env);
 	if (!arr)
 		return ;
@@ -38,12 +39,13 @@ void	minishell_cd(char **arr, t_env *my_env)
 		{
 			free(tmp->data);
 			free(tmp->line);
-			getcwd(buff, sizeof(buff));
+			buff = getcwd(buff, sizeof(buff));
 			tmp->data = ft_strdup(buff);
 			tmp->line = ft_strdup("");
 			tmp->line = ft_strjoin(tmp->line, "PWD", 1);
 			tmp->line = ft_strjoin(tmp->line, "=", 1);
 			tmp->line = ft_strjoin(tmp->line, tmp->data, 1);
+			free(buff);
 			break ;
 		}
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 12:14:13 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:04:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,38 @@ t_env	*push_back(t_env **list, t_env *new)
 		new->prev = ptr;
 	}
 	return (*list);
+}
+int	lstsize(t_env *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		(lst) = (lst)->next;
+	}
+	return (i);
+}
+
+char	**env_2d(t_env *env)
+{
+	char	**my_env;
+	t_env	*tmp;
+	int		i;
+	
+	i = 0;
+	tmp = env;
+	my_env = (char **)malloc(sizeof(char *) * (lstsize(tmp) + 1));
+	if (!my_env)
+		return (NULL);
+	tmp = env;
+	while (tmp)
+	{
+		my_env[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	my_env[i] = NULL;
+	return (my_env);
 }
