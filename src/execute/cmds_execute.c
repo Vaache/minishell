@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 15:05:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 20:09:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	cmds_execute(t_main *main, t_pars *pars, t_env *env, int status)
 	(void)status;
 	if (!check_builtins(main, pars, env))
 	{
-		main->exit_status = call_cmds(main, pars, env);
+		pars->err_code = call_cmds(main, pars, env);
+		main->exit_status = pars->err_code;
 	}
-	return (0);
+	return (status);
 }

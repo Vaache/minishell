@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 17:50:13 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 20:12:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 	if (stack->left == NULL && stack->right == NULL)
 	{
 		main->exit_status = cmds_execute(main, stack, env, status);
-		return (1);
+		return (main->exit_status);
 	}
 	if (stack->left != NULL && !(stack->left->flag & (1 << 3)))
 	{
@@ -146,12 +146,14 @@ int	call_cmds(t_main *main, t_pars *stack, t_env *env)
  	cmd_arr = ft_split(cmd, ' ');
 	if (!cmd_arr)
 	{
+		free_2d(my_env);
 		free(cmd);
 		return (2);
 	}
 	cmd_path = check_cmd(cmd_arr[0], main->path);
 	if (!cmd_path)
 	{
+		free_2d(my_env);
 		free(cmd);
 		free_2d(cmd_arr);
 		return (127);

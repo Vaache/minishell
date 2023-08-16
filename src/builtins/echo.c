@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 12:04:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:08:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	minishell_echo(char **arr);
-
-void	builtins(char *str)
-{
-	if (ft_strncmp(str, "clear", ft_strlen("clear")) == 0)
-	{
-		printf("\033[2J");
-		printf("\033[H");
-	}
-}
-
-
 
 void	minishell_echo(char **arr)
 {

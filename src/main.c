@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 17:53:28 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:09:11 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	main(int ac, char **av, char **env)
 				destroy_main(&main);
 			}
 		}
-		builtins(str);
 		free(str);
 	}
 	return (0);
