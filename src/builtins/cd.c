@@ -6,22 +6,22 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 19:31:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:10:21 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_cd(char *str, t_env *my_env);
+void	minishell_cd(char **arr, t_env *my_env);
 
-void	minishell_cd(char *str, t_env *my_env)
+void	minishell_cd(char **arr, t_env *my_env)
 {
-	char	**arr;
 	t_env	*tmp;
 	char	buff[1024];
 
 	pwd_init(my_env);
-	arr = ft_split(str, ' ');
+	if (!arr)
+		return ;
 	if (!arr[1])
 	{
 		tmp = my_env;
@@ -30,7 +30,7 @@ void	minishell_cd(char *str, t_env *my_env)
 		chdir(tmp->data);
 	}
 	else if (chdir(arr[1]) != 0)
-		ft_printf(1, "cd: no such file or directory: %s\n", arr[1]);
+		ft_printf(1, "Minishell: cd: no such file or directory: %s\n", arr[1]);
 	tmp = my_env;
 	while (tmp != NULL)
 	{
@@ -48,5 +48,4 @@ void	minishell_cd(char *str, t_env *my_env)
 		}
 		tmp = tmp->next;
 	}
-	free_2d(arr, strlen_2d(arr));
 }

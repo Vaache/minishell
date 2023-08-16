@@ -6,20 +6,20 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:57:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 12:18:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:57:45 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_2d(char **s, int i)
+void	free_n2d(char **s, int i)
 {
 	while (i >= 0)
 		free (s[i--]);
 	free(s);
 }
 
-void	free_2dd(char **s)
+void	free_2d(char **s)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/13 11:51:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/15 22:14:45 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	int		k;
 
 	nil = NULL;
-	if (!ft_isspace(line, start, i) && is_delim(*pars))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
-	else if (!ft_isspace(line, start, i))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
+	handle_space(pars, line, i, start);
 	if (is_delim(*pars))
 	{
 		nil = "(NULL)";
-		lstback(pars, lstadd(nil, WORD, 0, 1));
+		lstback(pars, lstadd(nil, WORD, 0, 1));	
 	}
 	lstback(pars, lstadd("<<", HEREDOC, 4, 1));
 	k = 1;
@@ -45,13 +42,10 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 		{
 			end = i + k;
 			limiter = ft_substr(line, first, end - first + 1);
-			if (ft_strncmp(limiter, "&", 1) == 0 || \
-				ft_strncmp(limiter, "|", 1) == 0 || \
-				ft_strncmp(limiter, ">", 1) == 0)
-				return (parse_error(2, ft_substr(limiter, 0, 2), 1));
-			if (ft_strcmp(limiter, ">") == 0 || ft_strcmp(limiter, "<") == 0)
-				return (parse_error(2, ft_substr(limiter, 0, 1), 1));
-			break ;
+			k = check_redir(limiter, 0, 0);
+			if (k == 1)
+				break ;
+			return (0);
 		}
 	}
 	if (limiter)
@@ -88,6 +82,9 @@ void	handle_heredoc_input(char *string, t_pars **pars)
 		}
 		free(line);
 	}
-	lstback(pars, lstadd(res, WORD, 0, 1));
+	if (!res)
+		lstback(pars, lstadd("", WORD, 0, 1));
+	else
+		lstback(pars, lstadd(res, WORD, 0, 1));
 	free(res);
 }

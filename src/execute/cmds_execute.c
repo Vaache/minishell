@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 20:13:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:07:01 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,64 @@
 int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 {
 	char	*str;
+	char	**arr;
 	int		i;
 	(void)main;
 
 	i = 0;
-	str = NULL;
-	if (ft_strcmp(pars->cmd, "env") == 0)
+	str = restore_cmds_line(pars);
+	arr = ft_split(str, ' ');
+	if (!arr)
+		return (0);
+	free(str);
+	if (ft_strcmp(arr[0], "env") == 0)
 	{
-		str = restore_cmds_line(pars);
+		if (arr[1] != NULL)
+		{
+			free_2d(arr);
+			return (parse_error(2, "env: a: No such file or directory", 0));
+		}
 		minishell_env(str, env);
+		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(pars->cmd, "pwd") == 0)
+	else if (ft_strcmp(arr[0], "echo") == 0)
 	{
-		str = restore_cmds_line(pars);
+		minishell_echo(arr);
+		free_2d(arr);
+		return (1);
+	}
+	else if (ft_strcmp(arr[0], "pwd") == 0)
+	{
 		minishell_pwd(str);
+		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(pars->cmd, "cd") == 0)
+	else if (ft_strcmp(arr[0], "cd") == 0)
 	{
-		str = restore_cmds_line(pars);
-		minishell_cd(str, env);
+		minishell_cd(arr, env);
+		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(pars->cmd, "exit") == 0)
+	else if (ft_strcmp(arr[0], "exit") == 0)
 	{
-		str = restore_cmds_line(pars);
-		minishell_exit(str);
+		minishell_exit(arr);
+		// free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(pars->cmd, "export") == 0)
+	else if (ft_strcmp(arr[0], "export") == 0)
 	{
-		str = restore_cmds_line(pars);
-		minishell_export(str, env);
+		minishell_export(arr, env);
+		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(pars->cmd, "unset") == 0)
+	else if (ft_strcmp(arr[0], "unset") == 0)
 	{
-		str = restore_cmds_line(pars);
-		minishell_unset(str, env);
+		minishell_unset(arr, env);
+		free_2d(arr);
 		return (1);
 	}
+	free_2d(arr);
 	return (0);
 }
 

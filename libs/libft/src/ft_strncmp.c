@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 17:14:28 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/07/26 10:07:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/14 21:17:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	i = 0;
 	while ((s1[i] || s2[i]) && (i < n))
 	{
-		if (s1[i] > s2[i])
+		if (s1[i] != s2[i])
 			return (1);
-		if (s1[i] < s2[i])
+		if (s1[i] != s2[i])
 			return (-1);
 		i++;
 	}

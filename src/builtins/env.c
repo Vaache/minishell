@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:26:40 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 12:51:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:46:01 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ void	minishell_env(char *str, t_env *env)
 			ft_printf(1, "%s\n", tmp->line);
 		tmp = tmp->next;
 	}
-
 }

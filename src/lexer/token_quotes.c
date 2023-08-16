@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 20:21:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:17:40 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,22 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 	int		count;
 	char	*str;
 
-	if (!ft_isspace(line, start, i) && is_delim(*pars))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
-	else if (!ft_isspace(line, start, i))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
+	handle_space(pars, line, i, start);
 	count = i + 1;
 	while (line[count] && line[count] != '"')
 		count++;
+	str = ft_substr(line, i + 1, count - i - 1);
 	if (line[count] == '"' && is_delim(*pars))
-	{
-		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 1));
-	}
 	else if (line[count] == '"' && i > 1 && line[i - 1] == ' ')
-	{
-		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 2));
-	}
 	else if (line[count] == '"')
-	{
-		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 0));
-	}
 	else
+	{
+		free(str);
 		return (parse_error(2, "Minishell : Syntax Error Duble Qoutes `\"\'", -1));
+	}
 	free(str);
 	return (count);
 }
@@ -53,30 +45,22 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start)
 	int		count;
 	char	*str;
 
-	if (!ft_isspace(line, start, i) && is_delim(*pars))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
-	else if (!ft_isspace(line, start, i))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
+	handle_space(pars, line, i, start);
 	count = i + 1;
 	while (line[count] && line[count] != '\'')
 		count++;
+	str = ft_substr(line, i + 1, count - i - 1);
 	if (line[count] == '\'' && is_delim(*pars))
-	{
-		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 1));
-	}
 	else if (line[count] == '\'' && i > 1 && line[i - 1] == ' ')
-	{
-		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 2));
-	}
 	else if (line[count] == '\'')
-	{
-		str = ft_substr(line, i + 1, count - i - 1);
 		lstback(pars, lstadd(str, DQUOTE, 0, 0));
-	}
 	else
+	{
+		free(str);
 		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'", -1));
+	}
 	free(str);
 	return (count);
 }

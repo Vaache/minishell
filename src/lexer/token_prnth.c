@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 18:48:35 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/12 20:59:07 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:28:08 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int	handle_oprnth(t_pars **pars, char *line, int i, int start)
 	int		count;
 
 	prnth = 1;
-	if (!ft_isspace(line, start, i) && is_delim(*pars))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 1));
-	else if (!ft_isspace(line, start, i))
-		lstback(pars, lstadd(ft_substr(line, start, i - start), WORD, 0, 0));
+	handle_space(pars, line, i, start);
 	lstback(pars, lstadd("(", SUBSH_OPEN, 1, 1));
 	count = i;
 	while (prnth && line[count])
@@ -40,20 +37,7 @@ int	handle_oprnth(t_pars **pars, char *line, int i, int start)
 
 int	handle_clprnth(t_pars **pars, char *line, int i, int start)
 {
-	char	*tmp;
-
-	tmp = NULL;
-	if (!ft_isspace(line, start, i) && is_delim(*pars))
-	{
-		tmp = ft_substr(line, start, i - start);
-		lstback(pars, lstadd(tmp, WORD, 0, 1));
-	}
-	else if (!ft_isspace(line, start, i))
-	{
-		tmp = ft_substr(line, start, i - start);
-		lstback(pars, lstadd(tmp, WORD, 0, 0));
-	}
+	handle_space(pars, line, i, start);
 	lstback(pars, lstadd(")", SUBSH_CLOSE, 1, 0));
-	free(tmp);
 	return (i + 1);
 }

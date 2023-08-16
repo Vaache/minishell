@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 14:14:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:04:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ typedef struct s_main
 /************* MINISHELL_UTILS **************/
 /********************************************/
 void					print_header(void);
-void					free_2dd(char **s);
-void					free_2d(char **s, int i);
+void					free_2d(char **s);
+void					free_n2d(char **s, int i);
 int						check_digit(char *str);
 char					*trim_zeroes(char *s);
 unsigned long long int	ft_atll(char *str);
@@ -126,16 +126,16 @@ char					*strjoin_mode(char *s1, char *s2, int mode);
 /***********************************************/
 void					builtins(char *str);
 void					minishell_env(char *str, t_env *env);
-void					minishell_echo(char *str);
-void					minishell_cd(char *str, t_env *my_env);
-void					minishell_exit(char *str);
+void					minishell_echo(char **arr);
+void					minishell_cd(char **arr, t_env *my_env);
+void					minishell_exit(char **str);
 void					minishell_pwd(char *str);
 void					pwd_init(t_env *my_env);
 void					handler_stp(int sig);
 void					call_signals(void);
-void					check_unset(char *arr, t_env *my_env);
-void					minishell_unset(char *str, t_env *my_env);
-void					minishell_export(char *str, t_env *my_env);
+void					check_unset(char *str, t_env *my_env);
+void					minishell_unset(char **arr, t_env *my_env);
+void					minishell_export(char **arr, t_env *my_env);
 void					ft_export(t_env *my_env);
 int						ft_check(t_env *my_env, char *str);
 void					ft_add(t_env *my_env, char *str);
@@ -149,6 +149,8 @@ int						is_delim(t_pars	*pars);
 char					*type_is(t_type type);
 int						check_valid(t_main *main);
 int						check_types(t_type type);
+int						check_redir(char *line, int i, int k);
+char					*search_redir(char *str);
 void					destroy_structure(t_pars *root);
 void					destroy_main(t_main *main);
 

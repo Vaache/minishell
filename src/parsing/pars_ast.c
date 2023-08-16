@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 16:37:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:54:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,21 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 		delete_node(stack);
 		new->right = most_prev(abstract_syntax_tree(main, stack));
 		new->left = most_prev(abstract_syntax_tree(main, stack));
-		if (check_types(new->type) == 2)
+		if (new && check_types(new->type) == 2)
 		{
 			if (new->left)
+			{
 				new->left->flag += 1 << 3;
+				if (new->left->cmd)
+					new->lpath = new->left->cmd;
+			}
 			if (new->right)
+			{
+				printf("111\n");
 				new->right->flag += 1 << 3;
-			if (new && new->right && new->right->cmd)
-				new->rpath = new->right->cmd;
-			if (new && new->left && new->left->cmd)
-				new->lpath = new->left->cmd;
+				if (new->right->cmd)
+					new->rpath = new->right->cmd;
+			}
 		}
 		return (new);
 	}

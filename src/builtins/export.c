@@ -6,56 +6,51 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/14 12:45:28 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:00:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_export(char *str, t_env *my_env);
+void	minishell_export(char **arr, t_env *my_env);
 void	ft_export(t_env *my_env);
 int		ft_check(t_env *my_env, char *str);
 void	ft_add(t_env *my_env, char *str);
 
-void	minishell_export(char *str, t_env *my_env)
+void	minishell_export(char **arr, t_env *my_env)
 {
-	char		**arr;
 	t_env	*tmp;
-	int			i;
-	int			j;
+	int		i;
+	int		j;
 
 	i = 1;
 	j = 0;
 	tmp = my_env;
-	if (ft_strncmp(str, "export", 6) == 0)
+	if (arr[1] == NULL)
 	{
-		arr = ft_split(str, ' ');
-		if (arr[1] == NULL)
+		ft_export(my_env);
+		return ;
+	}
+	while (arr[i])
+	{
+		if (ft_strchr(arr[i], '=') != 0)
 		{
-			ft_export(my_env);
-			return ;
-		}
-		while (arr[i])
-		{
-			if (ft_strchr(arr[i], '=') != 0)
-			{
-				if (ft_check(my_env, arr[i]) == 0)
-					tmp = push_back(&tmp, malloc_list(arr[i]));
-				else
-					ft_add(my_env, arr[i]);
-			}
+			if (ft_check(my_env, arr[i]) == 0)
+				tmp = push_back(&tmp, malloc_list(arr[i]));
 			else
-			{
-				if (ft_check(my_env, arr[i]) == 0)
-				{
-					tmp = push_back(&tmp, malloc_list(arr[i]));
-					while (tmp->next)
-						tmp = tmp->next;
-					tmp->flag = 2;
-				}
-			}
-			i++;
+				ft_add(my_env, arr[i]);
 		}
+		else
+		{
+			if (ft_check(my_env, arr[i]) == 0)
+			{
+				tmp = push_back(&tmp, malloc_list(arr[i]));
+				while (tmp->next)
+					tmp = tmp->next;
+				tmp->flag = 2;
+			}
+		}
+		i++;
 	}
 }
 
