@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 20:09:20 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:42:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	i = 0;
 	str = restore_cmds_line(pars);
 	arr = ft_split(str, ' ');
-	if (!arr)
-		return (0);
+	while (arr[0][i])
+	{
+		if (arr[0][i] >= 'A' && arr[0][i] <= 'Z')
+			arr[0][i] += 'a' - 'A';
+		i++;
+	}
 	free(str);
 	if (ft_strcmp(arr[0], "env") == 0)
 	{
@@ -79,7 +83,6 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 
 int	cmds_execute(t_main *main, t_pars *pars, t_env *env, int status)
 {
-	(void)status;
 	if (!check_builtins(main, pars, env))
 	{
 		pars->err_code = call_cmds(main, pars, env);

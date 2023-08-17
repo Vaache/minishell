@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 20:12:03 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:28:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		check_astree(t_main *main, t_pars *stack, t_env *env);
 int		call_cmds(t_main *main, t_pars *stack, t_env *env);
-int	exec_cmds(char *path_cmd, char **cmd_arr, char **env);
+int		exec_cmds(char *path_cmd, char **cmd_arr, char **env);
 char	*check_cmd(char *cmd, char **path);
 
 int	check_astree(t_main *main, t_pars *stack, t_env *env)
@@ -33,6 +33,8 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 		main->exit_status = cmds_execute(main, stack, env, status);
 		return (main->exit_status);
 	}
+	if (stack->left && stack->right && check_types(stack->type) == 2)
+		main->exit_status = call_redir(main, stack, env);
 	if (stack->left != NULL && !(stack->left->flag & (1 << 3)))
 	{
 		if (stack->left->subshell_code)
@@ -85,6 +87,8 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env)
 	
 	childeExit = 0;
 	pid = fork();
+	// if (!ft_strcmp(cmd_arr[0], "./minishell") || !ft_strcmp(cmd_arr[0], "minishell"))
+	// 	update_shlvl(&my_env);
 	if (pid == -1)
 	{
 		perror("Minishell");

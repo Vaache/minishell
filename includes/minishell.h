@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 17:13:38 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:04:12 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@
 
 typedef struct s_env
 {
-	struct s_env	*next;
-	struct s_env	*prev;
+	struct s_env		*next;
+	struct s_env		*prev;
 	char				*data;
 	char				*key;
 	char				*line;
+	int					shlvl;
 	int					flag;
 }	t_env;
 
@@ -212,5 +213,6 @@ char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env *env);;
 char					*fill_path_cmd(char *cmd, char **path);
 int						exec_cmds(char *path_cmd, char **cmd_arr, char **env);
+int						call_redir(t_main *main, t_pars *stack, t_env *env);
 
 #endif

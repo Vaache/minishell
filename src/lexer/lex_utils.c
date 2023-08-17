@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/15 20:45:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:29:42 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*type_is(t_type type)
 
 int	check_types(t_type type)
 {
+	if (!type)
+		return (0);
 	if (type == XOR || type == XAND || type == PIPE)
 		return (1);
 	if (type == HEREDOC || type == WRITE_APPEND)

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 19:20:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:55:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_env	*malloc_list(char *env)
 	tmp->key = ft_substr(env, 0, (size_t)i);
 	tmp->data = ft_substr(env, i + 1, ft_strlen(&env[i + 1]));
 	tmp->line = ft_strdup(env);
+	tmp->shlvl = 1;
 	tmp->flag = 0;
 	return (tmp);
 }
