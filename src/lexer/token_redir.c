@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/15 21:05:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:11:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	handle_infile(t_pars **pars, char *line, int i, int start)
 		lstback(pars, lstadd(nil, WORD, 0, 1));
 	}
 	lstback(pars, lstadd("<", INPUT, 4, 1));
-	k = 0;
+	k = 1;
 	while (line[i + ++k])
 	{
 		if (line[i + k] != ' ')
@@ -92,7 +92,7 @@ int	handle_infile(t_pars **pars, char *line, int i, int start)
 			return (0);
 		}
 	}
-	return (parse_error(2, "<", -1));
+	return (parse_error(2, "newline", -1));
 }
 
 int	check_redir(char *line, int i, int k) 

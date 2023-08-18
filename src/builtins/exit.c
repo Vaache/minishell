@@ -6,18 +6,22 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 12:52:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:57:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_exit(char **arr)
+void	minishell_exit(char **arr, t_env *env);
+
+void	minishell_exit(char **arr, t_env *env)
 {
 	char		*s;
+	t_env		*tmp;
 	long long	exit_num;
 
 	s = NULL;
+	tmp = env;
 	if (arr[1] != NULL && (arr[1][0] == '0' || \
 			arr[1][0] == '+' || arr[1][1] == '0'))
 		arr[1] = trim_zeroes(arr[1]);
@@ -27,9 +31,15 @@ void	minishell_exit(char **arr)
 		s = ft_strjoin("+", s, -1);
 	if (strlen_2d(arr) == 1 && arr[1] == NULL)
 	{
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->key, "$?"))
+				break;
+			tmp = tmp->next;
+		}
 		ft_printf(1, "exit\n");
 		free_2d(arr);
-		exit(EXIT_SUCCESS);
+		exit(ft_atoi(tmp->data));
 	}
 	else if (strlen_2d(arr) == 2 && ft_strcmp(s, arr[1]) == 0)
 	{

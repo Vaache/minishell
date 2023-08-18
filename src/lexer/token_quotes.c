@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 12:44:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:02:12 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 	else
 	{
 		free(str);
-		return (parse_error(2, "Minishell : Syntax Error Duble Qoutes `\"\'", -1));
+		return (parse_error(2, "\"", -1));
 	}
 	free(str);
 	return (count);
@@ -53,30 +53,17 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start)
 	while (line[count] && line[count] != '\'')
 		count++;
 	str = ft_substr(line, i + 1, count - i - 1);
-	if (line[count] == '\'' && is_delim(*pars) && i != count - 1)
+	if (line[count] == '\'' && is_delim(*pars))
 		lstback(pars, lstadd(str, SQUOTE, 0, 1));
 	else if (line[count] == '\'' && i > 1 && line[i - 1] == ' ')
-		lstback(pars, lstadd(str, SQUOTE, 0, 2));
-	else if (line[count] == '\'' && i == count - 1)
-	{
-		lstback(pars, lstadd("", SQUOTE, 0, 1));
-		ft_printf(2, "Minishell: command not found\n");
-		free(str);
-		return (0);
-	}
+		lstback(pars, lstadd(str, SQUOTE, 0, 2)); 
 	else if (line[count] == '\'')
 		lstback(pars, lstadd(str, SQUOTE, 0, 0));
 	else
 	{
 		free(str);
-		return (parse_error(2, "Minishell : Syntax Error Single Qoutes `\'\'", -1));
+		return (parse_error(2, "'", -1));
 	}
 	free(str);
 	return (count);
 }
-
-//	0000 -> voch cmd a voch space uni
-//	0001 -> space chuni cmd a
-//	0010 -> space uni, cmd chi
-//	0011 -> space uni, cmd a
-//

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/17 17:29:42 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:20:58 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int	is_delim(t_pars	*pars)
 		return (1);
 	else if (tmp->type == SUBSH_CLOSE || tmp->type == SUBSH_OPEN)
 		return (1);
-	else if (tmp->type == WRITE_APPEND || tmp->type == WRITE_TRUNC)
+	else if (tmp->type == WRITE_APPEND || tmp->type == WRITE_TRUNC || \
+		tmp->type == INPUT)
 		return (1);
 	else if (tmp->type == XOR || tmp->type == XAND)
 		return (1);

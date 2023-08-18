@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/17 11:15:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:22:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char	*search_redir(char *str)
 	i = 0;
 	while (str && str[i])
 	{
+		if (str[i] == ' ')
+			break ;
 		if (str[i + 1] && ((str[i] == '&' && str[i + 1] == '&') || 
 			(str[i] == '|' && str[i + 1] == '|') || \
 			(str[i] == '<' && str[i + 1] == '<') || \

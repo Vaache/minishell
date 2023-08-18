@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 13:16:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:29:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	{
 		if (arr[1] != NULL)
 		{
-			ft_printf(2, "env: %s: No such file or directory\n", arr[1]);
 			free_2d(arr);
 			return (0);
 		}
@@ -60,7 +59,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	}
 	else if (ft_strcmp(arr[0], "exit") == 0)
 	{
-		minishell_exit(arr);
+		minishell_exit(arr, env);
 		// free_2d(arr);
 		return (1);
 	}
@@ -85,7 +84,7 @@ int	cmds_execute(t_main *main, t_pars *pars, t_env *env, int status)
 	if (!check_builtins(main, pars, env))
 	{
 		pars->err_code = call_cmds(main, pars, env);
-		main->exit_status = pars->err_code;
+		status = pars->err_code;
 	}
 	return (status);
 }

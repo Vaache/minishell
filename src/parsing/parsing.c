@@ -75,7 +75,7 @@ void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack)
 		{
 			while (*opstack && lstlast(*opstack)->type != SUBSH_OPEN)
 				push(opstack, postfix);
-			delete_node(&(*opstack));
+			delete_node(opstack);
 			lstlast(*postfix)->subshell_code = 1;
 		}
 		else if ((*tmp)->type != SUBSH_OPEN)
@@ -87,8 +87,10 @@ void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack)
 				(*tmp)->prc, (*tmp)->flag));
 		}
 		else
+		{
 			lstback(opstack, lstadd((*tmp)->cmd, (*tmp)->type, \
 				(*tmp)->prc, (*tmp)->flag));
+		}
 	}
 }
 

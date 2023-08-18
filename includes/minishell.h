@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/17 16:04:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:24:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,10 @@ char					**env_2d(t_env *env);
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
 /***********************************************/
-void					builtins(char *str);
 void					minishell_env(char *str, t_env *env);
 void					minishell_echo(char **arr);
 void					minishell_cd(char **arr, t_env *my_env);
-void					minishell_exit(char **str);
+void					minishell_exit(char **arr, t_env *env);
 void					minishell_pwd(char *str);
 void					pwd_init(t_env *my_env);
 void					handler_stp(int sig);
@@ -193,7 +192,7 @@ int						handle_infile(t_pars **pars, char *line, \
 
 void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
-
+void					handle_dollar(int exit_status, t_env *env);
 
 char					*restore_cmds_line(t_pars *stack);
 void					parsing(t_main *main);
@@ -213,6 +212,9 @@ char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env *env);;
 char					*fill_path_cmd(char *cmd, char **path);
 int						exec_cmds(char *path_cmd, char **cmd_arr, char **env);
-int						call_redir(t_main *main, t_pars *stack, t_env *env);
+int						redir(t_main *main, t_pars *stack, t_env *env);
+int 					heredoc(t_main *main, t_pars *stack, t_env *env);
+int						input(t_main *main, t_pars *stack, t_env *env);
+int 					exec_iocmd(t_main *main, t_pars *stack, t_env *env);
 
 #endif

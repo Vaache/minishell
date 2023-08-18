@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 12:40:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:27:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	minishell_cd(char **arr, t_env *my_env)
 	if (!arr[1])
 	{
 		tmp = my_env;
-		while (ft_strcmp(tmp->key, "HOME") != 0)
+		while (ft_strcmp(tmp->key, "HOME") != 0 && tmp->flag != 1)
 			tmp = tmp->next;
 		chdir(tmp->data);
 	}

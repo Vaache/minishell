@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 17:56:41 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:13:12 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,14 @@ void	handle_heredoc_input(char *string, t_pars **pars)
 		free(line);
 	}
 	if (!res)
-		lstback(pars, lstadd("", WORD, 0, 1));
-	else
+	{
+		res = ft_strdup("(NULL)\n");
 		lstback(pars, lstadd(res, WORD, 0, 1));
+	}
+	else
+	{
+		res = ft_strjoin(res, "\n", 1);
+		lstback(pars, lstadd(res, WORD, 0, 1));
+	}
 	free(res);
 }

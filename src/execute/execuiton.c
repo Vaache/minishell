@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 12:50:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:35:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 	if (stack->left == NULL && stack->right == NULL)
 	{
 		main->exit_status = cmds_execute(main, stack, env, status);
+		handle_dollar(main->exit_status, env);
 		return (main->exit_status);
 	}
 	if (stack->left && stack->right && check_types(stack->type) == 2)
-		main->exit_status = call_redir(main, stack, env);
+		main->exit_status = exec_iocmd(main, stack, env);
 	if (stack->left != NULL && !(stack->left->flag & (1 << 3)))
 	{
 		if (stack->left->subshell_code)
@@ -45,6 +46,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 			else if (pid == 0)
 			{
 				stack->err_code = check_astree(main, stack->left, env);
+				exit (stack->err_code);
 			}
 			else
 			{
@@ -69,6 +71,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 			else if (pid == 0)
 			{
 				stack->err_code = check_astree(main, stack->right, env);
+				exit(stack->err_code);
 			}
 			else
 				wait(NULL);

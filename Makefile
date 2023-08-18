@@ -1,6 +1,6 @@
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 SRC_DIR 	= src
 SUBDIRS 	= lexer get_next_line builtins utils parsing execute
@@ -23,7 +23,7 @@ HEADER		= $(wildcard includes/*.h) \
 INCLUDE		= -Iincludes -I./readline_update/include -I$(PRINTF_DIR)/$(INCLUDES) -I$(LIBFT_DIR)/$(INCLUDES)
 LINKERS		= -L$(LIBFT_DIR) -lft -L./readline_update/lib -lreadline -L$(PRINTF_DIR) -lftprintf
 MK			= mkdir -p
-PREFIX		= $(shell find ${HOME} -name readline_update 2>/dev/null)
+PREFIX		= $(shell pwd)/readline_update
 
 
 TEXT		= "\033[6;1m"

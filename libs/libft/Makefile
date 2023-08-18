@@ -29,7 +29,7 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HEADER) Makefile
 	
 
 $(NAME) : $(OBJ) $(HEADER)
-	@ar rcs $(NAME) $?
+	@ar rcs $(NAME) $(OBJ)
 
 clean :
 	@rm -f $(OBJ)
