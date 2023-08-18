@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 14:12:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:52:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ void	minishell_exit(char **arr)
 {
 	char		*s;
 	long long	exit_num;
-	int			i;
 
 	s = NULL;
-	i = 0;
-	i = 0;
 	if (arr[1] != NULL && (arr[1][0] == '0' || \
 			arr[1][0] == '+' || arr[1][1] == '0'))
 		arr[1] = trim_zeroes(arr[1]);

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/17 17:42:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:16:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 
 	i = 0;
 	str = restore_cmds_line(pars);
-	arr = ft_split(str, ' ');
-	while (arr[0][i])
+	if (str[0] == '\0' || !onlyspace(str))
 	{
-		if (arr[0][i] >= 'A' && arr[0][i] <= 'Z')
-			arr[0][i] += 'a' - 'A';
-		i++;
+		free(str);
+		return (0);
 	}
+	arr = ft_split(str, ' ');
 	free(str);
 	if (ft_strcmp(arr[0], "env") == 0)
 	{

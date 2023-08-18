@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/17 18:04:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:44:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,14 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 	count = i + 1;
 	while (line[count] && line[count] != '"')
 		count++;
-	str = ft_substr(line, i + 1, count - i - 1);
-	if (line[count] == '"' && is_delim(*pars) && i != count - 1)
+	if (line[i] == '"')
+		str = ft_substr(line, i + 1, count - i - 1);
+	else
+		str = ft_substr(line, i, count - i);
+	if (line[count] == '"' && is_delim(*pars))
 		lstback(pars, lstadd(str, DQUOTE, 0, 1));
 	else if (line[count] == '"' && i > 1 && line[i - 1] == ' ')
 		lstback(pars, lstadd(str, DQUOTE, 0, 2));
-	else if (line[count] == '"' && i == count - 1)
-	{
-		lstback(pars, lstadd("", DQUOTE, 0, 1));
-		ft_printf(2, "Minishell: command not found\n");
-		free(str);
-		return (0);
-	}
 	else if (line[count] == '"')
 		lstback(pars, lstadd(str, DQUOTE, 0, 0));
 	else

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:02:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/10 14:39:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:58:12 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	call_signals(void);
 void	handler_stp(int sig)
 {
 	(void)sig;
-	printf("\n");
+	write(1,"\n",1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
