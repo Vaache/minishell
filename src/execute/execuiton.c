@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 17:35:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:52:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 		handle_dollar(main->exit_status, env);
 		return (main->exit_status);
 	}
-	if (stack->left && stack->right && check_types(stack->type) == 2)
+	if (stack->left && stack->right && (check_types(stack->type) == 2 || stack->type == PIPE))
 		main->exit_status = exec_iocmd(main, stack, env);
 	if (stack->left != NULL && !(stack->left->flag & (1 << 3)))
 	{
@@ -138,7 +138,6 @@ char	*check_cmd(char *cmd, char **path)
 
 int	call_cmds(t_main *main, t_pars *stack, t_env *env)
 {
-	char	*cmd;
 	char	*cmd_path;
 	char	**cmd_arr;
 	char	**my_env;
@@ -146,27 +145,23 @@ int	call_cmds(t_main *main, t_pars *stack, t_env *env)
 
 	if (!main->path)
 		find_path(main, env);
+  	cmd_arr = restore_cmd_line(stack);
+	if (!ft_strcmp(cmd_arr[0], "minishell") || !ft_strcmp(cmd_arr[0], "./minishell"))
+		update_shlvl(&env);
 	my_env = env_2d(env);
-	cmd = restore_cmds_line(stack);
-	if (!cmd)
-		return (1);
- 	cmd_arr = ft_split(cmd, ' ');
 	if (!cmd_arr)
 	{
 		free_2d(my_env);
-		free(cmd);
 		return (2);
 	}
 	cmd_path = check_cmd(cmd_arr[0], main->path);
 	if (!cmd_path)
 	{
 		free_2d(my_env);
-		free(cmd);
 		free_2d(cmd_arr);
 		return (127);
 	}
 	k = exec_cmds(cmd_path, cmd_arr, my_env);
-	free(cmd);
 	free(cmd_path);
 	free_2d(cmd_arr);
 	free_2d(my_env);

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 18:48:35 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/16 17:57:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:32:34 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	handle_oprnth(t_pars **pars, char *line, int i, int start)
 int	handle_clprnth(t_pars **pars, char *line, int i, int start)
 {
 	handle_space(pars, line, i, start);
+	if (lstlast(*pars)->type == SUBSH_OPEN)
+		return (0 & parse_error(2, ")", 0));
 	lstback(pars, lstadd(")", SUBSH_CLOSE, 1, 0));
 	return (i + 1);
 }

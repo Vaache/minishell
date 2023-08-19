@@ -6,35 +6,49 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/17 17:46:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:26:52 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*restore_cmds_line(t_pars *stack);
+char    **restore_cmd_line(t_pars *stack);
 void	find_path(t_main *main, t_env *env);
 int		check_xandxor(t_pars *stack);
 
-char	*restore_cmds_line(t_pars *stack)
+char	**restore_cmd_line(t_pars *stack)
 {
-	char	*cmd;
-	int		mode;
-	t_pars	*tmp;
+	char		**cmd_matrix;
+	int			mode;
+	t_pars		*tmp;
+	int			i;
 
-	cmd = NULL;
 	tmp = stack;
+	i = 0;
+	cmd_matrix = (char **) malloc (sizeof(char *) * (lstsize(tmp) + 1));
+	if (!cmd_matrix)
+		return (NULL);
+	while (i < lstsize(tmp))
+		cmd_matrix[i++] = NULL;
+	i = -1;
 	while (tmp && tmp->cmd)
 	{
 		mode = (tmp->flag & (1 << 1)) && 1;
-		if (!cmd || (mode == 0 && check_types(tmp->type) == 0))
-				cmd = ft_strjoin(cmd, tmp->cmd, 1);
+		if (mode == 0 && check_types(tmp->type) == 0)
+		{
+			if (i < 0)
+				i++;
+			cmd_matrix[i] = ft_strjoin(cmd_matrix[i], tmp->cmd, 1);
+		}
 		else
-			cmd = strjoin_mode(cmd, tmp->cmd, 0);
+		{
+			i++;
+			cmd_matrix[i] = ft_strdup(tmp->cmd);
+		}
 		tmp = tmp->next;
 	}
-	cmd[ft_strlen(cmd)] = '\0';
-	return (cmd);
+	cmd_matrix[i + 1] = NULL;
+	return (cmd_matrix);
 }
 void	find_path(t_main *main, t_env *env)
 {

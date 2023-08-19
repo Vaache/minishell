@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 14:40:33 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:10:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ t_env	*malloc_list(char *env)
 		i++;
 	tmp->key = ft_substr(env, 0, (size_t)i);
 	tmp->data = ft_substr(env, i + 1, ft_strlen(&env[i + 1]));
-	tmp->line = ft_strdup(env);
-	tmp->shlvl = 1;
 	if (!ft_strcmp(tmp->key, "$?"))
 		tmp->flag = 1;
 	else
@@ -53,7 +51,7 @@ t_env	*push_back(t_env **list, t_env *new)
 	}
 	return (*list);
 }
-int	lstsize(t_env *lst)
+int	env_lstsize(t_env *lst)
 {
 	int	i;
 
@@ -74,13 +72,15 @@ char	**env_2d(t_env *env)
 	
 	i = 0;
 	tmp = env;
-	my_env = (char **)malloc(sizeof(char *) * (lstsize(tmp) + 1));
+	my_env = (char **)malloc(sizeof(char *) * (env_lstsize(tmp) + 1));
 	if (!my_env)
 		return (NULL);
 	tmp = env;
 	while (tmp)
 	{
-		my_env[i] = ft_strdup(tmp->line);
+		my_env[i] = ft_strdup(tmp->key);
+		my_env[i] = ft_strjoin(my_env[i], "=", 1);
+		my_env[i] = ft_strjoin(my_env[i], tmp->data, 1);
 		i++;
 		tmp = tmp->next;
 	}

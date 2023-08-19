@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 19:36:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:34:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,6 @@ void	lex(char *line, t_main *main)
 	{
 		destroy_main(main);
 		main->exit_status = 258;
-		return ;
-	}
-	if (main->lex && !ft_strcmp(main->lex->cmd, "(") && \
-		!ft_strcmp(main->lex->next->cmd, ")"))
-	{
-		parse_error(2, ")", -1);
-		destroy_main(main);
 		return ;
 	}
 	parsing(main);

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 18:29:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:19:41 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,14 @@
 
 int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 {
-	char	*str;
 	char	**arr;
 	int		i;
 	(void)main;
 
 	i = 0;
-	str = restore_cmds_line(pars);
-	if (str[0] == '\0' || !onlyspace(str))
-	{
-		free(str);
+	arr = restore_cmd_line(pars);
+	if	(!arr)
 		return (0);
-	}
-	arr = ft_split(str, ' ');
-	free(str);
 	if (ft_strcmp(arr[0], "env") == 0)
 	{
 		if (arr[1] != NULL)
@@ -47,7 +41,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	}
 	else if (ft_strcmp(arr[0], "pwd") == 0)
 	{
-		minishell_pwd(str);
+		minishell_pwd(arr[0]);
 		free_2d(arr);
 		return (1);
 	}

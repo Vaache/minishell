@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 15:22:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:21:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*strjoin_mode(char *s1, char *s2, int mode);
 char	*trim_zeroes(char *s);
 char	*search_redir(char *str);
 int		error_code(int error_num);
+void	update_shlvl(t_env **env);
 
 char	*trim_zeroes(char *s)
 {
@@ -25,12 +26,12 @@ char	*trim_zeroes(char *s)
 
 	j = 0;
 	str = NULL;
-	if (s[0] == '0' || (s[0] == '0' && s[1] == '0'))
+	if (s[j] == '-' || s[j] == '+')
+		j++;
+	if (s[j] == '0' || (s[j] == '0' && s[j + 1] == '0'))
 	{
 		while (s && s[j] != '\0')
 		{
-			if (s[j] == '-' || s[j] == '+')
-				j++;
 			while (s[j] != '\0' && s[j] == '0')
 				j++;
 			if (s[j] != '0')
@@ -40,12 +41,7 @@ char	*trim_zeroes(char *s)
 			str = (char *)malloc(sizeof(char) * (j + 1));
 		if (!str)
 			return (NULL);
-		i = 0;
-		while (s[j] != '\0')
-			str[i++] = s[j++];
-		str[i] = '\0';
-		if (s[0] != '\0' && s[0] == '-')
-			str = ft_strjoin("-", str, -1);
+		str = ft_strdup(&s[j]);
 		return (str);
 	}
 	return (s);
@@ -71,20 +67,20 @@ char	*search_redir(char *str)
 	{
 		if (str[i] == ' ')
 			break ;
-		if (str[i + 1] && ((str[i] == '&' && str[i + 1] == '&') || 
+		if (str[i] && str[i + 1] && ((str[i] == '&' && str[i + 1] == '&') || \
 			(str[i] == '|' && str[i + 1] == '|') || \
 			(str[i] == '<' && str[i + 1] == '<') || \
 			(str[i] == '>' && str[i + 1] == '>')))
-			{
-				tmp = ft_substr(str + i, 0, 2);
-				return (tmp);
-			}
+		{
+			tmp = ft_substr(str + i, 0, 2);
+			return (tmp);
+		}
 		else if (str[i] && (str[i] == '&' || str[i] == '|' || \
 			str[i] == '<' || str[i] == '>'))
-			{
-				tmp = ft_substr(str + i, 0, 1);
-				return (tmp);
-			}
+		{
+			tmp = ft_substr(str + i, 0, 1);
+			return (tmp);
+		}
 		i++;
 	}
 	return (NULL);
@@ -95,4 +91,31 @@ int	error_code(int error_num)
 	if (error_num == 256)
 		return (1);
 	return (error_num % 256);
+}
+
+void	update_shlvl(t_env **env)
+{
+	t_env	*tmp;
+	char	*str;
+
+	tmp = (*env);
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, "SHLVL"))
+		{
+			str = ft_itoa(ft_atoi(tmp->data) + 1);
+			free(tmp->data);
+			tmp->data = ft_strdup(str);
+			if (ft_atoi(tmp->data) > 1000)
+			{
+				ft_printf(2, "Minishell: warning: shell level (%s) %s\n", \
+					tmp->data, "too high, resetting to 1");
+				free(tmp->data);
+				tmp->data = ft_strdup("1");
+			}
+			free(str);
+			break ;
+		}
+		tmp = tmp->next;
+	}
 }

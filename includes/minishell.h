@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 15:24:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:42:34 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ typedef struct s_env
 	struct s_env		*prev;
 	char				*data;
 	char				*key;
-	char				*line;
-	int					shlvl;
 	int					flag;
 }	t_env;
 
@@ -54,12 +52,9 @@ typedef enum e_token_type
 	XAND,
 	PIPE,
 	HEREDOC,
-	HEREDOC_ARG,
 	WRITE_APPEND,
 	WRITE_TRUNC,
 	INPUT,
-	FILEIN,
-	FILEOUT,
 	END,
 }	t_type;
 
@@ -86,7 +81,7 @@ typedef struct s_pars
 	char			*lpath;
 	int				err_code;
 	int				subshell_code;
-	int				*pipes;
+	int				*pipes[2];
 	struct s_pars	*next;
 	struct s_pars	*prev;
 	struct s_pars	*left;
@@ -122,7 +117,8 @@ int						onlyspace(char *str);
 int						parse_error(int fd, char *err, int mode);
 char					*strjoin_mode(char *s1, char *s2, int mode);
 int						error_code(int error_num);
-int						lstsize(t_env *lst);
+int						env_lstsize(t_env *lst);
+void					update_shlvl(t_env **env);
 char					**env_2d(t_env *env);
 
 /***********************************************/
@@ -153,6 +149,7 @@ char					*type_is(t_type type);
 int						check_valid(t_main *main);
 int						check_types(t_type type);
 int						check_redir(char *line, int i, int k);
+int						lstsize(t_pars *lst);
 char					*search_redir(char *str);
 void					destroy_structure(t_pars *root);
 void					destroy_main(t_main *main);
@@ -194,7 +191,7 @@ void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env *env);
 
-char					*restore_cmds_line(t_pars *stack);
+char					**restore_cmd_line(t_pars *stack);
 void					parsing(t_main *main);
 void					delete_node(t_pars **opstack);
 void					push(t_pars **a, t_pars **b);

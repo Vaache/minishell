@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/16 12:00:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:06:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,7 @@ void	ft_add(t_env *my_env, char *str)
 		if (ft_strncmp(tmp->key, str, i) == 0)
 		{
 			free(tmp->data);
-			free(tmp->line);
-			tmp->line = ft_strdup("");
 			tmp->data = ft_strdup(str + i + 1);
-			tmp->line = ft_strjoin(tmp->line, tmp->key, 1);
-			tmp->line = ft_strjoin(tmp->line, "=", 1);
-			tmp->line = ft_strjoin(tmp->line, tmp->data, 1);
 			tmp->flag = 0;
 		}
 		tmp = tmp->next;

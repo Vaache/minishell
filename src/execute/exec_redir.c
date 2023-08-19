@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 18:26:42 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:11:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	redir(t_main *main, t_pars *stack, t_env *env);
 int	heredoc(t_main *main, t_pars *stack, t_env *env);
 int	input(t_main *main, t_pars *stack, t_env *env);
+int	minishell_pipe(t_main *main, t_pars *stack, t_env *env);
 int	exec_iocmd(t_main *main, t_pars *stack, t_env *env);
 
 int	redir(t_main *main, t_pars *stack, t_env *env)
@@ -48,6 +49,8 @@ int	redir(t_main *main, t_pars *stack, t_env *env)
 		close(fd);
 		return (1);
 	}
+	while (stack->left->type != WORD)
+		stack = stack->left;
 	if (ft_strcmp(stack->left->cmd, "(NULL)"))
 		exit_status = cmds_execute(main, stack->left, env, 0);
 	if (fd != 0 && dup2(stdout_beckup, STDOUT_FILENO) == -1)
@@ -192,6 +195,28 @@ int	input(t_main *main, t_pars *stack, t_env *env)
 	return (0);
 }
 
+int	minishell_pipe(t_main *main, t_pars *stack, t_env *env)
+{
+	t_pars	*tmp;
+	int		pipe_count;
+	(void)main;
+	(void)env;
+	// char	(*pipes)[2];
+
+	pipe_count = 0;
+	tmp = stack;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			pipe_count++;
+		tmp = tmp->right;
+	}
+	printf("%d\n", pipe_count);
+	// pipes = (char **)malloc(sizeof(char *) * pipe_count);
+	return (0);
+	
+}
+
 int exec_iocmd(t_main *main, t_pars *stack, t_env *env)
 {
 	if (stack->type == WRITE_APPEND || stack->type == WRITE_TRUNC)
@@ -200,5 +225,7 @@ int exec_iocmd(t_main *main, t_pars *stack, t_env *env)
 		return (heredoc(main, stack, env));
 	 else if (stack->type == INPUT)
 	 	return (input(main, stack, env));
+	// else if (stack->type == PIPE)
+	// 	minishell_pipe(main, stack, env);
 	return (1);
 }

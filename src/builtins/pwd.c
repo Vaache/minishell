@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 19:30:25 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:43:33 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,15 @@ void	pwd_init(t_env *my_env);
 
 void	minishell_pwd(char *str)
 {
-	char	buff[1024];
+	char	*buff;
 	(void)str;
 
-	// buff = (char *)malloc(sizeof(char) * 1024);
-	// if (!buff)
-	// 	return ;
-	if (getcwd(buff, sizeof(buff)) != NULL)
+	buff = getcwd(NULL, 0);
+	if (buff != NULL)
 		printf("%s\n", buff);
 	else
 		perror("getcwd");
-	// free(buff);
+	free(buff);
 }
 
 void	pwd_init(t_env *my_env)
@@ -57,22 +55,15 @@ void	pwd_init(t_env *my_env)
 	{
 		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && i == 1)
 		{
-			free(tmp->line);
-			tmp->line = ft_strdup("");
-			tmp->line = ft_strjoin(tmp->line, "OLDPWD", 1);
-			tmp->line = ft_strjoin(tmp->line, "=", 1);
+			free(tmp->data);
+			tmp->data = ft_strdup("");
 			i = 0;
 			break ;
 		}
 		else if (ft_strcmp(tmp->key, "OLDPWD") == 0 && i == 0)
 		{
 			free(tmp->data);
-			free(tmp->line);
 			tmp->data = ft_strdup(str);
-			tmp->line = ft_strdup("");
-			tmp->line = ft_strjoin(tmp->line, "OLDPWD", 1);
-			tmp->line = ft_strjoin(tmp->line, "=", 1);
-			tmp->line = ft_strjoin(tmp->line, tmp->data, 1);
 			break ;
 		}
 		tmp = tmp->next;

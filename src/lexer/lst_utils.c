@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/14 19:40:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:16:33 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ t_pars	*lstadd(char *string, t_type type, int prc, int flag);
 t_pars	*lstlast(t_pars *lst);
 void	lstback(t_pars **pars, t_pars *new);
 void	lstclear(t_pars **lst);
+int		lstsize(t_pars *lst);
 
 t_pars	*lstadd(char *string, t_type type, int prc, int flag)
 {
-	t_pars	*tmp;
+	t_pars		*tmp;
 
 	tmp = (t_pars *)malloc(sizeof(t_pars));
 	if (!tmp)
@@ -78,4 +79,16 @@ t_pars	*lstlast(t_pars *lst)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	return (tmp);
+}
+int	lstsize(t_pars *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		(lst) = (lst)->next;
+	}
+	return (i);
 }
