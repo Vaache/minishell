@@ -86,6 +86,8 @@ int	lexer(char *line, t_pars **pars)
 			}
 			break ;
 		}
+		if (line[i] == '\0')
+			break ;
 		i++;
 		if (line[i - 1] != ' ' && is_delim(*pars)) /* ete inch vor ban lexerum chashxati stex nay arajiny */
 		{
@@ -93,8 +95,6 @@ int	lexer(char *line, t_pars **pars)
 			while (line[i] != ' ' && line[i] != '\0')
 				i++;
 		}
-		if (line[i] == '\0')
-			break ;
 	}
 	lstback(pars, lstadd("AST", END, 1, 2));
 	return (1);
