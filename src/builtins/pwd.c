@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 17:43:33 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:53:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	minishell_pwd(char *str);
 void	pwd_init(t_env *my_env);
+int		pwd_init_2(t_env *my_env, char *str, int i);
 
 void	minishell_pwd(char *str)
 {
@@ -50,6 +51,14 @@ void	pwd_init(t_env *my_env)
 		}
 		tmp = tmp->next;
 	}
+	i = pwd_init_2(my_env, str, i);
+	free(str);
+}
+
+int	pwd_init_2(t_env *my_env, char *str, int i)
+{
+	t_env	*tmp;
+
 	tmp = my_env;
 	while (tmp != NULL)
 	{
@@ -73,5 +82,5 @@ void	pwd_init(t_env *my_env)
 			tmp = my_env;
 		}
 	}
-	free(str);
+	return (i);
 }

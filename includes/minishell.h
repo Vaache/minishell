@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 17:42:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:47:56 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char					**env_2d(t_env *env);
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
 /***********************************************/
-void					minishell_env(char *str, t_env *env);
+void					minishell_env(t_env *env);
 void					minishell_echo(char **arr);
 void					minishell_cd(char **arr, t_env *my_env);
 void					minishell_exit(char **arr, t_env *env);

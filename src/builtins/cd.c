@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 17:05:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:36:42 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void	minishell_cd(char **arr, t_env *my_env)
 		if (ft_strcmp(tmp->key, "PWD") == 0)
 		{
 			free(tmp->data);
-			buff = getcwd(buff, sizeof(buff));
+			buff = getcwd(NULL, 0);
+			if (buff == NULL)
+				perror("getcwd");
 			tmp->data = ft_strdup(buff);
 			free(buff);
 			break ;

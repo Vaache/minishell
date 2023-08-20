@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 22:21:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:04:02 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	update_shlvl(t_env **env);
 
 char	*trim_zeroes(char *s)
 {
-	long	i;
 	int		j;
 	char	*str;
 

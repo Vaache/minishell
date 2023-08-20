@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 16:11:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:03:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	handle_append(t_pars **pars, char *line, int i, int start)
 	int		k;
 	char	*nil;
 
-	k = 1;
 	nil = NULL;
 	handle_space(pars, line, i, start);
 	if (is_delim(*pars))
@@ -31,12 +30,16 @@ int	handle_append(t_pars **pars, char *line, int i, int start)
 		lstback(pars, lstadd(nil, WORD, 0, 1));
 	}
 	lstback(pars, lstadd(">>", WRITE_APPEND, 4, 1));
+	k = 1;
 	while (line[i + ++k])
 	{
 		if (line[i + k] != ' ')
 		{
 			if (check_redir(line, i, k) == 1)
+			{
+				printf("%d\n", i + 2);
 				return (i + 2);
+			}
 			return (0);
 		}
 	}
@@ -82,7 +85,7 @@ int	handle_infile(t_pars **pars, char *line, int i, int start)
 		lstback(pars, lstadd(nil, WORD, 0, 1));
 	}
 	lstback(pars, lstadd("<", INPUT, 4, 1));
-	k = 1;
+	k = 0;
 	while (line[i + ++k])
 	{
 		if (line[i + k] != ' ')

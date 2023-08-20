@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/19 17:06:29 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:49:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_export(t_env *my_env)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
-	int			flag;
+	int		flag;
 
 	tmp = my_env;
 	tmp2 = my_env;
@@ -93,7 +93,7 @@ void	ft_export(t_env *my_env)
 int	ft_check(t_env *my_env, char *str)
 {
 	t_env	*tmp;
-	int			i;
+	int		i;
 
 	tmp = my_env;
 	i = 0;
@@ -117,7 +117,7 @@ int	ft_check(t_env *my_env, char *str)
 void	ft_add(t_env *my_env, char *str)
 {
 	t_env	*tmp;
-	int			i;
+	int		i;
 
 	i = 0;
 	tmp = my_env;

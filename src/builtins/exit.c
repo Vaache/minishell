@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 22:14:32 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:48:49 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	minishell_exit(char **arr, t_env *env)
 		while (tmp)
 		{
 			if (!ft_strcmp(tmp->key, "$?"))
-				break;
+				break ;
 			tmp = tmp->next;
 		}
 		ft_printf(1, "exit\n");

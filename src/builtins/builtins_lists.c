@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 17:10:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:03:00 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_env	*push_back(t_env **list, t_env *new);
 t_env	*malloc_list(char *env)
 {
 	t_env	*tmp;
-	int			i;
+	char	*str;
+	int		i;
 
 	i = 0;
 	tmp = (t_env *)malloc(sizeof(t_env));
@@ -28,6 +29,14 @@ t_env	*malloc_list(char *env)
 		i++;
 	tmp->key = ft_substr(env, 0, (size_t)i);
 	tmp->data = ft_substr(env, i + 1, ft_strlen(&env[i + 1]));
+	if (!ft_strcmp(tmp->key, "SHLVL") && \
+		(!ft_strcmp(tmp->data, "1") || !ft_strcmp(tmp->data, "2")))
+	{
+		str = ft_itoa(ft_atoi(tmp->data) + 1);
+		free(tmp->data);
+		tmp->data = ft_strdup(str);
+		free(str);
+	}
 	if (!ft_strcmp(tmp->key, "$?"))
 		tmp->flag = 1;
 	else
@@ -51,6 +60,7 @@ t_env	*push_back(t_env **list, t_env *new)
 	}
 	return (*list);
 }
+
 int	env_lstsize(t_env *lst)
 {
 	int	i;
@@ -69,7 +79,7 @@ char	**env_2d(t_env *env)
 	char	**my_env;
 	t_env	*tmp;
 	int		i;
-	
+
 	i = 0;
 	tmp = env;
 	my_env = (char **)malloc(sizeof(char *) * (env_lstsize(tmp) + 1));

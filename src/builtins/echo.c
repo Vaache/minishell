@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/16 18:08:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:46:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	minishell_echo(char **arr)
 {
 	int	j;
 	int	i;
-	
+
 	i = 1;
 	j = 1;
 	if (arr[1] == NULL)
@@ -69,5 +69,3 @@ void	minishell_echo(char **arr)
 		}
 	}	
 }
-
-

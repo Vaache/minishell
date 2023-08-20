@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 16:19:41 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:18:23 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 			free_2d(arr);
 			return (0);
 		}
-		minishell_env(arr[0], env);
+		minishell_env(env);
 		free_2d(arr);
 		return (1);
 	}
@@ -54,7 +54,6 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	else if (ft_strcmp(arr[0], "exit") == 0)
 	{
 		minishell_exit(arr, env);
-		// free_2d(arr);
 		return (1);
 	}
 	else if (ft_strcmp(arr[0], "export") == 0)
