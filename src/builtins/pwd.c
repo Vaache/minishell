@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 12:53:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:01:33 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	minishell_pwd(char *str);
 void	pwd_init(t_env *my_env);
-int		pwd_init_2(t_env *my_env, char *str, int i);
+void	pwd_init_2(t_env *my_env, char *str, int *i);
 
 void	minishell_pwd(char *str)
 {
@@ -50,26 +50,26 @@ void	pwd_init(t_env *my_env)
 			break ;
 		}
 		tmp = tmp->next;
-	}
-	i = pwd_init_2(my_env, str, i);
+	}	
+	pwd_init_2(my_env, str, &i);
 	free(str);
 }
 
-int	pwd_init_2(t_env *my_env, char *str, int i)
+void	pwd_init_2(t_env *my_env, char *str, int *i)
 {
 	t_env	*tmp;
 
 	tmp = my_env;
 	while (tmp != NULL)
 	{
-		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && i == 1)
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && *i == 1)
 		{
 			free(tmp->data);
 			tmp->data = ft_strdup("");
-			i = 0;
+			*i = 0;
 			break ;
 		}
-		else if (ft_strcmp(tmp->key, "OLDPWD") == 0 && i == 0)
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && *i == 0)
 		{
 			free(tmp->data);
 			tmp->data = ft_strdup(str);
@@ -82,5 +82,4 @@ int	pwd_init_2(t_env *my_env, char *str, int i)
 			tmp = my_env;
 		}
 	}
-	return (i);
 }

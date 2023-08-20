@@ -111,5 +111,5 @@ void	parsing(t_main *main)
 	while (opstack)
 		push(&opstack, &postfix);
 	main->pars = abstract_syntax_tree(main, &postfix);
-	print_ast(main->pars, 0, 0);
+	// print_ast(main->pars, 0, 0);
 }

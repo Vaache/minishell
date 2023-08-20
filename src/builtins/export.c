@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/20 12:49:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:12:15 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	minishell_export(char **arr, t_env *my_env)
 	}
 	while (arr[i])
 	{
+		if (ft_check(my_env, arr[i]) == 2)
+			return ;
 		if (ft_strchr(arr[i], '=') != 0)
 		{
 			if (ft_check(my_env, arr[i]) == 0)
@@ -98,7 +100,10 @@ int	ft_check(t_env *my_env, char *str)
 	tmp = my_env;
 	i = 0;
 	if (ft_isalpha(str[i]) == 0 && str[i] != '_')
+	{
 		ft_printf(2, "Minishell: export: `%s': not a valid identifier\n", str);
+		return (2);
+	}
 	while (str[i])
 	{
 		if (str[i] == '=')

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 15:12:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:28:07 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,15 @@ int	lexer(char *line, t_pars **pars)
 			}
 			break ;
 		}
-		if (line[i] == '\0')
-			break ;
 		i++;
 		if (line[i - 1] != ' ' && is_delim(*pars)) /* ete inch vor ban lexerum chashxati stex nay arajiny */
 		{
 			lstback(pars, lstadd(&line[i - 1], WORD, 0, 1));
-			i += ft_strlen(line + i - 1);
+			while (line[i] != ' ' && line[i] != '\0')
+				i++;
 		}
+		if (line[i] == '\0')
+			break ;
 	}
 	lstback(pars, lstadd("AST", END, 1, 2));
 	return (1);

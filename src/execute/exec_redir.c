@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 16:11:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:57:00 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	redir(t_main *main, t_pars *stack, t_env *env)
 	stdout_beckup = 0;
 	exit_status = 0;
 	if (stack->type == WRITE_APPEND)
-		fd = open(stack->right->cmd, O_WRONLY | O_CREAT | O_APPEND, 0655);
+		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
 	else if (stack->type == WRITE_TRUNC)
-		fd = open(stack->right->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0655);
+		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
 	if (fd == -1)
 	{
 		perror("Minishell");
@@ -111,9 +111,7 @@ int heredoc(t_main *main, t_pars *stack, t_env *env)
 			while (stack && stack->left && stack->left->left)
 				stack = stack->left;
 			if (ft_strcmp(stack->left->cmd, "(NULL)"))
-			{
 				main->exit_status = cmds_execute(main, stack->left, env, 0);
-			}
 		}
 		close (fd[0]);
 		if (dup2(stdin_backup, STDIN_FILENO) < 0)
