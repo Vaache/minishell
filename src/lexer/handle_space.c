@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:10:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 14:43:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:24:43 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_space(t_pars **pars, char *line, int i, int start);
 void	handle_space(t_pars **pars, char *line, int i, int start)
 {
 	char	*str;
-	
+
 	str = NULL;
 	if (ft_isspace(line, start, i))
 		return ;

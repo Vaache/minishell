@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 16:52:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:47:22 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,15 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 		handle_dollar(main->exit_status, env);
 		return (main->exit_status);
 	}
-	if (stack->left && stack->right && (check_types(stack->type) == 2 || stack->type == PIPE))
+	if (stack->left && stack->right && (check_types(stack->type) == 2))
+	{
+		if (stack->left->left)
+			check_astree(main, stack->left, env);
 		main->exit_status = exec_iocmd(main, stack, env);
-	if (stack->left != NULL && !(stack->left->flag & (1 << 3)))
+	}
+	else if (stack->left && stack->right && stack->type == PIPE)
+		stack->err_code = pipe_prepair(main, stack, env);
+	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		if (stack->left->subshell_code)
 		{
@@ -61,7 +67,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 		else
 			stack->err_code = check_astree(main, stack->left, env);
 	}
-	if (stack->right != NULL && check_xandxor(stack) && !(stack->right->flag & (1 << 3)))
+	if (stack->right != NULL && andxor(stack) && !(stack->right->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		if (stack->right->subshell_code)
 		{
@@ -86,9 +92,9 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 int	exec_cmds(char *path_cmd, char **cmd_arr, char **env)
 {
 	pid_t	pid;
-	int		childeExit;
+	int		childe_exit;
 	
-	childeExit = 0;
+	childe_exit = 0;
 	pid = fork();
 	// if (!ft_strcmp(cmd_arr[0], "./minishell") || !ft_strcmp(cmd_arr[0], "minishell"))
 	// 	update_shlvl(&my_env);
@@ -109,8 +115,8 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env)
 	}
 	else
 	{
-		waitpid(pid, &childeExit, 0);
-		return (childeExit / 256);
+		waitpid(pid, &childe_exit, 0);
+		return (childe_exit / 256);
 	}
 }
 

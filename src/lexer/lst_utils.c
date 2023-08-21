@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 16:16:33 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:25:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_pars	*lstlast(t_pars *lst)
 		tmp = tmp->next;
 	return (tmp);
 }
+
 int	lstsize(t_pars *lst)
 {
 	int	i;

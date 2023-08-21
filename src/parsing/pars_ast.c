@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 14:04:28 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:21:00 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,13 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 		{
 			if (new->left)
 			{
-				new->left->flag += 1 << 3;
+				new->left->flag += _REDIR_;
 				if (new->left->cmd)
 					new->lpath = new->left->cmd;
 			}
 			if (new->right)
 			{
-				new->right->flag += 1 << 3;
+				new->right->flag += _REDIR_;
 				if (new->right->cmd)
 					new->rpath = new->right->cmd;
 			}
@@ -136,7 +136,3 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 	}
 	return (new);
 }
-
-// 0001 == 1
-// 0010 == 2
-// 0011 == 3

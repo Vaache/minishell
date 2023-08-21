@@ -6,15 +6,15 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/19 16:26:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:46:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    **restore_cmd_line(t_pars *stack);
+char	**restore_cmd_line(t_pars *stack);
 void	find_path(t_main *main, t_env *env);
-int		check_xandxor(t_pars *stack);
+int		andxor(t_pars *stack);
 
 char	**restore_cmd_line(t_pars *stack)
 {
@@ -25,7 +25,7 @@ char	**restore_cmd_line(t_pars *stack)
 
 	tmp = stack;
 	i = 0;
-	cmd_matrix = (char **) malloc (sizeof(char *) * (lstsize(tmp) + 1));
+	cmd_matrix = (char **)malloc(sizeof(char *) * (lstsize(tmp) + 1));
 	if (!cmd_matrix)
 		return (NULL);
 	while (i < lstsize(tmp))
@@ -33,7 +33,7 @@ char	**restore_cmd_line(t_pars *stack)
 	i = -1;
 	while (tmp && tmp->cmd)
 	{
-		mode = (tmp->flag & (1 << 1)) && 1;
+		mode = ((tmp->flag & (1 << 1)) && 1);
 		if (mode == 0 && check_types(tmp->type) == 0)
 		{
 			if (i < 0)
@@ -50,6 +50,7 @@ char	**restore_cmd_line(t_pars *stack)
 	cmd_matrix[i + 1] = NULL;
 	return (cmd_matrix);
 }
+
 void	find_path(t_main *main, t_env *env)
 {
 	t_env	*tmp;
@@ -83,7 +84,8 @@ char	*fill_path_cmd(char *cmd, char **path)
 	}
 	return (NULL);
 }
-int	check_xandxor(t_pars *stack)
+
+int	andxor(t_pars *stack)
 {
 	if (stack->type == XAND && stack->left && stack->left->err_code != 0)
 	{

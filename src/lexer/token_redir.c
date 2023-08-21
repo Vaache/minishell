@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 15:03:26 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:27:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,8 @@ int	handle_append(t_pars **pars, char *line, int i, int start)
 	k = 1;
 	while (line[i + ++k])
 	{
-		if (line[i + k] != ' ')
-		{
-			if (check_redir(line, i, k) == 1)
-			{
-				printf("%d\n", i + 2);
-				return (i + 2);
-			}
-			return (0);
-		}
+		if (line[i + k] != ' ' && (line[i + k] != '&' || line[i + k] != '|'))
+			return (i + 1);
 	}
 	return (parse_error(2, "newline", -1));
 }
@@ -63,11 +56,7 @@ int	handle_trunc(t_pars **pars, char *line, int i, int start)
 	while (line[i + ++k])
 	{	
 		if (line[i + k] != ' ')
-		{
-			if (check_redir(line, i, k) == 1)
-				return (i + 1);
-			return (0);
-		}
+			return (i);
 	}
 	return (parse_error(2, ">", -1));
 }
@@ -89,19 +78,15 @@ int	handle_infile(t_pars **pars, char *line, int i, int start)
 	while (line[i + ++k])
 	{
 		if (line[i + k] != ' ')
-		{
-			if (check_redir(line, i, k) == 1)
-				return (i + 1);
-			return (0);
-		}
+			return (i);
 	}
 	return (parse_error(2, "newline", -1));
 }
 
-int	check_redir(char *line, int i, int k) 
+int	check_redir(char *line, int i, int k)
 {
 	char	*str;
-	
+
 	str = search_redir(&line[i + k]);
 	if (str != NULL)
 		return (parse_error(2, str, 1));

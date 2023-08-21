@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/18 14:02:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:26:41 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	handle_squotes(t_pars **pars, char *line, int i, int start)
 	if (line[count] == '\'' && is_delim(*pars))
 		lstback(pars, lstadd(str, SQUOTE, 0, 1));
 	else if (line[count] == '\'' && i > 1 && line[i - 1] == ' ')
-		lstback(pars, lstadd(str, SQUOTE, 0, 2)); 
+		lstback(pars, lstadd(str, SQUOTE, 0, 2));
 	else if (line[count] == '\'')
 		lstback(pars, lstadd(str, SQUOTE, 0, 0));
 	else

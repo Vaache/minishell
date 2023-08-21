@@ -87,10 +87,8 @@ void	shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack)
 				(*tmp)->prc, (*tmp)->flag));
 		}
 		else
-		{
 			lstback(opstack, lstadd((*tmp)->cmd, (*tmp)->type, \
 				(*tmp)->prc, (*tmp)->flag));
-		}
 	}
 }
 
@@ -111,5 +109,5 @@ void	parsing(t_main *main)
 	while (opstack)
 		push(&opstack, &postfix);
 	main->pars = abstract_syntax_tree(main, &postfix);
-	// print_ast(main->pars, 0, 0);
+	print_ast(main->pars, 0, 0);
 }

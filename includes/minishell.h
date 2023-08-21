@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 12:47:56 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:47:16 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define PWD	"pwd"
-# define ENV 	"env"
-# define EXIT	"exit"
-# define UNSET	"unset"
-# define EXPORT	"export"
+# define PWD		"pwd"
+# define ENV 		"env"
+# define EXIT		"exit"
+# define UNSET		"unset"
+# define EXPORT		"export"
+# define _PIPE_		32
+# define _REDIR_	8
 
 typedef struct s_env
 {
@@ -50,8 +52,8 @@ typedef enum e_token_type
 	SUBSH_CLOSE,
 	XOR,
 	XAND,
-	PIPE,
 	HEREDOC,
+	PIPE,
 	WRITE_APPEND,
 	WRITE_TRUNC,
 	INPUT,
@@ -195,23 +197,26 @@ char					**restore_cmd_line(t_pars *stack);
 void					parsing(t_main *main);
 void					delete_node(t_pars **opstack);
 void					push(t_pars **a, t_pars **b);
-void					shunting_yard(t_pars **tmp, t_pars **postfix, t_pars **opstack);
+void					shunting_yard(t_pars **tmp, t_pars **postfix, \
+														t_pars **opstack);
 t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack);
 void					print_ast(t_pars *ast, int indent, int lrc);
 t_pars					*most_prev(t_pars *stack);
 
 int						check_astree(t_main *main, t_pars *stack, t_env *env);
-int						cmds_execute(t_main *main, t_pars *pars, t_env *env, int status);
+int						cmds_execute(t_main *main, t_pars *pars, t_env *env, \
+															int status);
 int						check_builtins(t_main *main, t_pars *pars, t_env *env);
-int						check_xandxor(t_pars *stack);
+int						andxor(t_pars *stack);
 int						call_cmds(t_main *main, t_pars *stack, t_env *env);
 char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env *env);;
 char					*fill_path_cmd(char *cmd, char **path);
 int						exec_cmds(char *path_cmd, char **cmd_arr, char **env);
 int						redir(t_main *main, t_pars *stack, t_env *env);
-int 					heredoc(t_main *main, t_pars *stack, t_env *env);
+int						heredoc(t_main *main, t_pars *stack, t_env *env);
 int						input(t_main *main, t_pars *stack, t_env *env);
-int 					exec_iocmd(t_main *main, t_pars *stack, t_env *env);
+int						exec_iocmd(t_main *main, t_pars *stack, t_env *env);
+int						pipe_prepair(t_main *main, t_pars *pars, t_env *env);
 
 #endif

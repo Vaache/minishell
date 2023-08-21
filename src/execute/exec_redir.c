@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 16:57:00 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:30:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ int	redir(t_main *main, t_pars *stack, t_env *env)
 	return (exit_status);
 }
 
-int heredoc(t_main *main, t_pars *stack, t_env *env)
+int	heredoc(t_main *main, t_pars *stack, t_env *env)
 {
-	int	fd[2];
-	int	stdin_backup;
-	int	pid;
-	int status;
+	int		fd[2];
+	int		stdin_backup;
+	int		pid;
+	int		status;
 	t_pars	*tmp;
 
 	stdin_backup = 0;
@@ -91,14 +91,14 @@ int heredoc(t_main *main, t_pars *stack, t_env *env)
 	}
 	else if (pid == 0)
 	{
-		close(fd[0]); //close the read end
+		close(fd[0]);
 		ft_putstr_fd(stack->right->cmd, fd[1]);
 		close(fd[1]);
 		exit(0);
 	}
 	else
 	{
-		close (fd[1]); //close the write end
+		close (fd[1]);
 		if (dup2(fd[0], STDIN_FILENO) < 0)
 		{
 			close(fd[0]);
@@ -193,37 +193,13 @@ int	input(t_main *main, t_pars *stack, t_env *env)
 	return (0);
 }
 
-int	minishell_pipe(t_main *main, t_pars *stack, t_env *env)
-{
-	t_pars	*tmp;
-	int		pipe_count;
-	(void)main;
-	(void)env;
-	// char	(*pipes)[2];
-
-	pipe_count = 0;
-	tmp = stack;
-	while (tmp)
-	{
-		if (tmp->type == PIPE)
-			pipe_count++;
-		tmp = tmp->right;
-	}
-	printf("%d\n", pipe_count);
-	// pipes = (char **)malloc(sizeof(char *) * pipe_count);
-	return (0);
-	
-}
-
-int exec_iocmd(t_main *main, t_pars *stack, t_env *env)
+int	exec_iocmd(t_main *main, t_pars *stack, t_env *env)
 {
 	if (stack->type == WRITE_APPEND || stack->type == WRITE_TRUNC)
 		return (redir(main, stack, env));
 	else if (stack && stack->type == HEREDOC)
 		return (heredoc(main, stack, env));
-	 else if (stack->type == INPUT)
-	 	return (input(main, stack, env));
-	// else if (stack->type == PIPE)
-	// 	minishell_pipe(main, stack, env);
+	else if (stack->type == INPUT)
+		return (input(main, stack, env));
 	return (1);
 }

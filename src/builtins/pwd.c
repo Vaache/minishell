@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 16:01:33 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:33:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	pwd_init_2(t_env *my_env, char *str, int *i);
 void	minishell_pwd(char *str)
 {
 	char	*buff;
-	(void)str;
 
+	(void)str;
 	buff = getcwd(NULL, 0);
 	if (buff != NULL)
 		printf("%s\n", buff);

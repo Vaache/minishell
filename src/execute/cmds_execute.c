@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 13:18:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:27:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 {
 	char	**arr;
 	int		i;
-	(void)main;
 
+	(void)main;
 	i = 0;
 	arr = restore_cmd_line(pars);
-	if	(!arr)
+	if (!arr)
 		return (0);
 	if (ft_strcmp(arr[0], "env") == 0)
 	{
