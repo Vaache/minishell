@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:24:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:55:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,41 +18,28 @@ void	handle_heredoc_input(char *string, t_pars **pars);
 int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 {
 	char	*limiter;
-	char	*nil;
-	int		first;
+	// char	*nil;
+	int		counter;
 	int		end;
-	int		k;
 
-	nil = NULL;
+	// nil = NULL;
 	handle_space(pars, line, i, start);
 	if (is_delim(*pars))
-	{
-		nil = "(NULL)";
-		lstback(pars, lstadd(nil, WORD, 0, 1));
-	}
+		lstback(pars, lstadd("(NULL)", WORD, 0, 1));
 	lstback(pars, lstadd("<<", HEREDOC, 4, 1));
-	k = 1;
-	first = 0;
+	counter = i + 2;
 	limiter = NULL;
-	while (line[i + ++k])
-	{
-		if (!first && line[i + k] != ' ')
-			first = i + k;
-		if (first && (line[i + k + 1] == '\0' || line[i + k + 1] == ' '))
-		{
-			end = i + k;
-			limiter = ft_substr(line, first, end - first + 1);
-			k = check_redir(limiter, 0, 0);
-			if (k == 1)
-				break ;
-			return (0);
-		}
-	}
+	while (line[counter] && line[counter] == ' ')
+		counter++;
+	end = find_limiter_end(line, i, counter);
+	if (end == 0)
+		return (0);
+	limiter = ft_substr(line, counter, end - counter);
 	if (limiter)
 	{
 		handle_heredoc_input(limiter, pars);
 		free(limiter);
-		return (end + 1);
+		return (end - 1);
 	}
 	return (parse_error(2, "newline", -1));
 }

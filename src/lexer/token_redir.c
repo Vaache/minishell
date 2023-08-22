@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:27:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:54:42 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	handle_append(t_pars **pars, char *line, int i, int start);
 int	handle_trunc(t_pars **pars, char *line, int i, int start);
 int	handle_infile(t_pars **pars, char *line, int i, int start);
-int	check_redir(char *line, int i, int k);
 
 int	handle_append(t_pars **pars, char *line, int i, int start)
 {
@@ -81,15 +80,4 @@ int	handle_infile(t_pars **pars, char *line, int i, int start)
 			return (i);
 	}
 	return (parse_error(2, "newline", -1));
-}
-
-int	check_redir(char *line, int i, int k)
-{
-	char	*str;
-
-	str = search_redir(&line[i + k]);
-	if (str != NULL)
-		return (parse_error(2, str, 1));
-	free(str);
-	return (1);
 }

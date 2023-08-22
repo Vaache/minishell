@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 21:47:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:54:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ int						is_delim(t_pars	*pars);
 char					*type_is(t_type type);
 int						check_valid(t_main *main);
 int						check_types(t_type type);
-int						check_redir(char *line, int i, int k);
 int						lstsize(t_pars *lst);
 char					*search_redir(char *str);
 void					destroy_structure(t_pars *root);
@@ -207,6 +206,9 @@ int						check_astree(t_main *main, t_pars *stack, t_env *env);
 int						cmds_execute(t_main *main, t_pars *pars, t_env *env, \
 															int status);
 int						check_builtins(t_main *main, t_pars *pars, t_env *env);
+t_type					ttoa(char *token);
+int						find_limiter_end(char *line, int i, int start);
+char					*token_is(t_type token);
 int						andxor(t_pars *stack);
 int						call_cmds(t_main *main, t_pars *stack, t_env *env);
 char					*check_cmd(char *cmd, char **path);

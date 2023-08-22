@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 13:04:02 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:38:13 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*search_redir(char *str)
 			tmp = ft_substr(str + i, 0, 1);
 			return (tmp);
 		}
+		else
+			return (NULL);
 		i++;
 	}
 	return (NULL);
