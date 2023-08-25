@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 20:45:00 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/22 20:53:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:24:40 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ int	find_limiter_end(char *line, int i, int start)
 	end = start;
 	while (line[end] && line[end] != ' ')
 	{
+		if (line[end] != '\0' && line[end] == '"')
+			while (line[++end] != '\0' && line[end] != '"')
+				;
+		if (line[end] != '\0' && line[end] == '\'')
+			while (line[++end] != '\0' && line[end] != '\'')
+				;
 		if (line[end] == '&' && line[end + 1] == '&')
 			break ;
 		else if (line[end] == '|' || line[end] == '<' || \
@@ -86,14 +92,42 @@ int	find_limiter_end(char *line, int i, int start)
 			break ;
 		else if (line[end] == '(' || line[end] == ')')
 			break ;
+		if (line[end] != '\0')
 		end++;
 	}
 	if (end == start)
 	{
 		if (line[i] == '\0')
 			return (parse_error(2, "newline", 1));
-		else
-			return (parse_error(2, (char *)token_is(ttoa(line + start)), 0));
+		return (parse_error(2, (char *)token_is(ttoa(line + start)), 0));
 	}
 	return (end);
+}
+
+char	*rem_quotes_lim(char *limiter)
+{
+	int		i;
+	int		qoute;
+	char	*str;
+
+	i = -1;
+	qoute = 0;
+	while (limiter && limiter[++i])
+		if (limiter[i] == '"' || limiter[i] == '\'')
+			qoute++;
+	if (qoute % 2 != 0)
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (i - qoute) + 1);
+	if (!str)
+		return (NULL);
+	i = ((qoute = 0));
+	while (limiter && limiter[i])
+	{
+		if (limiter[i] == '"' || limiter[i] == '\'')
+			i++;
+		else
+			str[qoute++] = limiter[i++];
+	}
+	str[qoute] = '\0';
+	return (str);
 }

@@ -6,26 +6,41 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:33:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:34:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_pwd(char *str);
+void	minishell_pwd(char *str, t_env *env);
 void	pwd_init(t_env *my_env);
 void	pwd_init_2(t_env *my_env, char *str, int *i);
 
-void	minishell_pwd(char *str)
+void	minishell_pwd(char *str, t_env *env)
 {
-	char	*buff;
+	char		*buff;
+	t_env		*tmp;
+	static int	i = 0;
 
 	(void)str;
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, "PWD"))
+			break ;
+		tmp = tmp->next;
+	}
 	buff = getcwd(NULL, 0);
 	if (buff != NULL)
+	{
 		printf("%s\n", buff);
-	else
-		perror("getcwd");
+		i = 0;
+	}
+	else if (!ft_strcmp(tmp->key, "PWD"))
+	{
+		printf("%s\n", tmp->pwd);
+		tmp->data = ft_strdup(tmp->pwd);
+	}
 	free(buff);
 }
 

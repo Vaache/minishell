@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/22 20:54:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:44:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,16 @@ typedef struct s_env
 	struct s_env		*prev;
 	char				*data;
 	char				*key;
+	char				*pwd;
 	int					flag;
 }	t_env;
+
+typedef struct s_wcard
+{
+	struct s_wcard		*next;
+	struct s_wcard		*prev;
+	char				*wild;
+}	t_wcard;
 
 typedef enum e_token_type
 {
@@ -83,7 +91,7 @@ typedef struct s_pars
 	char			*lpath;
 	int				err_code;
 	int				subshell_code;
-	int				*pipes[2];
+	int				pipes[2];
 	struct s_pars	*next;
 	struct s_pars	*prev;
 	struct s_pars	*left;
@@ -122,6 +130,11 @@ int						error_code(int error_num);
 int						env_lstsize(t_env *lst);
 void					update_shlvl(t_env **env);
 char					**env_2d(t_env *env);
+void					builtins_error(int fd, char	*str);
+int						_close3_(int fd1, int fd2, int fd3);
+int						_close2_(int fd1, int fd2);
+int						_close_(int	fd);
+int						close_pipes(int fd[2]);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -130,13 +143,13 @@ void					minishell_env(t_env *env);
 void					minishell_echo(char **arr);
 void					minishell_cd(char **arr, t_env *my_env);
 void					minishell_exit(char **arr, t_env *env);
-void					minishell_pwd(char *str);
+void					minishell_pwd(char *str, t_env *env);
+int						minishell_unset(char **arr, t_env *my_env);
+void					minishell_export(char **arr, t_env **my_env);
+int						check_unset(char *str);
 void					pwd_init(t_env *my_env);
 void					handler_stp(int sig);
 void					call_signals(void);
-void					check_unset(char *str, t_env *my_env);
-void					minishell_unset(char **arr, t_env *my_env);
-void					minishell_export(char **arr, t_env *my_env);
 void					ft_export(t_env *my_env);
 int						ft_check(t_env *my_env, char *str);
 void					ft_add(t_env *my_env, char *str);
@@ -179,7 +192,7 @@ int						handle_clprnth(t_pars **pars, char *line, \
 
 int						handle_heredoc(t_pars **pars, char *line, \
 							int i, int start);
-void					handle_heredoc_input(char *string, t_pars **pars);
+char					*handle_heredoc_input(char *string);
 
 int						handle_append(t_pars **pars, char *line, \
 							int i, int start);
@@ -199,7 +212,6 @@ void					push(t_pars **a, t_pars **b);
 void					shunting_yard(t_pars **tmp, t_pars **postfix, \
 														t_pars **opstack);
 t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack);
-void					print_ast(t_pars *ast, int indent, int lrc);
 t_pars					*most_prev(t_pars *stack);
 
 int						check_astree(t_main *main, t_pars *stack, t_env *env);
@@ -208,6 +220,7 @@ int						cmds_execute(t_main *main, t_pars *pars, t_env *env, \
 int						check_builtins(t_main *main, t_pars *pars, t_env *env);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
+char					*rem_quotes_lim(char *limiter);
 char					*token_is(t_type token);
 int						andxor(t_pars *stack);
 int						call_cmds(t_main *main, t_pars *stack, t_env *env);

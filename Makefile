@@ -31,9 +31,6 @@ GREEN		= "\033[38;2;49;247;196m"
 PURPLE		= "\033[38;2;0;138;240m"
 RESET		= "\033[0m"
 
-# test :
-# 	@echo $(HEADER)
-
 all: $(LIBS) $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) Makefile

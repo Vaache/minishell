@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 15:55:10 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:32:47 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_env	*push_back(t_env **list, t_env *new);
 t_env	*malloc_list(char *env)
 {
 	t_env	*tmp;
-	char	*str;
 	int		i;
 
 	i = 0;
@@ -29,18 +28,12 @@ t_env	*malloc_list(char *env)
 		i++;
 	tmp->key = ft_substr(env, 0, (size_t)i);
 	tmp->data = ft_substr(env, i + 1, ft_strlen(&env[i + 1]));
-	if (!ft_strcmp(tmp->key, "SHLVL") && \
-		(!ft_strcmp(tmp->data, "1") || !ft_strcmp(tmp->data, "2")))
-	{
-		str = ft_itoa(ft_atoi(tmp->data) + 1);
-		free(tmp->data);
-		tmp->data = ft_strdup(str);
-		free(str);
-	}
+	tmp->pwd = NULL;
+	if (!ft_strcmp(tmp->key, "PWD" ))
+		tmp->pwd = ft_strdup(tmp->data);
+	tmp->flag = 0;
 	if (!ft_strcmp(tmp->key, "$?"))
-		tmp->flag = 1;
-	else
-		tmp->flag = 0;
+		tmp->flag = 3;
 	return (tmp);
 }
 

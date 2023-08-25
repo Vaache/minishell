@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 15:02:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/24 20:04:09 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/08/24 17:22:08 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/08/24 21:06:41 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler_stp(int sig);
-void	call_signals(void);
+void	open_wcard(char	*string);
 
-void	handler_stp(int sig)
+void	get_file(char *file)
 {
-	if (sig == SIGINT || sig == SIGINT)
-		write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	DIR				*dir;
+	struct dirent	*entry;
+
+	dir = opendir(".");
+	if (!dir)
+	{
+		perror("opendir");
+		return ;
+	}
+	while (1)
+	{
+		entry = readdir(dir);
+		if (!entry)
+			break ;
+		if ()
+	}
 }
 
-void	call_signals(void)
+void	open_wcard(char	*string)
 {
-	rl_catch_signals = 0;
-	signal(SIGINT, &handler_stp);
-	signal(SIGQUIT, &handler_stp);
 }

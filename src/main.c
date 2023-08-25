@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 16:25:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:34:01 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	main(int ac, char **av, char **env)
 	main.temp = NULL;
 	main.path = NULL;
 	main.exit_status = 0;
-	my_env = env_init(env, my_env);
 	print_header();
 	call_signals();
+	my_env = env_init(env, my_env);
 	while (1)
 	{
 		str = readline("Minishell 4.2% ");
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **env)
 		}
 		free(str);
 		// system("leaks minishell");
+		
 	}
 	return (0);
 }

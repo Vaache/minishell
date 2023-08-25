@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 12:46:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:00:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	minishell_echo(char **arr)
 			{
 				while (arr[i + 1])
 				{
-					printf("%s", arr[i + 1]);
+					ft_printf(1, "%s", arr[i + 1]);
 					if (arr[i + 2])
-						printf(" ");
+						ft_printf(1, " ");
 					i++;
 					if (arr[i + 1] == NULL)
 						return ;
@@ -48,9 +48,9 @@ void	minishell_echo(char **arr)
 		}
 		while (arr[i] && i != 1)
 		{
-			printf("%s", arr[i]);
+			ft_printf(1, "%s", arr[i]);
 			if (arr[i + 1])
-				printf(" ");
+				ft_printf(1, " ");
 			i++;
 			if (arr[i] == NULL)
 				return ;
@@ -60,12 +60,12 @@ void	minishell_echo(char **arr)
 	{
 		while (arr[i])
 		{
-			printf("%s", arr[i]);
+			ft_printf(1, "%s", arr[i]);
 			if (arr[i + 1])
-				printf(" ");
+				ft_printf(1, " ");
 			i++;
 			if (arr[i] == NULL)
-				printf("\n");
+				ft_printf(1, "\n");
 		}
 	}	
 }

@@ -6,45 +6,43 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/20 16:12:15 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:18:23 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_export(char **arr, t_env *my_env);
+void	minishell_export(char **arr, t_env **my_env);
 void	ft_export(t_env *my_env);
 int		ft_check(t_env *my_env, char *str);
 void	ft_add(t_env *my_env, char *str);
 
-void	minishell_export(char **arr, t_env *my_env)
+void	minishell_export(char **arr, t_env **my_env)
 {
 	t_env	*tmp;
 	int		i;
-	int		j;
 
 	i = 1;
-	j = 0;
-	tmp = my_env;
+	tmp = (*my_env);
 	if (arr[1] == NULL)
 	{
-		ft_export(my_env);
+		ft_export((*my_env));
 		return ;
 	}
+	if (ft_check((*my_env), arr[i]) == 2)
+		return ;
 	while (arr[i])
 	{
-		if (ft_check(my_env, arr[i]) == 2)
-			return ;
 		if (ft_strchr(arr[i], '=') != 0)
 		{
-			if (ft_check(my_env, arr[i]) == 0)
+			if (ft_check((*my_env), arr[i]) == 0)
 				tmp = push_back(&tmp, malloc_list(arr[i]));
 			else
-				ft_add(my_env, arr[i]);
+				ft_add((*my_env), arr[i]);
 		}
 		else
 		{
-			if (ft_check(my_env, arr[i]) == 0)
+			if (ft_check((*my_env), arr[i]) == 0)
 			{
 				tmp = push_back(&tmp, malloc_list(arr[i]));
 				while (tmp->next)
@@ -59,37 +57,30 @@ void	minishell_export(char **arr, t_env *my_env)
 void	ft_export(t_env *my_env)
 {
 	t_env	*tmp;
-	t_env	*tmp2;
 	int		flag;
 
 	tmp = my_env;
-	tmp2 = my_env;
 	flag = 0;
 	while (tmp)
 	{
 		if (tmp->flag == 0)
-		{
-			printf("declare -x ");
-			printf("%s%c\"%s\"\n", tmp->key, '=', tmp->data);
-		}
+			ft_printf(1, "declare -x %s%c\"%s\"\n", tmp->key, '=', tmp->data);
 		if (tmp->flag == 2)
-		{
-			printf("declare -x ");
-			printf("%s\n", tmp->key);
-		}
+			ft_printf(1, "declare -x %s\n", tmp->key);
 		tmp = tmp->next;
 	}
-	while (tmp2)
+	tmp = my_env;
+	while (tmp)
 	{
-		if (ft_strcmp(tmp2->key, "OLDPWD") == 0)
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
 		{
 			flag = 1;
 			break ;
 		}
-		tmp2 = tmp2->next;
+		tmp = tmp->next;
 	}
 	if (flag == 0)
-		printf("declare -x OLDPWD\n");
+		ft_printf(1, "declare -x OLDPWD\n");
 }
 
 int	ft_check(t_env *my_env, char *str)
@@ -98,17 +89,17 @@ int	ft_check(t_env *my_env, char *str)
 	int		i;
 
 	tmp = my_env;
-	i = 0;
-	if (ft_isalpha(str[i]) == 0 && str[i] != '_')
+	i = -1;
+	while (str && str[++i])
 	{
-		ft_printf(2, "Minishell: export: `%s': not a valid identifier\n", str);
-		return (2);
-	}
-	while (str[i])
-	{
-		if (str[i] == '=')
+		if (str[0] != '=' && str[i] == '=')
 			break ;
-		i++;
+		if (ft_isalpha(str[i]) == 0 && str[i] != '_')
+		{
+			ft_printf(2, "Minishell: export: `%s': not a %s\n", \
+					str, "valid identifier");
+			return (2);
+		}
 	}
 	while (tmp)
 	{

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:27:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:17:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	}
 	else if (ft_strcmp(arr[0], "pwd") == 0)
 	{
-		minishell_pwd(arr[0]);
+		minishell_pwd(arr[0], env);
 		free_2d(arr);
 		return (1);
 	}
@@ -58,7 +58,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	}
 	else if (ft_strcmp(arr[0], "export") == 0)
 	{
-		minishell_export(arr, env);
+		minishell_export(arr, &env);
 		free_2d(arr);
 		return (1);
 	}

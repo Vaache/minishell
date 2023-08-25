@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:20:33 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/08 11:02:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:48:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*ft_itul(long long n);
 char	*ft_strmapi(char *s, char (*f)(unsigned int, char));
 
 char	**ft_split(char *s, char c);
+char	**ft_split_2(char *s, char c);
 
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstlast(t_list *lst);

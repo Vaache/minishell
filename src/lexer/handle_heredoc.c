@@ -6,21 +6,23 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/22 21:07:51 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:15:49 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		handle_heredoc(t_pars **pars, char *line, int i, int start);
-void	handle_heredoc_input(char *string, t_pars **pars);
+char	*handle_heredoc_input(char *string);
 
 int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 {
 	char	*limiter;
+	char	*res;
 	int		counter;
 	int		end;
 
+	res = NULL;
 	handle_space(pars, line, i, start);
 	if (is_delim(*pars))
 		lstback(pars, lstadd("(NULL)", WORD, 0, 1));
@@ -33,16 +35,18 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	if (end == 0)
 		return (0);
 	limiter = ft_substr(line, counter, end - counter);
+	if (!ft_strchr(limiter, '\'') || !ft_strchr(limiter, '"'))
+		limiter = rem_quotes_lim(limiter);
 	if (limiter)
 	{
-		handle_heredoc_input(limiter, pars);
+		lstback(pars, lstadd(limiter, WORD, 0, 1));
 		free(limiter);
 		return (end - 1);
 	}
 	return (parse_error(2, "newline", -1));
 }
 
-void	handle_heredoc_input(char *string, t_pars **pars)
+char	*handle_heredoc_input(char *string)
 {
 	char	*line;
 	char	*res;
@@ -59,23 +63,15 @@ void	handle_heredoc_input(char *string, t_pars **pars)
 			free(line);
 			break ;
 		}
+		if (!res)
+			res = ft_strdup(line);
 		else
-		{
-			if (res)
-				res = ft_strjoin(res, "\n", 1);
-			res = ft_strjoin(res, line, 1);
-		}
+			res = strjoin_mode(res, line, 1);
 		free(line);
 	}
 	if (!res)
-	{
-		res = ft_strdup("(NULL)\n");
-		lstback(pars, lstadd(res, WORD, 0, 1));
-	}
+		ft_strdup("");
 	else
-	{
 		res = ft_strjoin(res, "\n", 1);
-		lstback(pars, lstadd(res, WORD, 0, 1));
-	}
-	free(res);
+	return (res);
 }

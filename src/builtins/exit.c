@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/20 12:48:49 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:49:51 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	minishell_exit(char **arr, t_env *env)
 	}
 	else if (strlen_2d(arr) > 2 && check_digit(arr[1]) == 0)
 	{
-		ft_printf(1, "exit\n");
-		ft_printf(1, "Minishell: exit: too many arguments\n");
+		ft_printf(2, "exit\n");
+		ft_printf(2, "Minishell: exit: too many arguments\n");
 		free_2d(arr);
 	}
 	if (s)
