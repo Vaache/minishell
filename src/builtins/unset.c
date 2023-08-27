@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:56:28 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 21:30:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:51:16 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	check_unset(char *str);
-int	minishell_unset(char **arr, t_env *my_env);
+int	minishell_unset(char **arr, t_env **my_env);
 
-int	minishell_unset(char **arr, t_env *my_env)
+int	minishell_unset(char **arr, t_env **my_env)
 {
 	int		i;
 	t_env	*tmp;
@@ -25,7 +25,7 @@ int	minishell_unset(char **arr, t_env *my_env)
 	{
 		if (check_unset(arr[i]))
 			return (1);
-		tmp = my_env;
+		tmp = (*my_env);
 		while (tmp != NULL)
 		{
 			if (ft_strcmp(arr[i], tmp->key) == 0)

@@ -6,24 +6,24 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 17:34:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:51:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_pwd(char *str, t_env *env);
-void	pwd_init(t_env *my_env);
-void	pwd_init_2(t_env *my_env, char *str, int *i);
+void	minishell_pwd(char *str, t_env **env);
+void	pwd_init(t_env **my_env);
+void	pwd_init_2(t_env **my_env, char *str, int *i);
 
-void	minishell_pwd(char *str, t_env *env)
+void	minishell_pwd(char *str, t_env **env)
 {
 	char		*buff;
 	t_env		*tmp;
 	static int	i = 0;
 
 	(void)str;
-	tmp = env;
+	tmp = (*env);
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, "PWD"))
@@ -44,13 +44,13 @@ void	minishell_pwd(char *str, t_env *env)
 	free(buff);
 }
 
-void	pwd_init(t_env *my_env)
+void	pwd_init(t_env **my_env)
 {
 	t_env		*tmp;
 	char		*str;
 	static int	i = 0;
 
-	tmp = my_env;
+	tmp = (*my_env);
 	str = NULL;
 	while (tmp != NULL)
 	{
@@ -70,11 +70,11 @@ void	pwd_init(t_env *my_env)
 	free(str);
 }
 
-void	pwd_init_2(t_env *my_env, char *str, int *i)
+void	pwd_init_2(t_env **my_env, char *str, int *i)
 {
 	t_env	*tmp;
 
-	tmp = my_env;
+	tmp = (*my_env);
 	while (tmp != NULL)
 	{
 		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && *i == 1)
@@ -93,8 +93,8 @@ void	pwd_init_2(t_env *my_env, char *str, int *i)
 		tmp = tmp->next;
 		if (tmp == NULL)
 		{
-			push_back(&my_env, malloc_list("OLDPWD"));
-			tmp = my_env;
+			push_back(my_env, malloc_list("OLDPWD"));
+			tmp = (*my_env);
 		}
 	}
 }

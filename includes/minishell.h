@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 16:40:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:50:01 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,15 +142,16 @@ int						quote_count(char *limiter);
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
 /***********************************************/
-void					minishell_env(t_env *env);
+void					minishell_env(t_env **env);
 void					minishell_echo(char **arr);
-void					minishell_cd(char **arr, t_env *my_env);
-void					minishell_exit(char **arr, t_env *env);
-void					minishell_pwd(char *str, t_env *env);
-int						minishell_unset(char **arr, t_env *my_env);
+void					minishell_cd(char **arr, t_env **my_env);
+void					minishell_exit(char **arr, t_env **env);
+void					minishell_pwd(char *str, t_env **env);
+int						minishell_unset(char **arr, t_env **my_env);
 void					minishell_export(char **arr, t_env **my_env);
+char					*expand(char *str, t_env *my_env);
 int						check_unset(char *str);
-void					pwd_init(t_env *my_env);
+void					pwd_init(t_env **my_env);
 void					handler_stp(int sig);
 void					call_signals(void);
 void					ft_export(t_env *my_env);
@@ -208,7 +209,7 @@ void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env *env);
 
-char					**restore_cmd_line(t_pars *stack);
+char					**restore_cmd_line(t_pars *stack, int i);
 void					parsing(t_main *main);
 void					delete_node(t_pars **opstack);
 void					push(t_pars **a, t_pars **b);

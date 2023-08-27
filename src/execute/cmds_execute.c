@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/26 15:36:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:47:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 
 	(void)main;
 	i = 0;
-	arr = restore_cmd_line(pars);
+	arr = restore_cmd_line(pars, -1);
 	if (!arr)
 		return (0);
 	if (ft_strcmp(arr[0], _ENV_) == 0)
@@ -29,7 +29,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 			free_2d(arr);
 			return (0);
 		}
-		minishell_env(env);
+		minishell_env(&env);
 		free_2d(arr);
 		return (1);
 	}
@@ -41,19 +41,19 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	}
 	else if (ft_strcmp(arr[0], _PWD_) == 0)
 	{
-		minishell_pwd(arr[0], env);
+		minishell_pwd(arr[0], &env);
 		free_2d(arr);
 		return (1);
 	}
 	else if (ft_strcmp(arr[0], _CD_) == 0)
 	{
-		minishell_cd(arr, env);
+		minishell_cd(arr, &env);
 		free_2d(arr);
 		return (1);
 	}
 	else if (ft_strcmp(arr[0], _EXIT_) == 0)
 	{
-		minishell_exit(arr, env);
+		minishell_exit(arr, &env);
 		return (1);
 	}
 	else if (ft_strcmp(arr[0], _EXPORT_) == 0)
@@ -64,7 +64,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	}
 	else if (ft_strcmp(arr[0], _UNSET_) == 0)
 	{
-		minishell_unset(arr, env);
+		minishell_unset(arr, &env);
 		free_2d(arr);
 		return (1);
 	}

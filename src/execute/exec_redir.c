@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 14:57:26 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:31:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int	exec_iocmd(t_main *main, t_pars *stack, t_env *env)
 {
 	if (stack->type == WRITE_APPEND || stack->type == WRITE_TRUNC)
 		return (redir(main, stack, env));
-	// else if (stack && stack->type == HEREDOC)
-	// 	return (heredoc(main, stack, env));
+	else if (stack && stack->type == HEREDOC)
+		return (heredoc(main, stack, env));
 	else if (stack->type == INPUT)
 		return (input(main, stack, env));
 	return (1);

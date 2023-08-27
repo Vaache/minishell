@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 14:57:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:51:22 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 	}
 	if (stack->left && stack->right && (check_types(stack->type) == 2))
 	{
-		if (stack->left->left)
-			check_astree(main, stack->left, env);
+		// if (stack->left->type != HEREDOC && stack->left->left)
+		// {
+		// 	printf("111\n");
+		// 	check_astree(main, stack->left, env);
+		// }
 		main->exit_status = exec_iocmd(main, stack, env);
 	}
 	else if (stack->left && stack->right && stack->type == PIPE)
@@ -151,7 +154,7 @@ int	call_cmds(t_main *main, t_pars *stack, t_env *env)
 
 	if (!main->path)
 		find_path(main, env);
-  	cmd_arr = restore_cmd_line(stack);
+  	cmd_arr = restore_cmd_line(stack, -1);
 	// if (!ft_strcmp(cmd_arr[0], "minishell") || !ft_strcmp(cmd_arr[0], "./minishell"))
 	// 	update_shlvl(&env);
 	my_env = env_2d(env);
