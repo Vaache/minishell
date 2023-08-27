@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 11:46:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:40:16 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_wcard
 {
 	struct s_wcard		*next;
 	struct s_wcard		*prev;
-	char				*wild;
+	char				*file;
 }	t_wcard;
 
 typedef enum e_token_type
@@ -238,9 +238,8 @@ int						input(t_main *main, t_pars *stack, t_env *env);
 int						exec_iocmd(t_main *main, t_pars *stack, t_env *env);
 int						pipe_prepair(t_main *main, t_pars *pars, t_env *env);
 
-void					get_file(char *path, t_wcard *wcard);
+void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);
-t_wcard					*lstlast_wcard(t_wcard *lst);
 void					lstback_wcard(t_wcard **pars, t_wcard *new);
 void					lstclear_wcard(t_wcard **lst);
 int						lstsize_wcard(t_wcard *lst);

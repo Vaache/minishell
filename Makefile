@@ -3,7 +3,7 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 SRC_DIR 	= src
-SUBDIRS 	= lexer get_next_line builtins utils parsing execute
+SUBDIRS 	= lexer get_next_line builtins utils parsing execute wildcard
 SRCDIRS 	:= $(addprefix $(SRC_DIR)/, $(SUBDIRS))
 SRCS		:= $(notdir $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.c))) $(notdir $(SRC_DIR)/main.c)
 

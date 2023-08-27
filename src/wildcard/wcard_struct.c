@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 21:37:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/26 21:43:41 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:40:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_wcard	*lstadd_wcard(char *string)
 	tmp = (t_wcard *)malloc(sizeof(t_wcard));
 	if (!tmp)
 		return (NULL);
-	tmp->wild = ft_strdup(string);
+	tmp->file = ft_strdup(string);
 	tmp->next = NULL;
 	tmp->prev = NULL;
 	return (tmp);
@@ -55,7 +55,7 @@ void	lstclear_wcard(t_wcard **lst)
 	while ((*lst))
 	{
 		ptr = (*lst)->next;
-		free ((*lst)->wild);
+		free ((*lst)->file);
 		free (*lst);
 		(*lst) = ptr;
 	}
