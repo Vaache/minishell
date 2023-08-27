@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 16:51:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:47:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ char	**restore_cmd_line(t_pars *stack)
 	int			i;
 
 	tmp = stack;
+	// while (tmp)
+	// {
+	// 	if (ft_strchr(tmp->cmd, '*'))
+			
+	// 	tmp = tmp->next;
+	// }
 	i = 0;
 	cmd_matrix = (char **)malloc(sizeof(char *) * (lstsize(tmp) + 1));
 	if (!cmd_matrix)
