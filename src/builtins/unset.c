@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:56:28 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/24 20:08:44 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:30:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	check_unset(char *str)
 			break ;
 		if (ft_isalpha(str[i]) == 0 && str[i] != '_')
 		{
-			ft_printf(2, "Minishell: unset: `%s': not a %s\n", \
-					str, "valid identifier");
+			builtins_error("unset", str);
 			return (1);
 		}
 	}

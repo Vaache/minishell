@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/24 21:21:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:21:15 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,34 @@ void	print_types(t_pars *ptr)
 		ptr = ptr->next;
 	}
 	printf("\n");
+}
+
+void	print_ast(t_pars *ast, int indent, int lrc)
+{
+	int	i;
+
+	i = 0;
+	if (!ast)
+		return ;
+	else if (ast->type == END)
+	{
+		print_ast(ast->right, indent, 0);
+		return ;
+	}
+	print_ast(ast->right, indent + 1, 1);
+	while (i++ < indent)
+	{
+		printf("\t");
+	}
+	if (lrc == 0)
+		printf("\033[38;5;46m╠══════\033[0m[%s][%d][%d]\n", ast->cmd, (ast->flag & _PIPE_) && 1, ast->subshell_code);
+	else if (lrc == 1)
+		printf("\033[38;5;46m╔══════\033[0m[%s][%d][%d]\n", ast->cmd, (ast->flag & _PIPE_) && 1, ast->subshell_code);
+	else if (lrc == 2)
+		printf("\033[38;5;46m╚══════\033[0m[%s][%d][%d]\n", ast->cmd, (ast->flag & _PIPE_) && 1, ast->subshell_code);
+	if (ast->next)
+		print_ast(ast->next, indent + 1, 2);
+	print_ast(ast->left, indent + 1, 2);
 }
 
 t_pars	*most_prev(t_pars *stack)

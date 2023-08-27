@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 16:54:57 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:42:52 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 	}
 	if (stack->left && stack->right && (check_types(stack->type) == 2))
 	{
-		if (stack->left->left)
-			check_astree(main, stack->left, env);
+		// if (stack->left->left)
+		// 	check_astree(main, stack->left, env);
 		main->exit_status = exec_iocmd(main, stack, env);
 	}
 	else if (stack->left && stack->right && stack->type == PIPE)
@@ -152,8 +152,8 @@ int	call_cmds(t_main *main, t_pars *stack, t_env *env)
 	if (!main->path)
 		find_path(main, env);
   	cmd_arr = restore_cmd_line(stack);
-	if (!ft_strcmp(cmd_arr[0], "minishell") || !ft_strcmp(cmd_arr[0], "./minishell"))
-		update_shlvl(&env);
+	// if (!ft_strcmp(cmd_arr[0], "minishell") || !ft_strcmp(cmd_arr[0], "./minishell"))
+	// 	update_shlvl(&env);
 	my_env = env_2d(env);
 	if (!cmd_arr)
 	{

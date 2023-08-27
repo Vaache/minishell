@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 18:59:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/26 21:52:58 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	redir(t_main *main, t_pars *stack, t_env *env);
 int	heredoc(t_main *main, t_pars *stack, t_env *env);
 int	input(t_main *main, t_pars *stack, t_env *env);
-int	minishell_pipe(t_main *main, t_pars *stack, t_env *env);
 int	exec_iocmd(t_main *main, t_pars *stack, t_env *env);
 
 int	redir(t_main *main, t_pars *stack, t_env *env)
@@ -66,65 +65,51 @@ int	redir(t_main *main, t_pars *stack, t_env *env)
 
 int	heredoc(t_main *main, t_pars *stack, t_env *env)
 {
-	char	*res;
 	int		stdin_backup;
-	int		pid;
-	int		status;
+	char	*res;
+	int		fd;
 	t_pars	*tmp;
 
-	stdin_backup = 0;
-	status = 0;
+	if (stack->left->type == HEREDOC)
+		res = handle_heredoc_input(stack->left->right->cmd);
+	res = handle_heredoc_input(stack->right->cmd);
+	if (!res)
+		return (1);
+	fd = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0655);
+	if (fd < 0)
+	{
+		perror("minishell");
+		return (EXIT_FAILURE);
+	}
 	stdin_backup = dup(STDIN_FILENO);
+	if (stdin_backup < 0)
+	{
+		perror("minshell");
+		return (EXIT_FAILURE);
+	}
+	write(fd, res, ft_strlen(res));
+	close(fd);
+	free(res);
+	fd = open(".heredoc", O_RDWR, 0655);
+	if (dup2(fd, STDIN_FILENO) < 0)
+	{
+		perror("minishell");
+		unlink(".heredoc");
+		return (EXIT_FAILURE + _close2_(fd, stdin_backup));
+	}
+	close(fd);
 	tmp = stack;
-	if (pipe(stack->pipes) < 0)
+	while (tmp->left->type != WORD)
+		tmp = tmp->left;
+	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
+		main->exit_status = check_astree(main, tmp->left, env);
+	if (dup2(stdin_backup, STDIN_FILENO) < 0)
 	{
-		perror("Minishell");
-		return (1);
+		perror("minishell");
+		unlink(".heredoc");
+		return (EXIT_FAILURE + _close2_(fd, stdin_backup));
 	}
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("Minishell");
-		close(stack->pipes[0]);
-		close(stack->pipes[1]);
-		return (1);
-	}
-	else if (pid == 0)
-	{
-		close(stack->pipes[0]);
-		res = handle_heredoc_input(stack->right->cmd);
-		if (dup2(stack->pipes[1], STDOUT_FILENO) < 0)
-		{
-			perror("Minishell");
-			exit(EXIT_FAILURE + close_pipes(stack->pipes));
-		}
-		write(STDOUT_FILENO, res, ft_strlen(res));
-		close(stack->pipes[1]);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (status == EXIT_FAILURE)
-			return (1);
-		close (stack->pipes[1]);
-		if (dup2(stack->pipes[0], STDIN_FILENO) < 0)
-		{
-			perror("Minishell");
-			return (EXIT_FAILURE + _close_(stdin_backup) + close_pipes(stack->pipes));
-		}
-		tmp = stack;
-		while (tmp->left->type != WORD)
-			tmp = tmp->left;
-		if (ft_strcmp(tmp->left->cmd, "(NULL)"))
-			main->exit_status = check_astree(main, tmp->left, env);
-		if (dup2(stdin_backup, STDIN_FILENO) < 0)
-		{
-			perror("Minishell");
-			return (1);
-		}
-		return (0 + _close2_(stdin_backup, stack->pipes[0]));
-	}
+	close(stdin_backup);
 	return (0);
 }
 
@@ -138,7 +123,7 @@ int	input(t_main *main, t_pars *stack, t_env *env)
 	if (file_fd < 0)
 	{
 		perror("minishell");
-		exit(EXIT_FAILURE + _close_(backup));
+		return(EXIT_FAILURE + _close_(backup));
 	}
 	if (dup2(file_fd, STDIN_FILENO) < 0)
 	{

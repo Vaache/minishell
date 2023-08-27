@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 17:36:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:28:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void	minishell_cd_helper(char *str, t_env **my_env)
 			free(tmp->pwd);
 			str = getcwd(NULL, 0);
 			if (str == NULL)
-				ft_printf(2, "cd: error retrieving current directory: %s\n", \
-					"getcwd: cannot access parent directories: No such file or directory");
+				builtins_error("cd", NULL);
 			tmp->data = ft_strdup(str);
 			if (str)
 			{

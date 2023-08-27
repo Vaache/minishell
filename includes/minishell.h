@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 19:44:10 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/26 21:44:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define PWD		"pwd"
-# define ENV 		"env"
-# define EXIT		"exit"
-# define UNSET		"unset"
-# define EXPORT		"export"
+# define _CD_		"cd"
+# define _PWD_		"pwd"
+# define _ENV_		"env"
+# define _EXIT_		"exit"
+# define _ECHO_		"echo"
+# define _UNSET_	"unset"
+# define _EXPORT_	"export"
 # define _PIPE_		32
 # define _REDIR_	8
 
@@ -130,11 +132,12 @@ int						error_code(int error_num);
 int						env_lstsize(t_env *lst);
 void					update_shlvl(t_env **env);
 char					**env_2d(t_env *env);
-void					builtins_error(int fd, char	*str);
+void					builtins_error(char	*str, char *err);
 int						_close3_(int fd1, int fd2, int fd3);
 int						_close2_(int fd1, int fd2);
 int						_close_(int	fd);
 int						close_pipes(int fd[2]);
+int						quote_count(char *limiter);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -217,6 +220,7 @@ t_pars					*most_prev(t_pars *stack);
 int						check_astree(t_main *main, t_pars *stack, t_env *env);
 int						cmds_execute(t_main *main, t_pars *pars, t_env *env, \
 															int status);
+void				print_ast(t_pars *ast, int indent, int lrc);
 int						check_builtins(t_main *main, t_pars *pars, t_env *env);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
@@ -233,5 +237,11 @@ int						heredoc(t_main *main, t_pars *stack, t_env *env);
 int						input(t_main *main, t_pars *stack, t_env *env);
 int						exec_iocmd(t_main *main, t_pars *stack, t_env *env);
 int						pipe_prepair(t_main *main, t_pars *pars, t_env *env);
+
+t_wcard					*lstadd_wcard(char *string);
+t_wcard					*lstlast_wcard(t_wcard *lst);
+void					lstback_wcard(t_wcard **pars, t_wcard *new);
+void					lstclear_wcard(t_wcard **lst);
+int						lstsize_wcard(t_wcard *lst);
 
 #endif

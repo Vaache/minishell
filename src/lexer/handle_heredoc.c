@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 20:15:49 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:27:51 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ char	*handle_heredoc_input(char *string);
 int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 {
 	char	*limiter;
-	char	*res;
 	int		counter;
 	int		end;
 
-	res = NULL;
 	handle_space(pars, line, i, start);
 	if (is_delim(*pars))
 		lstback(pars, lstadd("(NULL)", WORD, 0, 1));
@@ -35,7 +33,7 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	if (end == 0)
 		return (0);
 	limiter = ft_substr(line, counter, end - counter);
-	if (!ft_strchr(limiter, '\'') || !ft_strchr(limiter, '"'))
+	if (ft_strchr(limiter, '\'') != 0 || ft_strchr(limiter, '"') != 0)
 		limiter = rem_quotes_lim(limiter);
 	if (limiter)
 	{
@@ -56,11 +54,10 @@ char	*handle_heredoc_input(char *string)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, string) == 0)
+		if (!line || ft_strcmp(line, string) == 0)
 		{
-			free(line);
+			if (line)
+				free(line);
 			break ;
 		}
 		if (!res)

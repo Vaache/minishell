@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 17:17:44 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:36:11 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 	arr = restore_cmd_line(pars);
 	if (!arr)
 		return (0);
-	if (ft_strcmp(arr[0], "env") == 0)
+	if (ft_strcmp(arr[0], _ENV_) == 0)
 	{
 		if (arr[1] != NULL)
 		{
@@ -33,36 +33,36 @@ int	check_builtins(t_main *main, t_pars *pars, t_env *env)
 		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(arr[0], "echo") == 0)
+	else if (ft_strcmp(arr[0], _ECHO_) == 0)
 	{
 		minishell_echo(arr);
 		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(arr[0], "pwd") == 0)
+	else if (ft_strcmp(arr[0], _PWD_) == 0)
 	{
 		minishell_pwd(arr[0], env);
 		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(arr[0], "cd") == 0)
+	else if (ft_strcmp(arr[0], _CD_) == 0)
 	{
 		minishell_cd(arr, env);
 		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(arr[0], "exit") == 0)
+	else if (ft_strcmp(arr[0], _EXIT_) == 0)
 	{
 		minishell_exit(arr, env);
 		return (1);
 	}
-	else if (ft_strcmp(arr[0], "export") == 0)
+	else if (ft_strcmp(arr[0], _EXPORT_) == 0)
 	{
 		minishell_export(arr, &env);
 		free_2d(arr);
 		return (1);
 	}
-	else if (ft_strcmp(arr[0], "unset") == 0)
+	else if (ft_strcmp(arr[0], _UNSET_) == 0)
 	{
 		minishell_unset(arr, env);
 		free_2d(arr);

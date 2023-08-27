@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 20:45:00 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 20:24:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:33:33 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int		find_limiter_end(char *line, int i, int start);
 t_type	ttoa(char *token);
 char	*token_is(t_type token);
+char	*rem_quotes_lim(char *limiter);
+int		check_delim(char *line, int end);
 
 char	*token_is(t_type token)
 {
@@ -85,15 +87,10 @@ int	find_limiter_end(char *line, int i, int start)
 		if (line[end] != '\0' && line[end] == '\'')
 			while (line[++end] != '\0' && line[end] != '\'')
 				;
-		if (line[end] == '&' && line[end + 1] == '&')
-			break ;
-		else if (line[end] == '|' || line[end] == '<' || \
-			line[end] == '>')
-			break ;
-		else if (line[end] == '(' || line[end] == ')')
+		if (check_delim(line, end))
 			break ;
 		if (line[end] != '\0')
-		end++;
+			end++;
 	}
 	if (end == start)
 	{
@@ -107,27 +104,37 @@ int	find_limiter_end(char *line, int i, int start)
 char	*rem_quotes_lim(char *limiter)
 {
 	int		i;
-	int		qoute;
+	int		quote;
 	char	*str;
 
 	i = -1;
-	qoute = 0;
-	while (limiter && limiter[++i])
-		if (limiter[i] == '"' || limiter[i] == '\'')
-			qoute++;
-	if (qoute % 2 != 0)
+	quote = 0;
+	if (quote_count(limiter))
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (i - qoute) + 1);
+	str = (char *)malloc(sizeof(char) * (i - quote) + 1);
 	if (!str)
 		return (NULL);
-	i = ((qoute = 0));
+	i = ((quote = 0));
 	while (limiter && limiter[i])
 	{
 		if (limiter[i] == '"' || limiter[i] == '\'')
 			i++;
 		else
-			str[qoute++] = limiter[i++];
+			str[quote++] = limiter[i++];
 	}
-	str[qoute] = '\0';
+	str[quote] = '\0';
+	free(limiter);
 	return (str);
+}
+
+int	check_delim(char *line, int end)
+{
+	if (line[end] == '&' && line[end + 1] == '&')
+		return (1);
+	else if (line[end] == '|' || line[end] == '<' || \
+		line[end] == '>')
+		return (1);
+	else if (line[end] == '(' || line[end] == ')')
+		return (1);
+	return (0);
 }

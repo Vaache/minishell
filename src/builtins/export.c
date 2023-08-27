@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/25 17:18:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:29:00 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ int	ft_check(t_env *my_env, char *str)
 			break ;
 		if (ft_isalpha(str[i]) == 0 && str[i] != '_')
 		{
-			ft_printf(2, "Minishell: export: `%s': not a %s\n", \
-					str, "valid identifier");
+			builtins_error("export", str);
 			return (2);
 		}
 	}
