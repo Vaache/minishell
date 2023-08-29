@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/25 21:29:00 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:33:07 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,33 @@
 
 void	minishell_export(char **arr, t_env **my_env);
 void	ft_export(t_env *my_env);
+void	export(char **arr, int i, t_env **my_env);
 int		ft_check(t_env *my_env, char *str);
 void	ft_add(t_env *my_env, char *str);
 
 void	minishell_export(char **arr, t_env **my_env)
 {
-	t_env	*tmp;
 	int		i;
 
-	i = 1;
-	tmp = (*my_env);
+	i = 0;
 	if (arr[1] == NULL)
 	{
 		ft_export((*my_env));
 		return ;
 	}
-	if (ft_check((*my_env), arr[i]) == 2)
-		return ;
-	while (arr[i])
+	export(arr, i, my_env);
+}
+
+void	export(char **arr, int i, t_env **my_env)
+{
+	t_env	*tmp;
+
+	tmp = (*my_env);
+	while (arr[++i])
 	{
-		if (ft_strchr(arr[i], '=') != 0)
+		if (ft_check((*my_env), arr[i]) == 2)
+			;
+		else if (ft_strchr(arr[i], '=') != 0)
 		{
 			if (ft_check((*my_env), arr[i]) == 0)
 				tmp = push_back(&tmp, malloc_list(arr[i]));
@@ -50,7 +57,6 @@ void	minishell_export(char **arr, t_env **my_env)
 				tmp->flag = 2;
 			}
 		}
-		i++;
 	}
 }
 
@@ -94,7 +100,8 @@ int	ft_check(t_env *my_env, char *str)
 	{
 		if (str[0] != '=' && str[i] == '=')
 			break ;
-		if (ft_isalpha(str[i]) == 0 && str[i] != '_')
+		if ((str[0] >= '0' && str[0] <= '9') || (ft_isalpha(str[i]) == 0 \
+			&& str[i] != '_' && !ft_isdigit(str[i])))
 		{
 			builtins_error("export", str);
 			return (2);

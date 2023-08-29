@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 22:45:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:29:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ void	fill_wcard(t_pars *stack, t_wcard **wcard)
 			tmp = tmp->next;
 		else if (ft_strchr(tmp->cmd, '*'))
 		{
-				get_file(tmp->cmd, wcard);
-				tmp = tmp->next;
+			get_file(tmp->cmd, wcard);
+			tmp = tmp->next;
 		}
 		else
 			tmp = tmp->next;

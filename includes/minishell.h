@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 22:50:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:11:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_pars
 	char			*lpath;
 	int				err_code;
 	int				subshell_code;
+	int				red;
+	int				last_hdoc;
 	int				pipes[2];
 	struct s_pars	*next;
 	struct s_pars	*prev;
@@ -109,6 +111,9 @@ typedef struct s_pars
 typedef struct s_main
 {
 	int			exit_status;
+	int			redir;
+	int			hdoc;
+	int			flag;
 	char		**path;
 	t_pars		*pars;
 	t_pars		*lex;
@@ -119,8 +124,9 @@ typedef struct s_main
 /************* MINISHELL_UTILS **************/
 /********************************************/
 void					print_header(void);
-void					free_2d(char **s);
+int						free_2d(char **s);
 void					free_n2d(char **s, int i);
+int						free_of_n(char *str, char **arr1, char **arr2, int i);
 int						check_digit(char *str);
 char					*trim_zeroes(char *s);
 unsigned long long int	ft_atll(char *str);
@@ -131,7 +137,7 @@ char					*strjoin_mode(char *s1, char *s2, int mode);
 int						error_code(int error_num);
 int						env_lstsize(t_env *lst);
 void					update_shlvl(t_env **env);
-char					**env_2d(t_env *env);
+char					**env_2d(t_env **env);
 void					builtins_error(char	*str, char *err);
 int						_close3_(int fd1, int fd2, int fd3);
 int						_close2_(int fd1, int fd2);
@@ -207,7 +213,7 @@ int						handle_infile(t_pars **pars, char *line, \
 
 void					handle_space(t_pars **pars, char *line, \
 							int i, int start);
-void					handle_dollar(int exit_status, t_env *env);
+void					handle_dollar(int exit_status, t_env **env);
 
 char					**restore_cmd_line(t_pars *stack, int i);
 void					parsing(t_main *main);
@@ -218,26 +224,26 @@ void					shunting_yard(t_pars **tmp, t_pars **postfix, \
 t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack);
 t_pars					*most_prev(t_pars *stack);
 
-int						check_astree(t_main *main, t_pars *stack, t_env *env);
-int						cmds_execute(t_main *main, t_pars *pars, t_env *env, \
+int						check_astree(t_main *main, t_pars *stack, t_env **env);
+int						cmds_execute(t_main *main, t_pars *pars, t_env **env, \
 															int status);
-void				print_ast(t_pars *ast, int indent, int lrc);
-int						check_builtins(t_main *main, t_pars *pars, t_env *env);
+void					print_ast(t_pars *ast, int indent, int lrc);
+int						check_builtins(t_main *main, t_pars *pars, t_env **env);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
 char					*rem_quotes_lim(char *limiter);
 char					*token_is(t_type token);
 int						andxor(t_pars *stack);
-int						call_cmds(t_main *main, t_pars *stack, t_env *env);
+int						call_cmds(t_main *main, t_pars *stack, t_env **env);
 char					*check_cmd(char *cmd, char **path);
-void					find_path(t_main *main, t_env *env);;
+void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
 int						exec_cmds(char *path_cmd, char **cmd_arr, char **env);
-int						redir(t_main *main, t_pars *stack, t_env *env);
-int						heredoc(t_main *main, t_pars *stack, t_env *env);
-int						input(t_main *main, t_pars *stack, t_env *env);
-int						exec_iocmd(t_main *main, t_pars *stack, t_env *env);
-int						pipe_prepair(t_main *main, t_pars *pars, t_env *env);
+int						redir(t_main *main, t_pars *stack, t_env **env);
+int						heredoc(t_main *main, t_pars *stack, t_env **env);
+int						input(t_main *main, t_pars *stack, t_env **env);
+int						exec_iocmd(t_main *main, t_pars *stack, t_env **env);
+int						pipe_prepair(t_main *main, t_pars *pars, t_env **env);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);

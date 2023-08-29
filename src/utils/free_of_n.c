@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_dollar.c                                    :+:      :+:    :+:   */
+/*   free_of_n.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/18 14:37:16 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 13:53:03 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/08/29 16:03:32 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/08/29 16:10:27 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_dollar(int exit_status, t_env **env)
-{
-	t_env	*tmp;
-	char	*status;
+int	free_of_n(char *str, char **arr1, char **arr2, int i);
 
-	tmp = (*env);
-	status = ft_itoa(exit_status);
-	while (tmp)
+int	free_of_n(char *str, char **arr1, char **arr2, int i)
+{
+	if (i == 2)
 	{
-		if (!ft_strcmp(tmp->key, "$?"))
-		{
-			free(tmp->data);
-			tmp->data = ft_strdup(status);
-			break ;
-		}
-		tmp = tmp->next;
+		free_2d(arr1);
+		free_2d(arr2);
 	}
-	free(status);
+	else if (i == 3)
+	{
+		free(str);
+		free_2d(arr1);
+		free_2d(arr2);
+	}
+	return (0);
 }
+

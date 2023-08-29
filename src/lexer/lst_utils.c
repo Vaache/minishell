@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:25:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:44:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ t_pars	*lstadd(char *string, t_type type, int prc, int flag)
 		return (NULL);
 	tmp->cmd = ft_strdup(string);
 	tmp->flag = flag;
+	tmp->red = 0;
 	tmp->prc = prc;
 	tmp->type = type;
 	tmp->err_code = 0;
+	tmp->last_hdoc = 0;
 	tmp->subshell_code = 0;
 	tmp->left = NULL;
 	tmp->right = NULL;

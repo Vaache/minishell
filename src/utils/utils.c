@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:57:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/15 18:57:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:12:12 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,17 @@ void	free_n2d(char **s, int i)
 	free(s);
 }
 
-void	free_2d(char **s)
+int	free_2d(char **s)
 {
 	int	i;
 
 	i = 0;
 	if (!s)
-		return ;
+		return (0);
 	while (s && s[i])
 		free (s[i++]);
 	free(s);
+	return (0);
 }
 
 int	strlen_2d(char **str)

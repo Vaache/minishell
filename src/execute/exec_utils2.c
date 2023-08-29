@@ -6,25 +6,32 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 16:11:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:53:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	find_path(t_main *main, t_env *env);
+void	find_path(t_main *main, t_env **env);
 char	*fill_path_cmd(char *cmd, char **path);
 int		andxor(t_pars *stack);
 
-void	find_path(t_main *main, t_env *env)
+void	find_path(t_main *main, t_env **env)
 {
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = (*env);
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, "PATH") == 0)
+		{
+			if (tmp->flag == 1)
+			{
+				main->path = NULL;
+				return ;
+			}
 			break ;
+		}
 		tmp = tmp->next;
 	}
 	main->path = ft_split(tmp->data, ':');

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:08 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 21:22:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:19:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,6 @@ void	get_file(char *path, t_wcard **wcard)
 
 int	wcard_logic(char *pattern, char *string)
 {
-	char	*p;
-	char	*s;
-
-	p = NULL;
-	s = NULL;
 	if (pattern[0] != '.' && string[0] == '.')
 		return (0);
 	wcard_logic_2(&pattern, &string, 0);

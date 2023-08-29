@@ -6,18 +6,18 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 22:51:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:14:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_astree(t_main *main, t_pars *stack, t_env *env);
-int		call_cmds(t_main *main, t_pars *stack, t_env *env);
+int		check_astree(t_main *main, t_pars *stack, t_env **env);
+int		call_cmds(t_main *main, t_pars *stack, t_env **env);
 int		exec_cmds(char *path_cmd, char **cmd_arr, char **env);
 char	*check_cmd(char *cmd, char **path);
 
-int	check_astree(t_main *main, t_pars *stack, t_env *env)
+int	check_astree(t_main *main, t_pars *stack, t_env **env)
 {
 	int		status;
 	pid_t	pid;
@@ -36,11 +36,8 @@ int	check_astree(t_main *main, t_pars *stack, t_env *env)
 	}
 	if (stack->left && stack->right && (check_types(stack->type) == 2))
 	{
-		// if (stack->left->type != HEREDOC && stack->left->left)
-		// {
-		// 	printf("111\n");
-		// 	check_astree(main, stack->left, env);
-		// }
+		if (stack->left->left)
+			check_astree(main, stack->left, env);
 		main->exit_status = exec_iocmd(main, stack, env);
 	}
 	else if (stack->left && stack->right && stack->type == PIPE)
@@ -96,11 +93,9 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env)
 {
 	pid_t	pid;
 	int		childe_exit;
-	
+
 	childe_exit = 0;
 	pid = fork();
-	// if (!ft_strcmp(cmd_arr[0], "./minishell") || !ft_strcmp(cmd_arr[0], "minishell"))
-	// 	update_shlvl(&my_env);
 	if (pid == -1)
 	{
 		perror("Minishell");
@@ -128,8 +123,6 @@ char	*check_cmd(char *cmd, char **path)
 	char	*path_cmd;
 
 	path_cmd = NULL;
-	// if (!ft_strcmp(cmd, "./minishell") || !ft_strcmp(cmd, "minishell"))
-	// 	return (ft_strdup(cmd));
 	if (access(cmd, X_OK | F_OK) == -1)
 	{
 		if (ft_strchr(cmd, '/'))
@@ -145,34 +138,26 @@ char	*check_cmd(char *cmd, char **path)
 	return (ft_strdup(cmd));
 }
 
-int	call_cmds(t_main *main, t_pars *stack, t_env *env)
+int	call_cmds(t_main *main, t_pars *stack, t_env **env)
 {
 	char	*cmd_path;
 	char	**cmd_arr;
 	char	**my_env;
 	int		k;
 
-	if (!main->path)
+	if (main->flag)
+	{
 		find_path(main, env);
-  	cmd_arr = restore_cmd_line(stack, -1);
-	// if (!ft_strcmp(cmd_arr[0], "minishell") || !ft_strcmp(cmd_arr[0], "./minishell"))
-	// 	update_shlvl(&env);
+		main->flag = 0;
+	}
+	cmd_arr = restore_cmd_line(stack, -1);
 	my_env = env_2d(env);
 	if (!cmd_arr)
-	{
-		free_2d(my_env);
-		return (2);
-	}
+		return (2 + free_2d(my_env));
 	cmd_path = check_cmd(cmd_arr[0], main->path);
 	if (!cmd_path)
-	{
-		free_2d(my_env);
-		free_2d(cmd_arr);
-		return (127);
-	}
+		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
 	k = exec_cmds(cmd_path, cmd_arr, my_env);
-	free(cmd_path);
-	free_2d(cmd_arr);
-	free_2d(my_env);
+	free_of_n(cmd_path, cmd_arr, my_env, 3);
 	return (error_code(k));
 }

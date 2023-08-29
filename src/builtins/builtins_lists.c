@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 13:36:14 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/24 21:32:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:56:56 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,27 @@ int	env_lstsize(t_env *lst)
 	return (i);
 }
 
-char	**env_2d(t_env *env)
+char	**env_2d(t_env **env)
 {
 	char	**my_env;
 	t_env	*tmp;
 	int		i;
 
 	i = 0;
-	tmp = env;
+	tmp = (*env);
 	my_env = (char **)malloc(sizeof(char *) * (env_lstsize(tmp) + 1));
 	if (!my_env)
 		return (NULL);
-	tmp = env;
+	tmp = (*env);
 	while (tmp)
 	{
-		my_env[i] = ft_strdup(tmp->key);
-		my_env[i] = ft_strjoin(my_env[i], "=", 1);
-		my_env[i] = ft_strjoin(my_env[i], tmp->data, 1);
-		i++;
+		if (tmp->flag == 0)
+		{
+			my_env[i] = ft_strdup(tmp->key);
+			my_env[i] = ft_strjoin(my_env[i], "=", 1);
+			my_env[i] = ft_strjoin(my_env[i], tmp->data, 1);
+			i++;
+		}
 		tmp = tmp->next;
 	}
 	my_env[i] = NULL;

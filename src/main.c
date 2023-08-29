@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 22:58:13 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:43:11 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int	main(int ac, char **av, char **env)
 	main.pars = NULL;
 	main.temp = NULL;
 	main.path = NULL;
+	main.flag = 1;
+	main.hdoc = 0;
+	main.redir = 0;
 	main.exit_status = 0;
 	print_header();
 	call_signals();
@@ -48,7 +51,7 @@ int	main(int ac, char **av, char **env)
 			lex(str, &main);
 			if (main.pars)
 			{
-				check_astree(&main, main.pars, my_env);
+				check_astree(&main, main.pars, &my_env);
 				destroy_main(&main);
 			}
 		}
