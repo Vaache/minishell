@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 17:20:02 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:03:38 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ typedef struct s_main
 	int			input;
 	int			flag;
 	char		**path;
+	int			stdin_backup;
 	t_pars		*pars;
 	t_pars		*lex;
 	t_pars		*temp;
 }				t_main;
-
 /********************************************/
 /************* MINISHELL_UTILS **************/
 /********************************************/
@@ -157,7 +157,6 @@ void					minishell_exit(char **arr, t_env **env);
 void					minishell_pwd(char *str, t_env **env);
 int						minishell_unset(char **arr, t_env **my_env);
 void					minishell_export(char **arr, t_env **my_env);
-char					*expand(char *str, t_env *my_env);
 int						check_unset(char *str);
 void					pwd_init(t_env **my_env);
 void					handler_stp(int sig);
@@ -240,7 +239,7 @@ int						call_cmds(t_main *main, t_pars *stack, t_env **env);
 char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
-int						exec_cmds(char *path_cmd, char **cmd_arr, char **env);
+int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, int stdin_backup);
 int						redir(t_main *main, t_pars *stack, t_env **env);
 int						heredoc(t_main *main, t_pars *stack, t_env **env);
 int						input(t_main *main, t_pars *stack, t_env **env);
