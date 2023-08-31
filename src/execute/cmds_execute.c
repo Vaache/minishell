@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 14:01:03 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 22:21:21 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,28 @@ int	check_builtins(t_main *main, t_pars *pars, t_env **env)
 	arr = restore_cmd_line(pars, -1);
 	if (!arr)
 		return (0);
+	if (!ft_strcmp(arr[0], _ENV_) || !ft_strcmp(arr[0], _ECHO_) || !ft_strcmp(arr[0], _PWD_) || \
+		!ft_strcmp(arr[0], _CD_) || !ft_strcmp(arr[0], _EXIT_) || !ft_strcmp(arr[0], _EXPORT_) || !ft_strcmp(arr[0], _UNSET_))
+	{
+		if (pars->_stdin_ > 0)
+		{
+			if (dup2(pars->_stdin_, STDIN_FILENO) < 0)
+			{
+				perror("minishell");
+				return (EXIT_FAILURE + close(pars->_stdin_));
+			}
+			close(pars->_stdin_);
+		}
+		if (pars->_stdout_ > 0)
+		{
+			if (dup2(pars->_stdout_, STDOUT_FILENO) < 0)
+			{
+				perror("minishell");
+				return (EXIT_FAILURE + close(pars->_stdout_));
+			}
+			close(pars->_stdout_);
+		}
+	}
 	if (ft_strcmp(arr[0], _ENV_) == 0)
 	{
 		if (arr[1] != NULL)
@@ -79,6 +101,27 @@ int	cmds_execute(t_main *main, t_pars *pars, t_env **env, int status)
 	{
 		pars->err_code = call_cmds(main, pars, env);
 		status = pars->err_code;
+	}
+	else
+	{
+		if (pars->stdin_backup > 0)
+		{
+			if (dup2(pars->stdin_backup, STDIN_FILENO) < 0)
+			{
+				perror("minishell");
+				return (EXIT_FAILURE + close(pars->stdin_backup));
+			}
+			close(pars->stdin_backup);
+		}
+		if (pars->stdout_backup > 0)
+		{
+			if (dup2(pars->stdout_backup, STDOUT_FILENO) == -1)
+			{
+				perror("Minishell");
+				return (1);
+			}
+			close(pars->stdout_backup);
+		}		
 	}
 	return (status);
 }

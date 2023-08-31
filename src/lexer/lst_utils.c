@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 14:59:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 22:00:34 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ t_pars	*lstadd(char *string, t_type type, int prc, int flag)
 	tmp->last_hdoc = 0;
 	tmp->last_input = 0;
 	tmp->subshell_code = 0;
+	tmp->_stdin_ = -42;
+	tmp->_stdout_ = -42;
+	tmp->stdin_backup = -42;
+	tmp->stdout_backup = -42;
 	tmp->left = NULL;
 	tmp->right = NULL;
 	tmp->next = NULL;

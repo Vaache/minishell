@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 16:03:38 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 21:49:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ typedef struct s_pars
 	int				last_red;
 	int				last_hdoc;
 	int				last_input;
+	int				_stdin_;
+	int				_stdout_;
+	int				stdin_backup;
+	int				stdout_backup;
 	int				pipes[2];
 	struct s_pars	*next;
 	struct s_pars	*prev;
@@ -118,6 +122,7 @@ typedef struct s_main
 	int			flag;
 	char		**path;
 	int			stdin_backup;
+	int			stdout_backup;
 	t_pars		*pars;
 	t_pars		*lex;
 	t_pars		*temp;
@@ -146,6 +151,8 @@ int						_close2_(int fd1, int fd2);
 int						_close_(int	fd);
 int						close_pipes(int fd[2]);
 int						quote_count(char *limiter);
+void					save_backup(t_main **main);
+void					main_init(t_main *main);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -239,7 +246,7 @@ int						call_cmds(t_main *main, t_pars *stack, t_env **env);
 char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
-int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, int stdin_backup);
+int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack);
 int						redir(t_main *main, t_pars *stack, t_env **env);
 int						heredoc(t_main *main, t_pars *stack, t_env **env);
 int						input(t_main *main, t_pars *stack, t_env **env);

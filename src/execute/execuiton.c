@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 17:42:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 22:43:52 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		check_astree(t_main *main, t_pars *stack, t_env **env);
 int		call_cmds(t_main *main, t_pars *stack, t_env **env);
-int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, int stdin_backup);
+int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack);
 char	*check_cmd(char *cmd, char **path);
 
 int	check_astree(t_main *main, t_pars *stack, t_env **env)
@@ -40,7 +40,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env **env)
 			check_astree(main, stack->left, env);
 		main->exit_status = exec_iocmd(main, stack, env);
 	}
-	else if (stack->left && stack->right && stack->type == PIPE && (stack->left->type != HEREDOC || stack->right->type != HEREDOC))
+	else if (stack->left && stack->right && stack->type == PIPE && stack->left->type != HEREDOC && stack->right->type != HEREDOC)
 		stack->err_code = pipe_prepair(main, stack, env);
 	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
@@ -89,7 +89,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env **env)
 	return (0);
 }
 
-int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, int stdin_backup)
+int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack)
 {
 	pid_t	pid;
 	int		childe_exit;
@@ -103,6 +103,26 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, int stdin_backup)
 	}
 	else if (pid == 0)
 	{
+		if (stack->_stdin_ > 0)
+		{
+			if (dup2(stack->_stdin_, STDIN_FILENO) < 0)
+			{
+				perror("minishell");
+				unlink(".heredoc");
+				return (EXIT_FAILURE + close(stack->_stdin_));
+			}
+			unlink(".heredoc");
+			close(stack->_stdin_);
+		}
+		if (stack->_stdout_ > 0)
+		{
+			if (dup2(stack->_stdout_, STDOUT_FILENO) < 0)
+			{
+				perror("minishell");
+				return (EXIT_FAILURE + close(stack->_stdout_));
+			}
+			close(stack->_stdout_);
+		}
 		if (execve(path_cmd, cmd_arr, env) == -1 && \
 			execve(cmd_arr[0], cmd_arr, env) == -1)
 		{
@@ -114,15 +134,23 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, int stdin_backup)
 	else
 	{
 		waitpid(pid, &childe_exit, 0);
-		if (stdin_backup > 0)
+		if (stack->stdin_backup > 0)
 		{
-			if (dup2(stdin_backup, STDIN_FILENO) < 0)
+			if (dup2(stack->stdin_backup, STDIN_FILENO) < 0)
 			{
 				perror("minishell");
-				unlink(".heredoc");
-				return (EXIT_FAILURE + close(stdin_backup));
+				return (EXIT_FAILURE + close(stack->stdin_backup));
 			}
-			close(stdin_backup);
+			close(stack->stdin_backup);
+		}
+		if (stack->stdout_backup > 0)
+		{
+			if (dup2(stack->stdout_backup, STDOUT_FILENO) == -1)
+			{
+				perror("Minishell");
+				return (1);
+			}
+			close(stack->stdout_backup);
 		}
 		return (childe_exit / 256);
 	}
@@ -167,7 +195,7 @@ int	call_cmds(t_main *main, t_pars *stack, t_env **env)
 	cmd_path = check_cmd(cmd_arr[0], main->path);
 	if (!cmd_path)
 		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
-	k = exec_cmds(cmd_path, cmd_arr, my_env, main->stdin_backup);
+	k = exec_cmds(cmd_path, cmd_arr, my_env, stack);
 	free_of_n(cmd_path, cmd_arr, my_env, 3);
 	return (error_code(k));
 }
