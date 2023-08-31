@@ -6,15 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 14:43:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:43:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	main_2(t_main *main, t_env *my_env);
+
 int	main(int ac, char **av, char **env)
 {
-	char		*str;
 	t_env		*my_env;
 	t_main		main;
 
@@ -31,10 +32,19 @@ int	main(int ac, char **av, char **env)
 	main.flag = 1;
 	main.hdoc = 0;
 	main.redir = 0;
+	main.input = 0;
 	main.exit_status = 0;
 	print_header();
 	call_signals();
 	my_env = env_init(env, my_env);
+	main_2(&main, my_env);
+	return (0);
+}
+
+void	main_2(t_main *main, t_env *my_env)
+{
+	char	*str;
+
 	while (1)
 	{
 		str = readline("Minishell 4.2% ");
@@ -45,19 +55,15 @@ int	main(int ac, char **av, char **env)
 		}
 		if (str && *str)
 			add_history(str);
-		str = expand(str, my_env);
 		if (onlyspace(str) == 1)
 		{
-			lex(str, &main);
-			if (main.pars)
+			lex(str, main);
+			if (main->pars)
 			{
-				check_astree(&main, main.pars, &my_env);
-				destroy_main(&main);
+				check_astree(main, main->pars, &my_env);
+				destroy_main(main);
 			}
 		}
 		free(str);
-		// system("leaks minishell");
-		
 	}
-	return (0);
 }

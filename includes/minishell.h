@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 16:11:29 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:20:02 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,9 @@ typedef struct s_pars
 	char			*lpath;
 	int				err_code;
 	int				subshell_code;
-	int				red;
+	int				last_red;
 	int				last_hdoc;
+	int				last_input;
 	int				pipes[2];
 	struct s_pars	*next;
 	struct s_pars	*prev;
@@ -113,6 +114,7 @@ typedef struct s_main
 	int			exit_status;
 	int			redir;
 	int			hdoc;
+	int			input;
 	int			flag;
 	char		**path;
 	t_pars		*pars;

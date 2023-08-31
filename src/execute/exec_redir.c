@@ -6,15 +6,15 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 14:56:00 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:38:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	redir(t_main *main, t_pars *stack, t_env **env);
-int	heredoc(t_main *main, t_pars *stack, t_env **env);
 int	input(t_main *main, t_pars *stack, t_env **env);
+int	heredoc(t_main *main, t_pars *stack, t_env **env);
 int	exec_iocmd(t_main *main, t_pars *stack, t_env **env);
 
 int	redir(t_main *main, t_pars *stack, t_env **env)
@@ -26,27 +26,23 @@ int	redir(t_main *main, t_pars *stack, t_env **env)
 	fd = 0;
 	stdout_beckup = 0;
 	exit_status = 0;
-	if (--main->redir > 0)
-		;
-	if (main->redir == 0)
-		stack->red = 1;
 	if (stack->type == WRITE_APPEND)
 		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
 	else if (stack->type == WRITE_TRUNC)
-		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
-	if (stack->red != 1)
+	fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
+	if (fd == -1)
+	{
+		perror("Minishell");
+		return (1);
+	}
+	if (--main->redir > 0)
+		;
+	if (main->redir == 0)
+		stack->last_red = 1;
+	if (stack->last_red != 1)
 		return (1);
 	else
 	{	
-		if (stack->type == WRITE_APPEND)
-			fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
-		else if (stack->type == WRITE_TRUNC)
-			fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
-		if (fd == -1)
-		{
-			perror("Minishell");
-			return (1);
-		}
 		stdout_beckup = dup(STDOUT_FILENO);
 		if (stdout_beckup == -1)
 		{
@@ -88,7 +84,6 @@ int heredoc(t_main *main, t_pars *stack, t_env **env)
 	if (main->hdoc == 0)
 		stack->last_hdoc = 1;
 	if (stack->last_hdoc != 1)
-		
 		res = handle_heredoc_input(stack->right->cmd);
 	else
 	{
@@ -116,6 +111,16 @@ int heredoc(t_main *main, t_pars *stack, t_env **env)
 			unlink(".heredoc");
 			return (EXIT_FAILURE + _close2_(fd, stdin_backup));
 		}
+		if (main->redir != 0)
+		{
+			// if (dup2(stdin_backup, STDIN_FILENO) < 0)
+			// {
+			// 	perror("minishell");
+			// 	unlink(".heredoc");
+			// 	return (EXIT_FAILURE + _close2_(fd, stdin_backup));
+			// }
+			return (8);
+		}
 		close(fd);
 		tmp = stack;
 		while (tmp->left->type != WORD)
@@ -139,26 +144,40 @@ int	input(t_main *main, t_pars *stack, t_env **env)
 {
 	int		file_fd;
 	int		backup;
+	static int	i = 0;
 
+	if (--main->input > 0)
+		;
+	if (main->input == 0)
+		stack->last_input = 1;
 	backup = dup(STDIN_FILENO);
 	file_fd = open(stack->right->cmd, O_RDONLY);
 	if (file_fd < 0)
 	{
 		perror("minishell");
+		i = 1;
 		return(EXIT_FAILURE + _close_(backup));
 	}
-	if (dup2(file_fd, STDIN_FILENO) < 0)
-	{
-		perror("minishell");
-		return (EXIT_FAILURE + _close2_ (file_fd, backup));
-	}
-	while (stack->left->type != WORD)
-		stack = stack->left;
-	main->exit_status = cmds_execute(main, stack->left, env, 0);
-	if (dup2(backup, STDIN_FILENO) < 0)
-	{
-		perror("minishell");
-		return (EXIT_FAILURE);
+	if (i == 1)
+		return(1);
+	if (stack->last_input != 1)
+		return (0);
+	else
+	{	
+		if (dup2(file_fd, STDIN_FILENO) < 0)
+		{
+			perror("minishell");
+			return (EXIT_FAILURE + _close2_ (file_fd, backup));
+		}
+		while (stack->left->type != WORD)
+			stack = stack->left;
+		main->exit_status = cmds_execute(main, stack->left, env, 0);
+		if (dup2(backup, STDIN_FILENO) < 0)
+		{
+			perror("minishell");
+			return (EXIT_FAILURE);
+		}
+		i = 0;
 	}
 	return (0 + _close2_(backup, file_fd));
 }

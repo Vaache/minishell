@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 14:43:03 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:38:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	lexer(char *line, t_pars **pars)
 
 void	lex(char *line, t_main *main)
 {
+	t_pars	*tmp;
+
 	if (!lexer(line, &(main->lex)))
 	{
 		destroy_main(main);
@@ -108,12 +110,16 @@ void	lex(char *line, t_main *main)
 		main->exit_status = 258;
 		return ;
 	}
-	for (t_pars *tmp = main->lex; tmp; tmp = tmp->next)
+	tmp = main->lex;
+	while (tmp)
 	{
-		if (!ft_strcmp(tmp->cmd, ">") || !ft_strcmp(tmp->cmd, ">>"))
+		if ((!ft_strcmp(tmp->cmd, ">") || !ft_strcmp(tmp->cmd, ">>")))
 			main->redir++;	
 		else if (!ft_strcmp(tmp->cmd, "<<"))
 			main->hdoc++;
+		else if (!ft_strcmp(tmp->cmd, "<"))
+			main->input++;
+		tmp = tmp->next;
 	}
 	parsing(main);
 }
