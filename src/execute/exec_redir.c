@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:40:37 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:58:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 {
 	char	*res;
 	t_tok	*tmp;
+	int		fd;
 
 	res = NULL;
 	if (stack->last_hdoc == 0)
 		return (0);
-	stack->fd = open(stack->hdoc_fname, O_RDWR, 0655);
-	if (stack->fd < 0)
+	fd = open(stack->hdoc_fname, O_RDWR, 0655);
+	if (fd < 0)
 	{
 		perror("minishell");
 		return (EXIT_FAILURE);
@@ -72,13 +73,13 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 	if (main->redir != 0)
 	{
 		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = stack->fd;
+		tmp->left->_stdin_ = fd;
 		return (1);
 	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
 	{
 		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = stack->fd;
+		tmp->left->_stdin_ = fd;
 		main->exit_status = check_astree(main, tmp->left, env);
 		unlink(stack->hdoc_fname);
 	}

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:28:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:07:41 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,21 +138,21 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 		waitpid(pid, &childe_exit, 0);
 		if (stack->stdin_backup > 0)
 		{
-			if (dup2(stack->stdin_backup, STDIN_FILENO) < 0)
+			if (dup2(STDIN_FILENO, stack->stdin_backup) < 0)
 			{
 				perror("minishell");
-				return (EXIT_FAILURE + close(stack->stdin_backup));
+				return (EXIT_FAILURE);
 			}
-			// close(stack->stdin_backup);
+			close(stack->stdin_backup);
 		}
 		if (stack->stdout_backup > 0)
 		{
-			if (dup2(stack->stdout_backup, STDOUT_FILENO) == -1)
+			if (dup2(STDOUT_FILENO, stack->stdout_backup) == -1)
 			{
 				perror("Minishell");
 				return (1);
 			}
-			// close(stack->stdout_backup);
+			close(stack->stdout_backup);
 		}
 		return (childe_exit / 256);
 	}

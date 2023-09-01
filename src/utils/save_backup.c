@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 20:32:30 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 12:20:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:57:16 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	save_backup(t_main **main)
 {
-	t_main	*tmp;
-
-	tmp = (*main);
-	tmp->stdin_backup = dup(STDIN_FILENO);
-	if (tmp->stdin_backup == -1)
+	(*main)->stdin_backup = dup(STDIN_FILENO);
+	if ((*main)->stdin_backup == -1)
 		perror("Minishell");
-	tmp->stdout_backup = dup(STDOUT_FILENO);
-	if (tmp->stdout_backup == -1)
+	(*main)->stdout_backup = dup(STDOUT_FILENO);
+	if ((*main)->stdout_backup == -1)
 		perror("Minishell");
 }

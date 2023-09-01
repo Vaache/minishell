@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 20:43:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 16:55:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:48:23 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,4 @@ void	main_init(t_main *main)
 	main->input = 0;
 	main->last_hdoc = -42;
 	main->exit_status = 0;
-	main->stdin_backup = -42;
-	main->stdout_backup = -42;
 }
