@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 17:20:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:43:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		handle_heredoc(t_pars **pars, char *line, int i, int start);
-char	*handle_heredoc_input(char *string);
+int		handle_heredoc(t_tok **pars, char *line, int i, int start);
+void	handle_heredoc_input(t_main *main, t_tok *tok, char *line);
 
-int	handle_heredoc(t_pars **pars, char *line, int i, int start)
+int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 {
 	char	*limiter;
 	int		counter;
@@ -44,20 +44,19 @@ int	handle_heredoc(t_pars **pars, char *line, int i, int start)
 	return (parse_error(2, "newline", -1));
 }
 
-char	*handle_heredoc_input(char *string)
+void	handle_heredoc_input(t_main *main, t_tok *tok, char *line)
 {
-	char	*line;
 	char	*res;
 
-	line = NULL;
 	res = NULL;
+	tok->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
+	tok->fd = open(main->hd->matrix[main->hd->i], O_RDWR | O_CREAT | O_TRUNC, 0655);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, string) == 0)
+		if (!line || ft_strcmp(line, tok->next->cmd) == 0)
 		{
-			if (line)
-				free(line);
+			free(line);
 			break ;
 		}
 		if (!res)
@@ -66,9 +65,10 @@ char	*handle_heredoc_input(char *string)
 			res = strjoin_mode(res, line, 1);
 		free(line);
 	}
-	if (!res)
-		ft_strdup("");
-	else
+	if (res)
 		res = ft_strjoin(res, "\n", 1);
-	return (res);
+	else
+		res = ft_strdup("");
+	write(tok->fd, res, ft_strlen(res));
+	_close2_(tok->fd, free_of_n(res, NULL, NULL, -1) - 42);
 }

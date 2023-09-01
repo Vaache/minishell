@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 16:03:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 16:10:27 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:35:40 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	free_of_n(char *str, char **arr1, char **arr2, int i)
 		free_2d(arr1);
 		free_2d(arr2);
 	}
+	else
+		free(str);
 	return (0);
 }
 

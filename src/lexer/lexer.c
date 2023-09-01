@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/30 19:38:20 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		lexer(char *line, t_pars **pars);
+int		lexer(char *line, t_tok **pars);
 void	lex(char *line, t_main *main);
 
-int	lexer(char *line, t_pars **pars)
+int	lexer(char *line, t_tok **pars)
 {
 	int	start;
 	int	i;
@@ -96,15 +96,9 @@ int	lexer(char *line, t_pars **pars)
 
 void	lex(char *line, t_main *main)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
-	if (!lexer(line, &(main->lex)))
-	{
-		destroy_main(main);
-		main->exit_status = 258;
-		return ;
-	}
-	if (!check_valid(main))
+	if (!lexer(line, &(main->lex)) || !check_valid(main))
 	{
 		destroy_main(main);
 		main->exit_status = 258;
@@ -113,13 +107,14 @@ void	lex(char *line, t_main *main)
 	tmp = main->lex;
 	while (tmp)
 	{
-		if ((!ft_strcmp(tmp->cmd, ">") || !ft_strcmp(tmp->cmd, ">>")))
-			main->redir++;	
-		else if (!ft_strcmp(tmp->cmd, "<<"))
+		if (tmp->type == HEREDOC && check_types(tmp->next->next->type) == 1)
 			main->hdoc++;
-		else if (!ft_strcmp(tmp->cmd, "<"))
-			main->input++;
 		tmp = tmp->next;
+	}
+	if (main->hdoc > 15)
+	{
+		ft_printf(2, "Minishell: maximum here-document count exceeded");
+		exit(2);
 	}
 	parsing(main);
 }

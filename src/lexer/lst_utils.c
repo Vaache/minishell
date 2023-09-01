@@ -6,34 +6,36 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 22:00:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pars	*lstadd(char *string, t_type type, int prc, int flag);
-t_pars	*lstlast(t_pars *lst);
-void	lstback(t_pars **pars, t_pars *new);
-void	lstclear(t_pars **lst);
-int		lstsize(t_pars *lst);
+t_tok	*lstadd(char *string, t_type type, int prc, int flag);
+t_tok	*lstlast(t_tok *lst);
+void	lstback(t_tok **pars, t_tok *new);
+void	lstclear(t_tok **lst);
+int		lstsize(t_tok *lst);
 
-t_pars	*lstadd(char *string, t_type type, int prc, int flag)
+t_tok	*lstadd(char *string, t_type type, int prc, int flag)
 {
-	t_pars		*tmp;
+	t_tok		*tmp;
 
-	tmp = (t_pars *)malloc(sizeof(t_pars));
+	tmp = (t_tok *)malloc(sizeof(t_tok));
 	if (!tmp)
 		return (NULL);
 	tmp->cmd = ft_strdup(string);
+	tmp->hdoc_fname = NULL;
 	tmp->flag = flag;
 	tmp->prc = prc;
 	tmp->type = type;
 	tmp->err_code = 0;
-	tmp->last_red = 0;
+	tmp->last_red = -1;
 	tmp->last_hdoc = 0;
-	tmp->last_input = 0;
+	tmp->last_input = -1;
 	tmp->subshell_code = 0;
+	tmp->fd = -42;
 	tmp->_stdin_ = -42;
 	tmp->_stdout_ = -42;
 	tmp->stdin_backup = -42;
@@ -45,9 +47,9 @@ t_pars	*lstadd(char *string, t_type type, int prc, int flag)
 	return (tmp);
 }
 
-void	lstback(t_pars **pars, t_pars *new)
+void	lstback(t_tok **pars, t_tok *new)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	tmp = lstlast(*pars);
 	if (!tmp)
@@ -59,9 +61,9 @@ void	lstback(t_pars **pars, t_pars *new)
 	}
 }
 
-void	lstclear(t_pars **lst)
+void	lstclear(t_tok **lst)
 {
-	t_pars	*ptr;
+	t_tok	*ptr;
 
 	ptr = NULL;
 	if (!lst || !*lst)
@@ -76,9 +78,9 @@ void	lstclear(t_pars **lst)
 	ptr = NULL;
 }
 
-t_pars	*lstlast(t_pars *lst)
+t_tok	*lstlast(t_tok *lst)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	tmp = lst;
 	if (!tmp)
@@ -88,7 +90,7 @@ t_pars	*lstlast(t_pars *lst)
 	return (tmp);
 }
 
-int	lstsize(t_pars *lst)
+int	lstsize(t_tok *lst)
 {
 	int	i;
 

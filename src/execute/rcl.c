@@ -6,22 +6,22 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 13:29:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**restore_cmd_line(t_pars *stack, int i);
-void	fill_wcard(t_pars *stack, t_wcard **wcard);
-char	**malloc_2d_wc(char **arr, t_pars *stack, t_wcard **wcard);
+char	**restore_cmd_line(t_tok *stack, int i);
+void	fill_wcard(t_tok *stack, t_wcard **wcard);
+char	**malloc_2d_wc(char **arr, t_tok *stack, t_wcard **wcard);
 char	**fill_cmd_matrix(char **arr, char *str, t_wcard *wild, int *i);
 
-char	**restore_cmd_line(t_pars *stack, int i)
+char	**restore_cmd_line(t_tok *stack, int i)
 {
 	char		**cmd_matrix;
 	int			mode;
-	t_pars		*tmp;
+	t_tok		*tmp;
 	t_wcard		*wcard;
 
 	wcard = NULL;
@@ -47,7 +47,7 @@ char	**restore_cmd_line(t_pars *stack, int i)
 
 
 
-char	**malloc_2d_wc(char **arr, t_pars *stack, t_wcard **wcard)
+char	**malloc_2d_wc(char **arr, t_tok *stack, t_wcard **wcard)
 {
 	int		i;
 
@@ -91,9 +91,9 @@ char	**fill_cmd_matrix(char **arr, char *str, t_wcard *wild, int *i)
 	return (arr);
 }
 
-void	fill_wcard(t_pars *stack, t_wcard **wcard)
+void	fill_wcard(t_tok *stack, t_wcard **wcard)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	tmp = stack;
 	while (tmp)

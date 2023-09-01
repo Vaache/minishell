@@ -6,17 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 14:02:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack);
-void	print_ast(t_pars *ast, int indent, int lrc);
-t_pars	*most_prev(t_pars *stack);
+t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack);
+void	print_ast(t_tok *ast, int indent, int lrc);
+t_tok	*most_prev(t_tok *stack);
 
-void	print_types(t_pars *ptr)
+void	print_types(t_tok *ptr)
 {
 	if (!ptr)
 		printf("%p", NULL);
@@ -31,7 +31,7 @@ void	print_types(t_pars *ptr)
 	printf("\n");
 }
 
-void	print_ast(t_pars *ast, int indent, int lrc)
+void	print_ast(t_tok *ast, int indent, int lrc)
 {
 	int	i;
 
@@ -59,9 +59,9 @@ void	print_ast(t_pars *ast, int indent, int lrc)
 	print_ast(ast->left, indent + 1, 2);
 }
 
-t_pars	*most_prev(t_pars *stack)
+t_tok	*most_prev(t_tok *stack)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	tmp = stack;
 	if (!tmp)
@@ -73,10 +73,10 @@ t_pars	*most_prev(t_pars *stack)
 	return (tmp);
 }
 
-t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
+t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack)
 {
-	t_pars	*tmp;
-	t_pars	*new;
+	t_tok	*tmp;
+	t_tok	*new;
 
 	tmp = lstlast(*stack);
 	new = NULL;
@@ -84,7 +84,7 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 		return (NULL);
 	else if (tmp->type == END)
 	{
-		new = lstadd(tmp->cmd, tmp->type, tmp->prc, tmp->flag);
+		new = ast_branch(tmp);
 		delete_node(stack);
 		new->right = most_prev(abstract_syntax_tree(main, stack));
 		if (!new)
@@ -93,7 +93,7 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 	}
 	else if (check_types(tmp->type))
 	{
-		new = lstadd(tmp->cmd, tmp->type, tmp->prc, tmp->flag);
+		new = ast_branch(tmp);
 		if (tmp->subshell_code)
 			new->subshell_code = 1;
 		delete_node(stack);
@@ -102,17 +102,9 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 		if (new && check_types(new->type) == 2)
 		{
 			if (new->left)
-			{
 				new->left->flag += _REDIR_;
-				if (new->left->cmd)
-					new->lpath = new->left->cmd;
-			}
 			if (new->right)
-			{
 				new->right->flag += _REDIR_;
-				if (new->right->cmd)
-					new->rpath = new->right->cmd;
-			}
 		}
 		return (new);
 	}
@@ -125,7 +117,7 @@ t_pars	*abstract_syntax_tree(t_main *main, t_pars **stack)
 		}
 		if (tmp && tmp->cmd && (tmp->flag & 1) == 1)
 		{
-			new = lstadd(tmp->cmd, tmp->type, tmp->prc, tmp->flag);
+			new = ast_branch(tmp);
 			if (tmp->subshell_code)
 				new->subshell_code = 1;
 			delete_node(stack);

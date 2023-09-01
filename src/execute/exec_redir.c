@@ -6,22 +6,22 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 22:43:27 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:40:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	redir(t_main *main, t_pars *stack, t_env **env);
-int	input(t_main *main, t_pars *stack, t_env **env);
-int	heredoc(t_main *main, t_pars *stack, t_env **env);
-int	exec_iocmd(t_main *main, t_pars *stack, t_env **env);
+int	redir(t_main *main, t_tok *stack, t_env **env);
+int	input(t_main *main, t_tok *stack, t_env **env);
+int	heredoc(t_main *main, t_tok *stack, t_env **env);
+int	exec_iocmd(t_main *main, t_tok *stack, t_env **env);
 
-int	redir(t_main *main, t_pars *stack, t_env **env)
+int	redir(t_main *main, t_tok *stack, t_env **env)
 {
 	int		exit_status;
 	int		fd;
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	exit_status = 0;
 	fd = -42;
@@ -34,12 +34,8 @@ int	redir(t_main *main, t_pars *stack, t_env **env)
 		perror("Minishell");
 		return (1);
 	}
-	if (--main->redir > 0)
-		;
-	if (main->redir == 0)
-		stack->last_red = 1;
 	if (stack->last_red != 1)
-		return (1);
+		return (0);
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
@@ -52,71 +48,49 @@ int	redir(t_main *main, t_pars *stack, t_env **env)
 	return (exit_status);
 }
 
-int heredoc(t_main *main, t_pars *stack, t_env **env)
+int heredoc(t_main *main, t_tok *stack, t_env **env)
 {
 	char	*res;
-	int		fd;
-	t_pars	*tmp;
+	t_tok	*tmp;
 
-	if (--main->hdoc > 0)
-		;
-	if (main->hdoc == 0)
-		stack->last_hdoc = 1;
 	res = NULL;
-	fd = -42;
-	if (stack->last_hdoc != 1)
-	{
-		res = handle_heredoc_input(stack->right->cmd);
-		free(res);
+	if (stack->last_hdoc == 0)
 		return (0);
-	}
-	res = handle_heredoc_input(stack->right->cmd);
-	if (!res)
-		return (1);
-	fd = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0655);
-	if (fd < 0)
-	{
-		perror("minishell");
-		return (EXIT_FAILURE);
-	}
-	write(fd, res, ft_strlen(res));
-	free(res);
-	close(fd);
-	fd = open(".heredoc", O_RDWR, 0655);
-	if (fd < 0)
+	stack->fd = open(stack->hdoc_fname, O_RDWR, 0655);
+	if (stack->fd < 0)
 	{
 		perror("minishell");
 		return (EXIT_FAILURE);
 	}
 	tmp = stack;
 	while (tmp->left->type != WORD)
+	{
+		if (tmp->left->type == HEREDOC)
+			unlink(tmp->left->hdoc_fname);
 		tmp = tmp->left;
+	}
 	if (main->redir != 0)
 	{
 		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = fd;
+		tmp->left->_stdin_ = stack->fd;
 		return (1);
 	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
 	{
 		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = fd;
+		tmp->left->_stdin_ = stack->fd;
 		main->exit_status = check_astree(main, tmp->left, env);
+		unlink(stack->hdoc_fname);
 	}
-	
 	return (0);
 }
 
-int	input(t_main *main, t_pars *stack, t_env **env)
+int	input(t_main *main, t_tok *stack, t_env **env)
 {
 	static int	i = 0;
 	int			fd;
-	t_pars		*tmp;
+	t_tok		*tmp;
 
-	if (--main->input > 0)
-		;
-	if (main->input == 0)
-		stack->last_input = 1;
 	fd = open(stack->right->cmd, O_RDONLY);
 	if (fd < 0)
 	{
@@ -144,7 +118,7 @@ int	input(t_main *main, t_pars *stack, t_env **env)
 	return (0);
 }
 
-int	exec_iocmd(t_main *main, t_pars *stack, t_env **env)
+int	exec_iocmd(t_main *main, t_tok *stack, t_env **env)
 {
 	if (stack && stack->type == HEREDOC)
 		return (heredoc(main, stack, env));

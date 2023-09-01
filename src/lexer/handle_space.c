@@ -6,15 +6,15 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:10:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:24:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_space(t_pars **pars, char *line, int i, int start);
+void	handle_space(t_tok **pars, char *line, int i, int start);
 
-void	handle_space(t_pars **pars, char *line, int i, int start)
+void	handle_space(t_tok **pars, char *line, int i, int start)
 {
 	char	*str;
 

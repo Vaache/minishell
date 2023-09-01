@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_backup.c                                      :+:      :+:    :+:   */
+/*   init_hd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/31 20:32:30 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 12:20:58 by vhovhann         ###   ########.fr       */
+/*   Created: 2023/09/01 12:48:39 by vhovhann          #+#    #+#             */
+/*   Updated: 2023/09/01 15:39:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	save_backup(t_main **main)
+void	init_hd(t_hd **hd)
 {
-	t_main	*tmp;
+	int		i;
+	char	*str;
 
-	tmp = (*main);
-	tmp->stdin_backup = dup(STDIN_FILENO);
-	if (tmp->stdin_backup == -1)
-		perror("Minishell");
-	tmp->stdout_backup = dup(STDOUT_FILENO);
-	if (tmp->stdout_backup == -1)
-		perror("Minishell");
+	i = 0;
+	if (*hd)
+		return ;
+	(*hd) = (t_hd *)malloc(sizeof(t_hd));
+	(*hd)->i = -1;
+	(*hd)->matrix = (char **)malloc(sizeof(char *) * 16);
+	while (i < 16)
+	{
+		(*hd)->matrix[i] = ft_strdup(".heredoc");
+		str = ft_itoa(i);
+		(*hd)->matrix[i] = ft_strjoin((*hd)->matrix[i], str, 1);
+		free(str);
+		i++;
+	}
 }

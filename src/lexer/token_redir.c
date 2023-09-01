@@ -6,17 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 17:21:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_append(t_pars **pars, char *line, int i, int start);
-int	handle_trunc(t_pars **pars, char *line, int i, int start);
-int	handle_infile(t_pars **pars, char *line, int i, int start);
+int	handle_append(t_tok **pars, char *line, int i, int start);
+int	handle_trunc(t_tok **pars, char *line, int i, int start);
+int	handle_infile(t_tok **pars, char *line, int i, int start);
 
-int	handle_append(t_pars **pars, char *line, int i, int start)
+int	handle_append(t_tok **pars, char *line, int i, int start)
 {
 	int		k;
 
@@ -33,7 +33,7 @@ int	handle_append(t_pars **pars, char *line, int i, int start)
 	return (parse_error(2, "newline", -1));
 }
 
-int	handle_trunc(t_pars **pars, char *line, int i, int start)
+int	handle_trunc(t_tok **pars, char *line, int i, int start)
 {
 	int		k;
 
@@ -50,7 +50,7 @@ int	handle_trunc(t_pars **pars, char *line, int i, int start)
 	return (parse_error(2, ">", -1));
 }
 
-int	handle_infile(t_pars **pars, char *line, int i, int start)
+int	handle_infile(t_tok **pars, char *line, int i, int start)
 {
 	int		k;
 

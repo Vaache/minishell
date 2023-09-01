@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 22:21:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_builtins(t_main *main, t_pars *pars, t_env **env)
+int	check_builtins(t_main *main, t_tok *pars, t_env **env)
 {
 	char	**arr;
 	int		i;
@@ -95,7 +95,7 @@ int	check_builtins(t_main *main, t_pars *pars, t_env **env)
 	return (0);
 }
 
-int	cmds_execute(t_main *main, t_pars *pars, t_env **env, int status)
+int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
 {
 	if (!check_builtins(main, pars, env))
 	{

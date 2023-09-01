@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 18:27:04 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 18:56:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:36:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	_close_(int	fd)
 
 int	_close2_(int fd1, int fd2)
 {
-	if (close(fd1) < 0)
+	if (fd1 >= 0 && close(fd1) < 0)
 	{
 		perror("minishell");
 		return (-10);
 	}
-	if (close(fd2) < 0)
+	if (fd2 >= 0 && close(fd2) < 0)
 	{
 		perror("minishell");
 		return (-10);

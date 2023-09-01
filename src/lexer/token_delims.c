@@ -6,17 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 15:59:24 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:26:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_xor(t_pars **pars, char *line, int i, int start);
-int	handle_xand(t_pars **pars, char *line, int i, int start);
-int	handle_pipe(t_pars **pars, char *line, int i, int start);
+int	handle_xor(t_tok **pars, char *line, int i, int start);
+int	handle_xand(t_tok **pars, char *line, int i, int start);
+int	handle_pipe(t_tok **pars, char *line, int i, int start);
 
-int	handle_xor(t_pars **pars, char *line, int i, int start)
+int	handle_xor(t_tok **pars, char *line, int i, int start)
 {
 	handle_space(pars, line, i, start);
 	if (!(*pars))
@@ -25,7 +25,7 @@ int	handle_xor(t_pars **pars, char *line, int i, int start)
 	return (i + 1);
 }
 
-int	handle_xand(t_pars **pars, char *line, int i, int start)
+int	handle_xand(t_tok **pars, char *line, int i, int start)
 {
 	handle_space(pars, line, i, start);
 	if (!(*pars))
@@ -34,7 +34,7 @@ int	handle_xand(t_pars **pars, char *line, int i, int start)
 	return (i + 1);
 }
 
-int	handle_pipe(t_pars **pars, char *line, int i, int start)
+int	handle_pipe(t_tok **pars, char *line, int i, int start)
 {
 	handle_space(pars, line, i, start);
 	if (!(*pars))

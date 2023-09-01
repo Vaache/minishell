@@ -6,15 +6,15 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:05:48 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 13:52:25 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pipe_prepair(t_main *main, t_pars *pars, t_env **env);
+int	pipe_prepair(t_main *main, t_tok *pars, t_env **env);
 
-static pid_t	child_left(t_main *main, t_pars *pars, t_env **env, int *pipes)
+static pid_t	child_left(t_main *main, t_tok *pars, t_env **env, int *pipes)
 {
 	int		status;
 	pid_t	pid;
@@ -34,7 +34,7 @@ static pid_t	child_left(t_main *main, t_pars *pars, t_env **env, int *pipes)
 	return (pid);
 }
 
-static pid_t	child_right(t_main *main, t_pars *pars, t_env **env, int *pipes)
+static pid_t	child_right(t_main *main, t_tok *pars, t_env **env, int *pipes)
 {
 	int		status;
 	pid_t	pid;
@@ -54,7 +54,7 @@ static pid_t	child_right(t_main *main, t_pars *pars, t_env **env, int *pipes)
 	return (pid);
 }
 
-int	pipe_prepair(t_main *main, t_pars *pars, t_env **env)
+int	pipe_prepair(t_main *main, t_tok *pars, t_env **env)
 {
 	pid_t	pid_right;
 	pid_t	pid_left;

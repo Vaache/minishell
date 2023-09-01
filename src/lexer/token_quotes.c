@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:26:41 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_dquotes(t_pars **pars, char *line, int i, int start);
-int	handle_squotes(t_pars **pars, char *line, int i, int start);
+int	handle_dquotes(t_tok **pars, char *line, int i, int start);
+int	handle_squotes(t_tok **pars, char *line, int i, int start);
 
-int	handle_dquotes(t_pars **pars, char *line, int i, int start)
+int	handle_dquotes(t_tok **pars, char *line, int i, int start)
 {
 	int		count;
 	char	*str;
@@ -43,7 +43,7 @@ int	handle_dquotes(t_pars **pars, char *line, int i, int start)
 	return (count);
 }
 
-int	handle_squotes(t_pars **pars, char *line, int i, int start)
+int	handle_squotes(t_tok **pars, char *line, int i, int start)
 {
 	int		count;
 	char	*str;

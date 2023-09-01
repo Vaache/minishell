@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 21:49:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:22:08 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@
 # define _EXPORT_	"export"
 # define _PIPE_		32
 # define _REDIR_	8
+
+typedef	struct s_hd
+{
+	char	**matrix;
+	int		i;
+}	t_hd;
 
 typedef struct s_env
 {
@@ -79,18 +85,17 @@ typedef enum e_token_type
 //	@tparam	int			flag
 //	@tparam	int			err_code
 //	@tparam	int			(*pipes)[2]
-//	@tparam	s_parser	*next
-//	@tparam	s_parser	*prev
-//	@tparam	s_parser	*left
-//	@tparam	s_parser	*right
-typedef struct s_pars
+//	@tparam	s_toker	*next
+//	@tparam	s_toker	*prev
+//	@tparam	s_toker	*left
+//	@tparam	s_toker	*right
+typedef struct s_tok
 {
 	char			*cmd;
+	char			*hdoc_fname;
 	t_type			type;
 	int				prc;
 	int				flag;
-	char			*rpath;
-	char			*lpath;
 	int				err_code;
 	int				subshell_code;
 	int				last_red;
@@ -100,19 +105,20 @@ typedef struct s_pars
 	int				_stdout_;
 	int				stdin_backup;
 	int				stdout_backup;
+	int				fd;
 	int				pipes[2];
-	struct s_pars	*next;
-	struct s_pars	*prev;
-	struct s_pars	*left;
-	struct s_pars	*right;
-}					t_pars;
+	struct s_tok	*next;
+	struct s_tok	*prev;
+	struct s_tok	*left;
+	struct s_tok	*right;
+}					t_tok;
 
 //	@brief
 //	@tparam int			exit_status
 //	@tparam	char		**path
-//	@tparam	t_parser	*pars
-//	@tparam	t_parser	*lex
-//	@tparam	t_parser	*temp
+//	@tparam	t_toker	*pars
+//	@tparam	t_toker	*lex
+//	@tparam	t_toker	*temp
 typedef struct s_main
 {
 	int			exit_status;
@@ -121,11 +127,15 @@ typedef struct s_main
 	int			input;
 	int			flag;
 	char		**path;
+	int			last_hdoc;
+	int			last_redir;
+	int			last_input;
 	int			stdin_backup;
 	int			stdout_backup;
-	t_pars		*pars;
-	t_pars		*lex;
-	t_pars		*temp;
+	t_tok		*pars;
+	t_tok		*lex;
+	t_tok		*temp;
+	t_hd		*hd;
 }				t_main;
 /********************************************/
 /************* MINISHELL_UTILS **************/
@@ -153,6 +163,7 @@ int						close_pipes(int fd[2]);
 int						quote_count(char *limiter);
 void					save_backup(t_main **main);
 void					main_init(t_main *main);
+void					init_hd(t_hd **hd);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -177,81 +188,83 @@ t_env					*malloc_list(char *env);
 
 void					lex(char *line, t_main *main);
 int						ft_isspace(char *str, int start, int i);
-int						is_delim(t_pars	*pars);
+int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
 int						check_valid(t_main *main);
 int						check_types(t_type type);
-int						lstsize(t_pars *lst);
+int						lstsize(t_tok *lst);
 char					*search_redir(char *str);
-void					destroy_structure(t_pars *root);
+void					destroy_structure(t_tok *root);
 void					destroy_main(t_main *main);
 
-t_pars					*lstlast(t_pars *lst);
-void					lstclear(t_pars **lst);
-void					lstback(t_pars **pars, t_pars *new);
-t_pars					*lstadd(char *string, t_type type, int prc, int flag);
+t_tok					*lstlast(t_tok *lst);
+void					lstclear(t_tok **lst);
+void					lstback(t_tok **pars, t_tok *new);
+t_tok					*lstadd(char *string, t_type type, int prc, int flag);
 
-int						handle_dquotes(t_pars **pars, char *line, \
+int						handle_dquotes(t_tok **pars, char *line, \
 							int i, int start);
-int						handle_squotes(t_pars **pars, char *line, \
-							int i, int start);
-
-int						handle_xor(t_pars **pars, char *line, \
-							int i, int start);
-int						handle_xand(t_pars **pars, char *line, \
-							int i, int start);
-int						handle_pipe(t_pars **pars, char *line, \
+int						handle_squotes(t_tok **pars, char *line, \
 							int i, int start);
 
-int						handle_oprnth(t_pars **pars, char *line, \
+int						handle_xor(t_tok **pars, char *line, \
 							int i, int start);
-int						handle_clprnth(t_pars **pars, char *line, \
+int						handle_xand(t_tok **pars, char *line, \
 							int i, int start);
-
-int						handle_heredoc(t_pars **pars, char *line, \
-							int i, int start);
-char					*handle_heredoc_input(char *string);
-
-int						handle_append(t_pars **pars, char *line, \
-							int i, int start);
-int						handle_trunc(t_pars **pars, char *line, \
-							int i, int start);
-int						handle_infile(t_pars **pars, char *line, \
+int						handle_pipe(t_tok **pars, char *line, \
 							int i, int start);
 
-void					handle_space(t_pars **pars, char *line, \
+int						handle_oprnth(t_tok **pars, char *line, \
+							int i, int start);
+int						handle_clprnth(t_tok **pars, char *line, \
+							int i, int start);
+
+int						handle_heredoc(t_tok **pars, char *line, \
+							int i, int start);
+void					handle_heredoc_input(t_main *main, t_tok *tok, char *line);
+
+int						handle_append(t_tok **pars, char *line, \
+							int i, int start);
+int						handle_trunc(t_tok **pars, char *line, \
+							int i, int start);
+int						handle_infile(t_tok **pars, char *line, \
+							int i, int start);
+
+void					handle_space(t_tok **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env **env);
 
-char					**restore_cmd_line(t_pars *stack, int i);
+char					**restore_cmd_line(t_tok *stack, int i);
 void					parsing(t_main *main);
-void					delete_node(t_pars **opstack);
-void					push(t_pars **a, t_pars **b);
-void					shunting_yard(t_pars **tmp, t_pars **postfix, \
-														t_pars **opstack);
-t_pars					*abstract_syntax_tree(t_main *main, t_pars **stack);
-t_pars					*most_prev(t_pars *stack);
+void					delete_node(t_tok **opstack);
+void					push(t_tok **a, t_tok **b);
+void					shunting_yard(t_tok **tmp, t_tok **postfix, \
+														t_tok **opstack);
+t_tok					*abstract_syntax_tree(t_main *main, t_tok **stack);
+t_tok					*most_prev(t_tok *stack);
 
-int						check_astree(t_main *main, t_pars *stack, t_env **env);
-int						cmds_execute(t_main *main, t_pars *pars, t_env **env, \
+t_tok					*ast_branch(t_tok *tok);
+int						check_astree(t_main *main, t_tok *stack, t_env **env);
+int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
-void					print_ast(t_pars *ast, int indent, int lrc);
-int						check_builtins(t_main *main, t_pars *pars, t_env **env);
+void					print_ast(t_tok *ast, int indent, int lrc);
+void					check_lasts(t_main *main, t_tok *stack, int mode);
+int						check_builtins(t_main *main, t_tok *pars, t_env **env);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
 char					*rem_quotes_lim(char *limiter);
 char					*token_is(t_type token);
-int						andxor(t_pars *stack);
-int						call_cmds(t_main *main, t_pars *stack, t_env **env);
+int						andxor(t_tok *stack);
+int						call_cmds(t_main *main, t_tok *stack, t_env **env);
 char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
-int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack);
-int						redir(t_main *main, t_pars *stack, t_env **env);
-int						heredoc(t_main *main, t_pars *stack, t_env **env);
-int						input(t_main *main, t_pars *stack, t_env **env);
-int						exec_iocmd(t_main *main, t_pars *stack, t_env **env);
-int						pipe_prepair(t_main *main, t_pars *pars, t_env **env);
+int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
+int						redir(t_main *main, t_tok *stack, t_env **env);
+int						heredoc(t_main *main, t_tok *stack, t_env **env);
+int						input(t_main *main, t_tok *stack, t_env **env);
+int						exec_iocmd(t_main *main, t_tok *stack, t_env **env);
+int						pipe_prepair(t_main *main, t_tok *pars, t_env **env);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);

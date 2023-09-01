@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/28 13:53:03 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	find_path(t_main *main, t_env **env);
 char	*fill_path_cmd(char *cmd, char **path);
-int		andxor(t_pars *stack);
+int		andxor(t_tok *stack);
 
 void	find_path(t_main *main, t_env **env)
 {
@@ -57,7 +57,7 @@ char	*fill_path_cmd(char *cmd, char **path)
 	return (NULL);
 }
 
-int	andxor(t_pars *stack)
+int	andxor(t_tok *stack)
 {
 	if (stack->type == XAND && stack->left && stack->left->err_code != 0)
 	{

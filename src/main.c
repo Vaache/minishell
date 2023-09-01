@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 20:57:35 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:28:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	main_2(t_main *main, t_env *my_env)
 {
 	char	*str;
 
+	init_hd(&main->hd);
 	while (1)
 	{
 		save_backup(&main);

@@ -6,18 +6,18 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/31 22:43:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:28:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_astree(t_main *main, t_pars *stack, t_env **env);
-int		call_cmds(t_main *main, t_pars *stack, t_env **env);
-int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack);
+int		check_astree(t_main *main, t_tok *stack, t_env **env);
+int		call_cmds(t_main *main, t_tok *stack, t_env **env);
+int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
 char	*check_cmd(char *cmd, char **path);
 
-int	check_astree(t_main *main, t_pars *stack, t_env **env)
+int	check_astree(t_main *main, t_tok *stack, t_env **env)
 {
 	int		status;
 	// pid_t	pid;
@@ -36,6 +36,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env **env)
 	}
 	if (stack->left && stack->right && (check_types(stack->type) == 2))
 	{
+		check_lasts(main, stack, 0);
 		if (stack->left->left)
 			check_astree(main, stack->left, env);
 		main->exit_status = exec_iocmd(main, stack, env);
@@ -44,6 +45,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env **env)
 		stack->err_code = pipe_prepair(main, stack, env);
 	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
+		check_lasts(main, stack, 1);
 		// if (stack->left->subshell_code)
 		// {
 		// 	pid = fork();
@@ -69,6 +71,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env **env)
 	}
 	if (stack->right != NULL && andxor(stack) && !(stack->right->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
+		check_lasts(main, stack, 1);
 		// if (stack->right->subshell_code)
 		// {
 		// 	pid = fork();
@@ -89,7 +92,7 @@ int	check_astree(t_main *main, t_pars *stack, t_env **env)
 	return (0);
 }
 
-int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack)
+int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 {
 	pid_t	pid;
 	int		childe_exit;
@@ -108,16 +111,15 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack)
 			if (dup2(stack->_stdin_, STDIN_FILENO) < 0)
 			{
 				perror("minishell");
-				unlink(".heredoc");
 				return (EXIT_FAILURE + close(stack->_stdin_));
 			}
-			unlink(".heredoc");
 			close(stack->_stdin_);
 		}
 		if (stack->_stdout_ > 0)
 		{
 			if (dup2(stack->_stdout_, STDOUT_FILENO) < 0)
 			{
+				unlink(stack->hdoc_fname);
 				perror("minishell");
 				return (EXIT_FAILURE + close(stack->_stdout_));
 			}
@@ -141,7 +143,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack)
 				perror("minishell");
 				return (EXIT_FAILURE + close(stack->stdin_backup));
 			}
-			close(stack->stdin_backup);
+			// close(stack->stdin_backup);
 		}
 		if (stack->stdout_backup > 0)
 		{
@@ -150,7 +152,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_pars *stack)
 				perror("Minishell");
 				return (1);
 			}
-			close(stack->stdout_backup);
+			// close(stack->stdout_backup);
 		}
 		return (childe_exit / 256);
 	}
@@ -176,7 +178,7 @@ char	*check_cmd(char *cmd, char **path)
 	return (ft_strdup(cmd));
 }
 
-int	call_cmds(t_main *main, t_pars *stack, t_env **env)
+int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 {
 	char	*cmd_path;
 	char	**cmd_arr;

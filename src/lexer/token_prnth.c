@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 18:48:35 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/19 14:32:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_oprnth(t_pars **pars, char *line, int i, int start)
+int	handle_oprnth(t_tok **pars, char *line, int i, int start)
 {
 	int		prnth;
 	int		count;
@@ -35,7 +35,7 @@ int	handle_oprnth(t_pars **pars, char *line, int i, int start)
 		return (parse_error(2, "(", -1));
 }
 
-int	handle_clprnth(t_pars **pars, char *line, int i, int start)
+int	handle_clprnth(t_tok **pars, char *line, int i, int start)
 {
 	handle_space(pars, line, i, start);
 	if (lstlast(*pars)->type == SUBSH_OPEN)

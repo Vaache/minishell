@@ -6,14 +6,14 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/21 19:24:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		ft_isspace(char *str, int start, int i);
-int		is_delim(t_pars	*pars);
+int		is_delim(t_tok	*pars);
 int		check_types(t_type type);
 char	*type_is(t_type type);
 int		check_valid(t_main *main);
@@ -63,9 +63,9 @@ int	check_types(t_type type)
 	return (0);
 }
 
-int	is_delim(t_pars	*pars)
+int	is_delim(t_tok	*pars)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	tmp = pars;
 	if (!tmp)
@@ -86,7 +86,7 @@ int	is_delim(t_pars	*pars)
 
 int	check_valid(t_main *main)
 {
-	t_pars	*tmp;
+	t_tok	*tmp;
 
 	tmp = main->lex;
 	if (!tmp)
