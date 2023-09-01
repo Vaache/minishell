@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:58:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/01 23:03:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 	int		fd;
 
 	res = NULL;
-	if (stack->last_hdoc == 0)
-		return (0);
 	fd = open(stack->hdoc_fname, O_RDWR, 0655);
 	if (fd < 0)
 	{
@@ -70,10 +68,11 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 			unlink(tmp->left->hdoc_fname);
 		tmp = tmp->left;
 	}
-	if (main->redir != 0)
+	if (main->redir == 1)
 	{
 		tmp->left->stdin_backup = main->stdin_backup;
 		tmp->left->_stdin_ = fd;
+		unlink(stack->hdoc_fname);
 		return (1);
 	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
