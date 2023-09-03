@@ -120,13 +120,3 @@ void	parsing(t_main *main)
 	main->pars = abstract_syntax_tree(main, &postfix);
 	print_ast(main->pars, 0, 0);
 }
-// void	check_last_red(t_tok **tmp)
-// {
-// 	if (((*tmp)->type == WRITE_TRUNC || (*tmp)->type == WRITE_APPEND) && (check_types((*tmp)->next->next->type) == 1 || (*tmp)->next->next->cmd == NULL))
-// 		(*tmp)->last_red = 1;	
-// 	else if ((*tmp)->type == HEREDOC && (check_types((*tmp)->next->next->type) == 1 || (*tmp)->next->next->cmd == NULL))
-// 		(*tmp)->last_hdoc = 1;
-// 	else if ((*tmp)->type == INPUT && (check_types((*tmp)->next->next->type) == 1 || (*tmp)->next->next->cmd == NULL))
-// 		(*tmp)->last_input = 1;
-// }
-

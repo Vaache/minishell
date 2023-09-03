@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 22:51:10 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:50:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	minishell_pwd(char *str, t_env **env)
 {
 	char		*buff;
 	t_env		*tmp;
-	static int	i = 0;
 
 	(void)str;
 	tmp = (*env);
@@ -32,10 +31,7 @@ void	minishell_pwd(char *str, t_env **env)
 	}
 	buff = getcwd(NULL, 0);
 	if (buff != NULL)
-	{
 		printf("%s\n", buff);
-		i = 0;
-	}
 	else if (!ft_strcmp(tmp->key, "PWD"))
 	{
 		printf("%s\n", tmp->pwd);

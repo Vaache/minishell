@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:22:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:47:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ void					minishell_exit(char **arr, t_env **env);
 void					minishell_pwd(char *str, t_env **env);
 int						minishell_unset(char **arr, t_env **my_env);
 void					minishell_export(char **arr, t_env **my_env);
+void					call_expand(t_tok *stack, t_env *env);
+char					*expand(char *str, t_env **env);
 int						check_unset(char *str);
 void					pwd_init(t_env **my_env);
 void					handler_stp(int sig);
@@ -248,6 +250,7 @@ int						check_astree(t_main *main, t_tok *stack, t_env **env);
 int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
 void					print_ast(t_tok *ast, int indent, int lrc);
+void					parsing(t_main *main);
 void					check_lasts(t_main *main, t_tok *stack, int mode);
 int						check_builtins(t_main *main, t_tok *pars, t_env **env);
 t_type					ttoa(char *token);

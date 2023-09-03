@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:50:41 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 int	check_builtins(t_main *main, t_tok *pars, t_env **env)
 {
 	char	**arr;
-	int		i;
 
-	i = 0;
+	call_expand(pars, *env);
 	arr = restore_cmd_line(pars, -1);
 	if (!arr)
 		return (0);

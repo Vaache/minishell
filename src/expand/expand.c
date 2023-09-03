@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmkrtchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:19:02 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/08/31 17:23:25 by rmkrtchy         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:49:42 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	onlydollar(char *str);
+int		onlydollar(char *str);
+void	call_expand(t_tok *stack, t_env *env);
+char	*expand(char *str, t_env **env);
 
 int	onlydollar(char *str)
 {
@@ -27,7 +29,6 @@ int	onlydollar(char *str)
 	}
 	return (1);
 }
-
 char	*expand(char *str, t_env **env)
 {
 	int		i;
@@ -52,7 +53,9 @@ char	*expand(char *str, t_env **env)
 			}
 			else if (str[i + 1] != '\0')
 			{
-				s = ft_strjoin(s, ft_substr(str, l, i - l), 1);
+				s1 = ft_substr(str, l, i - l);
+				s = ft_strjoin(s, s1, 1);
+				free(s1);
 			}
 			i++;
 			if (!ft_isalpha(str[i]) && str[i] != '?')
@@ -73,14 +76,43 @@ char	*expand(char *str, t_env **env)
 					s = ft_strjoin(s, tmp->data, 1);
 				tmp = tmp->next;
 			}
+			i = l;
 			free(s1);
 		}
 		if (!ft_strchr(str + l, '$'))
 		{
-			i = l;
 			s = ft_strjoin(s, str + i, 1);
 			break;
 		}
+		else if (str[i] != '$')
+		{
+			i = l;
+			while (str[l] && str[l] != '$')
+				l++;
+			s1 = ft_substr(str, i, l - i);
+			s = ft_strjoin(s, s1, 1);
+			free(s1);
+			i = l - 1;
+		}
 	}
 	return (s);
+}
+
+void	call_expand(t_tok *stack, t_env *env)
+{
+	t_tok	*tmp;
+	char	*str;
+
+	tmp = stack;
+	while (tmp)
+	{
+		if (ft_strchr(tmp->cmd, '$') && tmp->type != SQUOTE)
+		{
+			str = expand(tmp->cmd, &env);
+			free(tmp->cmd);
+			tmp->cmd = ft_strdup(str);
+			free(str);
+		}
+		tmp = tmp->next;
+	}
 }

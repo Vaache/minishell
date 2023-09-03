@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:05:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:40:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 		find_path(main, env);
 		main->flag = 0;
 	}
+	call_expand(stack, *env);
 	cmd_arr = restore_cmd_line(stack, -1);
 	my_env = env_2d(env);
 	if (!cmd_arr)

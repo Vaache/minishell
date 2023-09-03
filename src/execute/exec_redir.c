@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:23:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:55:33 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 	}
 	if (stack->last_hdoc != 1)
 	{
-		tmp->left->stdout_backup = main->stdout_backup;
-		tmp->left->_stdout_ = fd;
+		tmp->left->stdin_backup = main->stdin_backup;
+		tmp->left->_stdin_ = fd;
 		unlink(stack->hdoc_fname);
 		return (0);
 	}
