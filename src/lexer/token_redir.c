@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 16:59:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ int	handle_trunc(t_tok **pars, char *line, int i, int start)
 	lstback(pars, lstadd(">", WRITE_TRUNC, 4, 1));
 	k = 0;
 	while (line[i + ++k])
-	{	
-		if (line[i + k] != ' ')
+	{
+		if (line[i + k] != ' ' && line[i + k - 1] != '>')
+			return (i + 1);
+		else if (line[i + k] != ' ' && line[i + k - 1] == '>')
 			return (i);
 	}
 	return (parse_error(2, ">", -1));

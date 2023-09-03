@@ -105,7 +105,6 @@ void	parsing(t_main *main)
 	{
 		if (tmp->type == HEREDOC)
 			handle_heredoc_input(main, tmp, NULL);
-		// check_last_red(&tmp);
 		tmp = tmp->next;
 	}
 	tmp = main->lex;
