@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:55:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 16:59:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:07:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ int	handle_append(t_tok **pars, char *line, int i, int start)
 	k = 1;
 	while (line[i + ++k])
 	{
-		if (line[i + k] != ' ' && (line[i + k] != '&' || line[i + k] != '|'))
+		if (line[i + k] != ' ' && line[i + k - 1] != '>')
+			return (i + 2);
+		else if (line[i + k] != ' ' && line[i + k - 1] == '>')
 			return (i + 1);
 	}
-	return (parse_error(2, "newline", -1));
+	return (parse_error(2, ">>", -1));
 }
 
 int	handle_trunc(t_tok **pars, char *line, int i, int start)
@@ -63,8 +65,10 @@ int	handle_infile(t_tok **pars, char *line, int i, int start)
 	k = 0;
 	while (line[i + ++k])
 	{
-		if (line[i + k] != ' ')
+		if (line[i + k] != ' ' && line[i + k - 1] != '<')
+			return (i + 1);
+		else if (line[i + k] != ' ' && line[i + k - 1] == '<')
 			return (i);
 	}
-	return (parse_error(2, "newline", -1));
+	return (parse_error(2, "<", -1));
 }
