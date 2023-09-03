@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 22:02:55 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 22:08:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
 	if (stack->last_hdoc != 1)
-	{
-		unlink(tmp->left->hdoc_fname);
-		return (0);
-	}
+		return (0 + unlink(stack->hdoc_fname));
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
 		main->exit_status = check_astree(main, tmp->left, env);
 	unlink(stack->hdoc_fname);
