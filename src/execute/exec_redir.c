@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:55:33 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 20:36:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,20 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
+	tmp->left->stdout_backup = main->stdout_backup;
+	tmp->left->_stdout_ = fd;
 	if (stack->last_red != 1)
-	{
-		tmp->left->stdout_backup = main->stdout_backup;
-		tmp->left->_stdout_ = fd;
 		return (0);
-	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)") && !(tmp->flag & (1 << 7)))
-	{
-		tmp->left->stdout_backup = main->stdout_backup;
-		tmp->left->_stdout_ = fd;
 		exit_status = cmds_execute(main, tmp->left, env, 0);
-	}
 	return (exit_status);
 }
 
-int heredoc(t_main *main, t_tok *stack, t_env **env)
+int	heredoc(t_main *main, t_tok *stack, t_env **env)
 {
-	char	*res;
 	t_tok	*tmp;
 	int		fd;
 
-	res = NULL;
 	fd = open(stack->hdoc_fname, O_RDWR, 0655);
 	if (fd < 0)
 	{
@@ -72,20 +64,13 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 			unlink(tmp->left->hdoc_fname);
 		tmp = tmp->left;
 	}
+	tmp->left->stdin_backup = main->stdin_backup;
+	tmp->left->_stdin_ = fd;
 	if (stack->last_hdoc != 1)
-	{
-		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = fd;
-		unlink(stack->hdoc_fname);
 		return (0);
-	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
-	{
-		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = fd;
 		main->exit_status = check_astree(main, tmp->left, env);
-		unlink(stack->hdoc_fname);
-	}
+	unlink(stack->hdoc_fname);
 	return (0);
 }
 
@@ -100,21 +85,17 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	{
 		perror("minishell");
 		i = 1;
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	if (i == 1)
-		return(1);
+		return (1);
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
-	if (stack->last_input != 1)
-	{
-		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = fd;
-		return (0);
-	}
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
+	if (stack->last_input != 1)
+		return (0);
 	main->exit_status = cmds_execute(main, tmp->left, env, 0);
 	i = 0;
 	return (0);
@@ -130,4 +111,3 @@ int	exec_iocmd(t_main *main, t_tok *stack, t_env **env)
 		return (input(main, stack, env));
 	return (1);
 }
-	

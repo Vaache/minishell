@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:40:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 21:46:13 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*check_cmd(char *cmd, char **path);
 int	check_astree(t_main *main, t_tok *stack, t_env **env)
 {
 	int		status;
-	// pid_t	pid;
+	pid_t	pid;
 
 	status = 0;
 	if (!stack)
@@ -46,47 +46,47 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		check_lasts(main, stack, 1);
-		// if (stack->left->subshell_code)
-		// {
-		// 	pid = fork();
-		// 	if (pid == -1)
-		// 		return (127);
-		// 	else if (pid == 0)
-		// 	{
-		// 		stack->err_code = check_astree(main, stack->left, env);
-		// 		exit (stack->err_code);
-		// 	}
-		// 	else
-		// 	{
-		// 		if (wait(&status) < 0)
-		// 		{
-		// 			perror("wait");
-		// 				return (1);
-		// 		}
-		// 		return (status);
-		// 	}
-		// }
-		// else
+		if (stack->left->subshell_code)
+		{
+			pid = fork();
+			if (pid == -1)
+				return (127);
+			else if (pid == 0)
+			{
+				stack->err_code = check_astree(main, stack->left, env);
+				exit (stack->err_code);
+			}
+			else
+			{
+				if (wait(&status) < 0)
+				{
+					perror("wait");
+						return (1);
+				}
+				return (status);
+			}
+		}
+		else
 			stack->err_code = check_astree(main, stack->left, env);
 	}
 	if (stack->right != NULL && andxor(stack) && !(stack->right->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		check_lasts(main, stack, 1);
-		// if (stack->right->subshell_code)
-		// {
-		// 	pid = fork();
-		// 	if (pid == -1)
-		// 		return (127);
-		// 	else if (pid == 0)
-		// 	{
-		// 		stack->err_code = check_astree(main, stack->right, env);
-		// 		exit(stack->err_code);
-		// 	}
-		// 	else
-		// 		wait(NULL);
-		// 	return (1);
-		// }
-		// else
+		if (stack->right->subshell_code)
+		{
+			pid = fork();
+			if (pid == -1)
+				return (127);
+			else if (pid == 0)
+			{
+				stack->err_code = check_astree(main, stack->right, env);
+				exit(stack->err_code);
+			}
+			else
+				wait(NULL);
+			return (1);
+		}
+		else
 			stack->err_code = check_astree(main, stack->right, env);
 	}
 	return (0);
@@ -106,25 +106,8 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	}
 	else if (pid == 0)
 	{
-		if (stack->_stdin_ > 0)
-		{
-			if (dup2(stack->_stdin_, STDIN_FILENO) < 0)
-			{
-				perror("minishell");
-				return (EXIT_FAILURE + close(stack->_stdin_));
-			}
-			close(stack->_stdin_);
-		}
-		if (stack->_stdout_ > 0)
-		{
-			if (dup2(stack->_stdout_, STDOUT_FILENO) < 0)
-			{
-				unlink(stack->hdoc_fname);
-				perror("minishell");
-				return (EXIT_FAILURE + close(stack->_stdout_));
-			}
-			close(stack->_stdout_);
-		}
+		if (io_dup2(stack->_stdin_, stack->_stdout_))
+			exit(EXIT_FAILURE);
 		if (execve(path_cmd, cmd_arr, env) == -1 && \
 			execve(cmd_arr[0], cmd_arr, env) == -1)
 		{
@@ -136,24 +119,8 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	else
 	{
 		waitpid(pid, &childe_exit, 0);
-		if (stack->stdin_backup > 0)
-		{
-			if (dup2(STDIN_FILENO, stack->stdin_backup) < 0)
-			{
-				perror("minishell");
-				return (EXIT_FAILURE);
-			}
-			close(stack->stdin_backup);
-		}
-		if (stack->stdout_backup > 0)
-		{
-			if (dup2(STDOUT_FILENO, stack->stdout_backup) == -1)
-			{
-				perror("Minishell");
-				return (1);
-			}
-			close(stack->stdout_backup);
-		}
+		if (io_backup_dup2(stack->stdin_backup, stack->stdout_backup))
+			return (1);
 		return (childe_exit / 256);
 	}
 }

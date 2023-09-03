@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:19:02 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/09/03 18:49:42 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 21:12:12 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	onlydollar(char *str)
 	}
 	return (1);
 }
+
 char	*expand(char *str, t_env **env)
 {
 	int		i;
@@ -61,7 +62,8 @@ char	*expand(char *str, t_env **env)
 			if (!ft_isalpha(str[i]) && str[i] != '?')
 				s = ft_strjoin(s, "$", 1);
 			l = i;
-			while (str[l] != '\0' && str[l] != '$' && str[l] != ' ' && str[l] != '\'')
+			while (str[l] != '\0' && str[l] != '$' && \
+					str[l] != ' ' && str[l] != '\'')
 				l++;
 			tmp = (*env);
 			s1 = ft_substr(str + i, 0, l - i);

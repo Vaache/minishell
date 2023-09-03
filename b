@@ -1,0 +1,10 @@
+Makefile
+a
+cat
+includes
+libs
+minishell
+obj
+readline-master
+readline_update
+src

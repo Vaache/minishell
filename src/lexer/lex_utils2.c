@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 20:45:00 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:04:25 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:59:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ char	*rem_quotes_lim(char *limiter)
 	quote = quote_count(limiter);
 	if (quote == -1)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * ft_strlen(limiter) - quote - 1);
-	str[ft_strlen(limiter) - quote] = '\0';
+	str = ft_calloc(ft_strlen(limiter) - quote, sizeof(char));
 	if (!str)
 		return (NULL);
 	i = ((quote = 0));

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:47:20 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 21:53:47 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,6 @@ int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 void					print_ast(t_tok *ast, int indent, int lrc);
 void					parsing(t_main *main);
 void					check_lasts(t_main *main, t_tok *stack, int mode);
-int						check_builtins(t_main *main, t_tok *pars, t_env **env);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
 char					*rem_quotes_lim(char *limiter);
@@ -268,6 +267,8 @@ int						heredoc(t_main *main, t_tok *stack, t_env **env);
 int						input(t_main *main, t_tok *stack, t_env **env);
 int						exec_iocmd(t_main *main, t_tok *stack, t_env **env);
 int						pipe_prepair(t_main *main, t_tok *pars, t_env **env);
+int						io_dup2(int _stdin_, int _stdout_);
+int						io_backup_dup2(int _stdin_backup_, int _stdout_backup_);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);
