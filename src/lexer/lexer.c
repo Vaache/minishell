@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:06:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:24:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,7 @@ void	lex(char *line, t_main *main)
 	while (tmp)
 	{
 		if (tmp->type == HEREDOC)
-		{
-			if (tmp->next->next->type == WRITE_APPEND || tmp->next->next->type == WRITE_TRUNC)
-				main->redir = 1;
 			main->hdoc++;
-		}
 		tmp = tmp->next;
 	}
 	if (main->hdoc > 15)

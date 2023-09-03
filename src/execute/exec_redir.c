@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:06:20 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:23:52 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,15 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 		perror("Minishell");
 		return (1);
 	}
-	if (stack->last_red != 1)
-		return (0);
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
+	if (stack->last_red != 1)
+	{
+		tmp->left->stdout_backup = main->stdout_backup;
+		tmp->left->_stdout_ = fd;
+		return (0);
+	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)") && !(tmp->flag & (1 << 7)))
 	{
 		tmp->left->stdout_backup = main->stdout_backup;
@@ -68,12 +72,12 @@ int heredoc(t_main *main, t_tok *stack, t_env **env)
 			unlink(tmp->left->hdoc_fname);
 		tmp = tmp->left;
 	}
-	if (main->redir == 1)
+	if (stack->last_hdoc != 1)
 	{
-		tmp->left->stdin_backup = main->stdin_backup;
-		tmp->left->_stdin_ = fd;
+		tmp->left->stdout_backup = main->stdout_backup;
+		tmp->left->_stdout_ = fd;
 		unlink(stack->hdoc_fname);
-		return (1);
+		return (0);
 	}
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
 	{
@@ -104,12 +108,10 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
 	if (stack->last_input != 1)
-		return (0);
-	if (main->redir != 0)
 	{
 		tmp->left->stdin_backup = main->stdin_backup;
 		tmp->left->_stdin_ = fd;
-		return (1);
+		return (0);
 	}
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
