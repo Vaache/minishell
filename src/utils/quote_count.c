@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 22:24:02 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 22:31:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:44:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	quote_count(char *limiter)
 			squote++;
 	}
 	if (dquote % 2 != 0 || squote % 2 != 0 || squote == 1 || dquote == 1)
-		return (1);
-	return (0);
+		return (-1);
+	return (dquote + squote);
 }
