@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 22:24:02 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 17:44:44 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:51:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	quote_count(char *limiter)
 	int	dquote;
 	int	squote;
 	int	i;
-	
+
 	i = -1;
 	dquote = ((squote = 0));
 	while (limiter && limiter[++i])

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 18:20:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:52:13 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	check_exit_status(char **arr, char *s, int exit_num)
 
 char	*check_zeroes(char *str)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (str != NULL && (str[0] == '0' || \
 			((str[0] == '+' || str[0] == '-') && str[1] == '0')))

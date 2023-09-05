@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 17:15:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:53:07 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*strjoin_mode(char *s1, char *s2, int mode);
 char	*trim_zeroes(char *s);
-char	*search_redir(char *str);
 int		error_code(int error_num);
 void	update_shlvl(t_env **env);
 
@@ -54,37 +53,6 @@ char	*strjoin_mode(char *s1, char *s2, int mode)
 		s1 = ft_strjoin(s1, " ", 1);
 	s1 = ft_strjoin(s1, s2, 1);
 	return (s1);
-}
-
-char	*search_redir(char *str)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == ' ')
-			break ;
-		if (str[i] && str[i + 1] && ((str[i] == '&' && str[i + 1] == '&') || \
-			(str[i] == '|' && str[i + 1] == '|') || \
-			(str[i] == '<' && str[i + 1] == '<') || \
-			(str[i] == '>' && str[i + 1] == '>')))
-		{
-			tmp = ft_substr(str + i, 0, 2);
-			return (tmp);
-		}
-		else if (str[i] && (str[i] == '&' || str[i] == '|' || \
-			str[i] == '<' || str[i] == '>'))
-		{
-			tmp = ft_substr(str + i, 0, 1);
-			return (tmp);
-		}
-		else
-			return (NULL);
-		i++;
-	}
-	return (NULL);
 }
 
 int	error_code(int error_num)

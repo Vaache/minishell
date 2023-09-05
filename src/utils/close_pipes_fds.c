@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 18:27:04 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 15:36:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:51:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	close_pipes(int fd[2]);
 int	_close3_(int fd1, int fd2, int fd3);
 int	_close2_(int fd1, int fd2);
-int	_close_(int	fd);
+int	_close_(int fd);
 
-int	_close_(int	fd)
+int	_close_(int fd)
 {
 	if (close(fd) < 0)
 	{

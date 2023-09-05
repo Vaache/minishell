@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 19:28:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:02:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <errno.h>
 # include <dirent.h>
 # include <stdbool.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "get_next_line_bonus.h"
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -59,7 +59,6 @@ typedef struct s_exp
 	char	*str;
 	char	*s;
 }	t_exp;
-
 
 typedef struct s_wcard
 {
@@ -204,7 +203,6 @@ char					*type_is(t_type type);
 int						check_valid(t_main *main);
 int						check_types(t_type type);
 int						lstsize(t_tok *lst);
-char					*search_redir(char *str);
 void					destroy_structure(t_tok *root);
 void					destroy_main(t_main *main);
 

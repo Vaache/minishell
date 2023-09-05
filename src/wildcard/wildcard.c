@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:08 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/04 20:20:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:54:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	wcard_logic_2(char **pattern, char **string, int star)
 				while (**pattern != '*')
 					(*pattern)--;
 			++(*string);
-			if (**pattern == '*' || \
-			(**string == '\0' && **pattern && !ft_strcmp(*string - 1, *pattern)))
+			if (**pattern == '*' || (**string == '\0' && \
+				**pattern && !ft_strcmp(*string - 1, *pattern)))
 				(*pattern)++;
 		}
 		else

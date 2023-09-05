@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 15:52:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:42:15 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,17 @@ int	check_builtins_2(t_env **env, char **arr)
 
 int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
 {
-	int	exit_code;
-
-	exit_code = check_builtins(pars, env);
-	if (exit_code == 0)
+	status = check_builtins(pars, env);
+	if (status == 0)
 	{
 		pars->err_code = call_cmds(main, pars, env);
 		status = pars->err_code;
 	}
-	else if (exit_code == -1)
+	else if (status == -1)
 		return (1);
 	else
 		if (io_backup_dup2(pars->stdin_backup, pars->stdout_backup))
 			return (1);
+	main->flag = 1;
 	return (status);
 }

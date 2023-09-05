@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 18:12:51 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:14:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,18 @@ char	*check_cmd(char *cmd, char **path)
 	{
 		if (ft_strchr(cmd, '/'))
 		{
-			ft_printf(2, "Minishell: no such file or directory: %s\n", cmd);
+			ft_printf(2, "Minishell: %s: no such file or directory\n", cmd);
 			return (NULL);
 		}
 		path_cmd = fill_path_cmd(cmd, path);
 		if (!path_cmd)
 			ft_printf(2, "Minishell: command not found: %s\n", cmd);
 		return (path_cmd);
+	}
+	else if (ft_strchr(cmd, '/'))
+	{
+		ft_printf(2, "Minishell: %s: is a directory\n", cmd);
+		return (NULL);
 	}
 	return (ft_strdup(cmd));
 }
