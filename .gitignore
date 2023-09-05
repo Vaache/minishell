@@ -6,4 +6,4 @@ libs/libft/obj
 libs/libft/libft.a
 libs/Fdprintf/obj
 libs/Fdprintf/libftprintf.a
-./minishell
+minishell
