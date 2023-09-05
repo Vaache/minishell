@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 22:05:10 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:54:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,15 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 		check_lasts(main, stack, 0);
 		if (stack->left->left)
 			check_astree(main, stack->left, env);
-		main->exit_status = exec_iocmd(main, stack, env);
+		if (main->exit_status != EXIT_FAILURE)
+			main->exit_status = exec_iocmd(main, stack, env);
 	}
 	else if (stack->left && stack->right && stack->type == PIPE)
 		stack->err_code = pipe_prepair(main, stack, env);
 	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		check_lasts(main, stack, 1);
-		if (stack->left->subshell_code)
+		if (stack->left->subshell_code && check_types(stack->left->type) == 1)
 		{
 			pid = fork();
 			if (pid == -1)
@@ -54,17 +55,17 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 			else if (pid == 0)
 			{
 				stack->err_code = check_astree(main, stack->left, env);
-				exit (stack->err_code);
+				exit(stack->err_code);
 			}
-			else
+			if (wait(&status) < 0)
 			{
-				if (wait(&status) < 0)
-				{
-					perror("wait");
-						return (1);
-				}
-				return (status);
+				perror("minishell");
+				return (1);
 			}
+			if (WIFSIGNALED(status))
+				stack->err_code = WTERMSIG(status);
+			else
+				stack->err_code = status;
 		}
 		else
 			stack->err_code = check_astree(main, stack->left, env);
@@ -72,7 +73,7 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 	if (stack->right != NULL && andxor(stack) && !(stack->right->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		check_lasts(main, stack, 1);
-		if (stack->right->subshell_code)
+		if (stack->right->subshell_code && check_types(stack->right->type) == 1)
 		{
 			pid = fork();
 			if (pid == -1)
@@ -80,11 +81,18 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 			else if (pid == 0)
 			{
 				stack->err_code = check_astree(main, stack->right, env);
-				exit(stack->err_code);
+				exit (stack->err_code);
 			}
+			if (wait(&status) < 0)
+			{
+				perror("minishell");
+				return (1);
+			}
+			if (WIFSIGNALED(status))
+				stack->err_code = WTERMSIG(status);
 			else
-				wait(NULL);
-			return (1);
+				stack->err_code = status;
+			//exit_env(status, env);
 		}
 		else
 			stack->err_code = check_astree(main, stack->right, env);
@@ -97,7 +105,6 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	pid_t	pid;
 	int		childe_exit;
 
-	childe_exit = 0;
 	pid = fork();
 	if (pid == -1)
 	{
