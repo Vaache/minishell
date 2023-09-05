@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 17:54:20 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:56:32 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 			check_astree(main, stack->left, env);
 		if (main->exit_status != EXIT_FAILURE)
 			main->exit_status = exec_iocmd(main, stack, env);
+		if (stack->hdoc_fname)
+			unlink(stack->hdoc_fname);
 	}
 	else if (stack->left && stack->right && stack->type == PIPE)
 		stack->err_code = pipe_prepair(main, stack, env);
