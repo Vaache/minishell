@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 21:59:42 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:52:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,17 @@ int	check_builtins_2(t_env **env, char **arr)
 	if (ft_strcmp(arr[0], _ENV_) == 0)
 	{
 		if (arr[1] != NULL)
-		{
-			free_2d(arr);
 			return (0);
-		}
 		minishell_env(env);
 	}
-	if (ft_strcmp(arr[0], _ECHO_) == 0)
+	else if (ft_strcmp(arr[0], _ECHO_) == 0)
 		minishell_echo(arr);
 	else if (ft_strcmp(arr[0], _PWD_) == 0)
 		minishell_pwd(arr[0], env);
 	else if (ft_strcmp(arr[0], _CD_) == 0)
 		minishell_cd(arr, env);
 	else if (ft_strcmp(arr[0], _EXIT_) == 0)
-		minishell_exit(arr, env);
+		minishell_exit(arr, env, NULL);
 	else if (ft_strcmp(arr[0], _EXPORT_) == 0)
 		minishell_export(arr, env);
 	else if (ft_strcmp(arr[0], _UNSET_) == 0)

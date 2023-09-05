@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 21:53:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/04 21:47:31 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define _PIPE_		32
 # define _REDIR_	8
 
-typedef	struct s_hd
+typedef struct s_hd
 {
 	char	**matrix;
 	int		i;
@@ -51,6 +51,15 @@ typedef struct s_env
 	char				*pwd;
 	int					flag;
 }	t_env;
+
+typedef struct s_exp
+{
+	int		i;
+	int		l;
+	char	*str;
+	char	*s;
+}	t_exp;
+
 
 typedef struct s_wcard
 {
@@ -158,7 +167,7 @@ char					**env_2d(t_env **env);
 void					builtins_error(char	*str, char *err);
 int						_close3_(int fd1, int fd2, int fd3);
 int						_close2_(int fd1, int fd2);
-int						_close_(int	fd);
+int						_close_(int fd);
 int						close_pipes(int fd[2]);
 int						quote_count(char *limiter);
 void					save_backup(t_main **main);
@@ -171,12 +180,12 @@ void					init_hd(t_hd **hd);
 void					minishell_env(t_env **env);
 void					minishell_echo(char **arr);
 void					minishell_cd(char **arr, t_env **my_env);
-void					minishell_exit(char **arr, t_env **env);
+void					minishell_exit(char **arr, t_env **env, char *s);
 void					minishell_pwd(char *str, t_env **env);
 int						minishell_unset(char **arr, t_env **my_env);
 void					minishell_export(char **arr, t_env **my_env);
 void					call_expand(t_tok *stack, t_env *env);
-char					*expand(char *str, t_env **env);
+char					*expand(char *str, t_env **env, t_exp *exp);
 int						check_unset(char *str);
 void					pwd_init(t_env **my_env);
 void					handler_stp(int sig);
@@ -223,7 +232,8 @@ int						handle_clprnth(t_tok **pars, char *line, \
 
 int						handle_heredoc(t_tok **pars, char *line, \
 							int i, int start);
-void					handle_heredoc_input(t_main *main, t_tok *tok, char *line);
+void					handle_heredoc_input(t_main *main, t_tok *tok, \
+							char *line);
 
 int						handle_append(t_tok **pars, char *line, \
 							int i, int start);
@@ -261,7 +271,8 @@ int						call_cmds(t_main *main, t_tok *stack, t_env **env);
 char					*check_cmd(char *cmd, char **path);
 void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
-int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
+int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, \
+									t_tok *stack);
 int						redir(t_main *main, t_tok *stack, t_env **env);
 int						heredoc(t_main *main, t_tok *stack, t_env **env);
 int						input(t_main *main, t_tok *stack, t_env **env);

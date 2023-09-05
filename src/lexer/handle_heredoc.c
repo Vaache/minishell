@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 20:26:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 22:14:42 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	handle_heredoc_input(t_main *main, t_tok *tok, char *line)
 
 	res = NULL;
 	tok->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
-	tok->fd = open(main->hd->matrix[main->hd->i], O_RDWR | O_CREAT | O_TRUNC, 0655);
+	tok->fd = open(tok->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 0655);
 	while (1)
 	{
 		line = readline("> ");

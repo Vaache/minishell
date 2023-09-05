@@ -6,18 +6,18 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/27 22:57:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:57:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	minishell_cd(char **arr, t_env **my_env);
+int		check_home(t_env **env);
 void	minishell_cd_helper(char *str, t_env **my_env);
 
 void	minishell_cd(char **arr, t_env **my_env)
 {
-	t_env	*tmp;
 	char	*str;
 
 	str = NULL;
@@ -26,14 +26,8 @@ void	minishell_cd(char **arr, t_env **my_env)
 		return ;
 	if (!arr[1])
 	{
-		tmp = (*my_env);
-		while (ft_strcmp(tmp->key, "HOME") != 0 && tmp->flag != 1)
-			tmp = tmp->next;
-		chdir(tmp->data);
-		str = getcwd(NULL, 0);
-		free(tmp->data);
-		tmp->data = ft_strdup(str);
-		free(str);
+		if (check_home(my_env))
+			return ;
 	}
 	else if (chdir(arr[1]) != 0)
 	{
@@ -41,6 +35,28 @@ void	minishell_cd(char **arr, t_env **my_env)
 		return ;
 	}
 	minishell_cd_helper(str, my_env);
+}
+
+int	check_home(t_env **env)
+{
+	t_env	*tmp;
+	char	*str;
+
+	str = NULL;
+	tmp = (*env);
+	while (ft_strcmp(tmp->key, "HOME"))
+		tmp = tmp->next;
+	if (!ft_strcmp(tmp->key, "HOME") && tmp->flag == 1)
+	{
+		ft_printf(2, "Minishell: cd: HOME not set\n");
+		return (1);
+	}
+	chdir(tmp->data);
+	str = getcwd(NULL, 0);
+	free(tmp->data);
+	tmp->data = ft_strdup(str);
+	free(str);
+	return (0);
 }
 
 void	minishell_cd_helper(char *str, t_env **my_env)

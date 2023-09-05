@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:50:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/24 20:00:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:22:21 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	minishell_echo(char **arr)
 	int	i;
 
 	i = 1;
-	j = 1;
 	if (arr[1] == NULL)
 		ft_printf(1, "\n");
 	if (arr[i] && ft_strncmp(arr[i], "-n", 2) == 0)

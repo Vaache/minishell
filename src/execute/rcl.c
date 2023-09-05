@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/03 22:14:04 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ char	**restore_cmd_line(t_tok *stack, int i)
 	return (cmd_matrix);
 }
 
-
-
 char	**malloc_2d_wc(char **arr, t_tok *stack, t_wcard **wcard)
 {
 	int		i;
@@ -54,7 +52,8 @@ char	**malloc_2d_wc(char **arr, t_tok *stack, t_wcard **wcard)
 	i = 0;
 	fill_wcard(stack, wcard);
 	if (*wcard)
-		arr = (char **)malloc(sizeof(char *) * (lstsize(stack) + lstsize_wcard((*wcard))));
+		arr = (char **)malloc(sizeof(char *) * (lstsize(stack) + \
+													lstsize_wcard((*wcard))));
 	else
 		arr = (char **)malloc(sizeof(char *) * (lstsize(stack) + 1));
 	if (!arr)
