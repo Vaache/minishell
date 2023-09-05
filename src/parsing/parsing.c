@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 void	parsing(t_main *main);
-void	check_last_red(t_tok **tmp);
 void	push(t_tok **a, t_tok **b);
 void	delete_node(t_tok **opstack);
 void	shunting_yard(t_tok **tmp, t_tok **postfix, t_tok **opstack);
@@ -118,5 +117,4 @@ void	parsing(t_main *main)
 	while (opstack)
 		push(&opstack, &postfix);
 	main->pars = abstract_syntax_tree(main, &postfix);
-	print_ast(main->pars, 0, 0);
 }

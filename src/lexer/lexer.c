@@ -6,14 +6,14 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:47:56 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:18:47 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		lexer(char *line, t_tok **pars);
-void	lex(char *line, t_main *main);
+void	lex(char *line, t_main *main, t_env **env);
 
 int	lexer(char *line, t_tok **pars)
 {
@@ -94,7 +94,7 @@ int	lexer(char *line, t_tok **pars)
 	return (1);
 }
 
-void	lex(char *line, t_main *main)
+void	lex(char *line, t_main *main, t_env **env)
 {
 	t_tok	*tmp;
 
@@ -102,6 +102,7 @@ void	lex(char *line, t_main *main)
 	{
 		destroy_main(main);
 		main->exit_status = 258;
+		handle_dollar(main->exit_status, env);
 		return ;
 	}
 	tmp = main->lex;

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:19:02 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/09/04 21:32:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:28:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	exp_1(t_exp **tmp)
 		exp->s = ft_strjoin(exp->s, "$", 1);
 	exp->l = exp->i;
 	while (exp->str[exp->l] != '\0' && exp->str[exp->l] != '$' && \
-			exp->str[exp->l] != ' ' && exp->str[exp->l] != '\'')
+			exp->str[exp->l] != ' ' && exp->str[exp->l] != '\'' && \
+			exp->str[exp->l] != '=')
 		exp->l++;
 }
 
@@ -104,7 +105,7 @@ char	*expand(char *str, t_env **env, t_exp *exp)
 	s1 = NULL;
 	exp->str = ft_strdup(str);
 	if (onlydollar(exp->str))
-		return ("");
+		return ("$");
 	while (exp->str[++exp->i])
 	{
 		if (exp->str[exp->i] == '$')

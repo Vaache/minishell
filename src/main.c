@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/04 21:30:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:18:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	main_2(t_main *main, t_env *my_env)
 			add_history(str);
 		if (onlyspace(str) == 1)
 		{
-			lex(str, main);
+			lex(str, main, &my_env);
 			if (main->pars)
 			{
 				check_astree(main, main->pars, &my_env);

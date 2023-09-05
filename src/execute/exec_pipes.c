@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:05:48 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:11:32 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	pipe_prepair(t_main *main, t_tok *pars, t_env **env)
 	if (pipe(pipes) == -1)
 	{
 		pars->err_code = 1;
+		pars->right->err_code = 1;
+		pars->left->err_code = 1;
 		perror("minishell");
 		return (1);
 	}

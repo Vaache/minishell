@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 17:56:32 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:12:51 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 			unlink(stack->hdoc_fname);
 	}
 	else if (stack->left && stack->right && stack->type == PIPE)
-		stack->err_code = pipe_prepair(main, stack, env);
+	{
+		if (stack->err_code != 1)
+			stack->err_code = pipe_prepair(main, stack, env);
+	}
 	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
 	{
 		check_lasts(main, stack, 1);
@@ -94,7 +97,6 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 				stack->err_code = WTERMSIG(status);
 			else
 				stack->err_code = status;
-			//exit_env(status, env);
 		}
 		else
 			stack->err_code = check_astree(main, stack->right, env);

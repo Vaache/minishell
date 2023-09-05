@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/04 21:47:31 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:28:45 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ t_env					*env_init(char **env, t_env *my_env);
 t_env					*push_back(t_env **list, t_env *new);
 t_env					*malloc_list(char *env);
 
-void					lex(char *line, t_main *main);
+void					lex(char *line, t_main *main, t_env **env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
@@ -259,7 +259,7 @@ t_tok					*ast_branch(t_tok *tok);
 int						check_astree(t_main *main, t_tok *stack, t_env **env);
 int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
-void					print_ast(t_tok *ast, int indent, int lrc);
+
 void					parsing(t_main *main);
 void					check_lasts(t_main *main, t_tok *stack, int mode);
 t_type					ttoa(char *token);
