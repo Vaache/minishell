@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 20:52:13 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:46:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exit_error_code(t_env *env)
 			break ;
 		tmp = tmp->next;
 	}
-	ft_printf(1, "exit\n");
+	ft_printf(2, "exit\n");
 	return (ft_atoi(tmp->data));
 }
 

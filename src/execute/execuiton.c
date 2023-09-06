@@ -6,108 +6,20 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 21:14:44 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:33:02 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_astree(t_main *main, t_tok *stack, t_env **env);
 int		call_cmds(t_main *main, t_tok *stack, t_env **env);
 int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
 char	*check_cmd(char *cmd, char **path);
-
-int	check_astree(t_main *main, t_tok *stack, t_env **env)
-{
-	int		status;
-	pid_t	pid;
-
-	status = 0;
-	if (!stack)
-	{
-		main->exit_status = 258;
-		return (main->exit_status);
-	}
-	if (stack->left == NULL && stack->right == NULL)
-	{
-		main->exit_status = cmds_execute(main, stack, env, status);
-		handle_dollar(main->exit_status, env);
-		return (main->exit_status);
-	}
-	if (stack->left && stack->right && (check_types(stack->type) == 2))
-	{
-		check_lasts(main, stack, 0);
-		if (stack->left->left)
-			check_astree(main, stack->left, env);
-		if (main->exit_status != EXIT_FAILURE)
-			main->exit_status = exec_iocmd(main, stack, env);
-		if (stack->hdoc_fname)
-			unlink(stack->hdoc_fname);
-	}
-	else if (stack->left && stack->right && stack->type == PIPE)
-	{
-		if (stack->err_code != 1)
-			stack->err_code = pipe_prepair(main, stack, env);
-	}
-	if (stack->left != NULL && !(stack->left->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
-	{
-		check_lasts(main, stack, 1);
-		if (stack->left->subshell_code && check_types(stack->left->type) == 1)
-		{
-			pid = fork();
-			if (pid == -1)
-				return (127);
-			else if (pid == 0)
-			{
-				stack->err_code = check_astree(main, stack->left, env);
-				exit(stack->err_code);
-			}
-			if (wait(&status) < 0)
-			{
-				perror("minishell");
-				return (1);
-			}
-			if (WIFSIGNALED(status))
-				stack->err_code = WTERMSIG(status);
-			else
-				stack->err_code = status;
-		}
-		else
-			stack->err_code = check_astree(main, stack->left, env);
-	}
-	if (stack->right != NULL && andxor(stack) && !(stack->right->flag & _REDIR_) && !(stack->right->flag & _PIPE_))
-	{
-		check_lasts(main, stack, 1);
-		if (stack->right->subshell_code && check_types(stack->right->type) == 1)
-		{
-			pid = fork();
-			if (pid == -1)
-				return (127);
-			else if (pid == 0)
-			{
-				stack->err_code = check_astree(main, stack->right, env);
-				exit (stack->err_code);
-			}
-			if (wait(&status) < 0)
-			{
-				perror("minishell");
-				return (1);
-			}
-			if (WIFSIGNALED(status))
-				stack->err_code = WTERMSIG(status);
-			else
-				stack->err_code = status;
-		}
-		else
-			stack->err_code = check_astree(main, stack->right, env);
-	}
-	return (0);
-}
+int		exec_cmds2(pid_t pid, t_tok **stack);
 
 int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 {
 	pid_t	pid;
-	int		childe_exit;
 
 	pid = fork();
 	if (pid == -1)
@@ -128,12 +40,18 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 		exit(EXIT_SUCCESS);
 	}
 	else
-	{
-		waitpid(pid, &childe_exit, 0);
-		if (io_backup_dup2(stack->stdin_backup, stack->stdout_backup))
-			return (1);
-		return (childe_exit / 256);
-	}
+		return (exec_cmds2(pid, &stack));
+}
+
+int	exec_cmds2(pid_t pid, t_tok **stack)
+{
+	int	childe_exit;
+
+	childe_exit = 0;
+	waitpid(pid, &childe_exit, 0);
+	if (io_backup_dup2((*stack)->stdin_backup, (*stack)->stdout_backup))
+		return (1);
+	return (childe_exit / 256);
 }
 
 char	*check_cmd(char *cmd, char **path)
@@ -182,6 +100,7 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 	if (!cmd_path)
 		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
 	k = exec_cmds(cmd_path, cmd_arr, my_env, stack);
+	free_2d(main->path);
 	free_of_n(cmd_path, cmd_arr, my_env, 3);
 	return (error_code(k));
 }

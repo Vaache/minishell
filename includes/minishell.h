@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 21:02:57 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:20:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ typedef struct s_main
 	int			last_input;
 	int			stdin_backup;
 	int			stdout_backup;
+	int			builtins_err;
 	t_tok		*pars;
 	t_tok		*lex;
 	t_tok		*temp;

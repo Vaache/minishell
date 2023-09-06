@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 20:42:15 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:46:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
 		if (io_backup_dup2(pars->stdin_backup, pars->stdout_backup))
 			return (1);
 	main->flag = 1;
-	return (status);
+	return (0);
 }
