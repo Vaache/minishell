@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/06 21:33:02 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:34:04 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	}
 	else if (pid == 0)
 	{
+		signal(SIGINT, &sig_handler_proc);
+		signal(SIGQUIT, &sig_handler_proc);
 		if (io_dup2(stack->_stdin_, stack->_stdout_))
 			exit(EXIT_FAILURE);
 		if (execve(path_cmd, cmd_arr, env) == -1 && \
@@ -49,6 +51,7 @@ int	exec_cmds2(pid_t pid, t_tok **stack)
 
 	childe_exit = 0;
 	waitpid(pid, &childe_exit, 0);
+	g_exit_status_ = childe_exit % 255;
 	if (io_backup_dup2((*stack)->stdin_backup, (*stack)->stdout_backup))
 		return (1);
 	return (childe_exit / 256);
@@ -64,17 +67,16 @@ char	*check_cmd(char *cmd, char **path)
 		if (ft_strchr(cmd, '/'))
 		{
 			ft_printf(2, "Minishell: %s: no such file or directory\n", cmd);
+			g_exit_status_ = 127;
 			return (NULL);
 		}
 		path_cmd = fill_path_cmd(cmd, path);
 		if (!path_cmd)
+		{
+			g_exit_status_ = 127;
 			ft_printf(2, "Minishell: command not found: %s\n", cmd);
+		}
 		return (path_cmd);
-	}
-	else if (ft_strchr(cmd, '/'))
-	{
-		ft_printf(2, "Minishell: %s: is a directory\n", cmd);
-		return (NULL);
 	}
 	return (ft_strdup(cmd));
 }

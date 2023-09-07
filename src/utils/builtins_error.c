@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 17:30:58 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/25 21:30:25 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:27:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	builtins_error(char	*str, char *err)
 	else if (!ft_strcmp(str, "unset") && err)
 		ft_printf(2, "Minishell: unset: `%s': not a %s\n", \
 					err, "valid identifier");
+	g_exit_status_ = 1;
 }

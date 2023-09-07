@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 20:53:07 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:50:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*strjoin_mode(char *s1, char *s2, int mode);
 char	*trim_zeroes(char *s);
 int		error_code(int error_num);
-void	update_shlvl(t_env **env);
 
 char	*trim_zeroes(char *s)
 {
@@ -62,29 +61,16 @@ int	error_code(int error_num)
 	return (error_num % 256);
 }
 
-void	update_shlvl(t_env **env)
+int	check_subsh(t_tok *stack)
 {
-	t_env	*tmp;
-	char	*str;
+	t_tok	*temp;
 
-	tmp = (*env);
-	while (tmp)
+	temp = stack;
+	while (temp)
 	{
-		if (!ft_strcmp(tmp->key, "SHLVL"))
-		{
-			str = ft_itoa(ft_atoi(tmp->data) + 1);
-			free(tmp->data);
-			tmp->data = ft_strdup(str);
-			if (ft_atoi(tmp->data) > 1000)
-			{
-				ft_printf(2, "Minishell: warning: shell level (%s) %s\n", \
-					tmp->data, "too high, resetting to 1");
-				free(tmp->data);
-				tmp->data = ft_strdup("1");
-			}
-			free(str);
-			break ;
-		}
-		tmp = tmp->next;
+		if (temp->subshell_code)
+			return (1);
+		temp = temp->next;
 	}
+	return (0);
 }

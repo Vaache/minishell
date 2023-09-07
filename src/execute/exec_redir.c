@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 20:54:33 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:24:46 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	t_tok	*tmp;
 	int		fd;
 
+	if (g_exit_status_ == 130)
+		return (EXIT_FAILURE);
 	fd = open(stack->hdoc_fname, O_RDWR, 0655);
 	if (fd < 0)
 	{
@@ -69,7 +71,7 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	if (stack->last_hdoc != 1)
 		return (0 + unlink(stack->hdoc_fname));
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
-		main->exit_status = check_astree(main, tmp->left, env);
+		g_exit_status_ = check_astree(main, tmp->left, env);
 	return (0);
 }
 
@@ -95,7 +97,7 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	tmp->left->_stdin_ = fd;
 	if (stack->last_input != 1)
 		return (0);
-	main->exit_status = cmds_execute(main, tmp->left, env, 0);
+	g_exit_status_ = cmds_execute(main, tmp->left, env, 0);
 	i = 0;
 	return (0);
 }

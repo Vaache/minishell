@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/06 16:20:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:58:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include "libft.h"
 # include "ft_printf.h"
+# include <sys/ioctl.h>
 
 # define _CD_		"cd"
 # define _PWD_		"pwd"
@@ -162,7 +163,6 @@ int						parse_error(int fd, char *err, int mode);
 char					*strjoin_mode(char *s1, char *s2, int mode);
 int						error_code(int error_num);
 int						env_lstsize(t_env *lst);
-void					update_shlvl(t_env **env);
 char					**env_2d(t_env **env);
 void					builtins_error(char	*str, char *err);
 int						_close3_(int fd1, int fd2, int fd3);
@@ -173,6 +173,7 @@ int						quote_count(char *limiter);
 void					save_backup(t_main **main);
 void					main_init(t_main *main);
 void					init_hd(t_hd **hd);
+int						check_subsh(t_tok *stack);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -180,15 +181,17 @@ void					init_hd(t_hd **hd);
 void					minishell_env(t_env **env);
 void					minishell_echo(char **arr);
 void					minishell_cd(char **arr, t_env **my_env);
-void					minishell_exit(char **arr, t_env **env, char *s);
 void					minishell_pwd(char *str, t_env **env);
 int						minishell_unset(char **arr, t_env **my_env);
+int						minishell_exit(t_tok *stack, char **arr, t_env **env, char *s);
 void					minishell_export(char **arr, t_env **my_env);
 void					call_expand(t_tok *stack, t_env *env);
 char					*expand(char *str, t_env **env, t_exp *exp);
 int						check_unset(char *str);
 void					pwd_init(t_env **my_env);
-void					handler_stp(int sig);
+void					sig_handler(int sig);
+void					sig_handler_proc(int sig);
+void					sig_handler_hdoc(int sig);
 void					call_signals(void);
 void					ft_export(t_env *my_env);
 int						ft_check(t_env *my_env, char *str);
@@ -231,7 +234,7 @@ int						handle_clprnth(t_tok **pars, char *line, \
 
 int						handle_heredoc(t_tok **pars, char *line, \
 							int i, int start);
-void					handle_heredoc_input(t_main *main, t_tok *tok, \
+int						handle_heredoc_input(t_main *main, t_tok *tok, \
 							char *line);
 
 int						handle_append(t_tok **pars, char *line, \
@@ -246,7 +249,6 @@ void					handle_space(t_tok **pars, char *line, \
 void					handle_dollar(int exit_status, t_env **env);
 
 char					**restore_cmd_line(t_tok *stack, int i);
-void					parsing(t_main *main);
 void					delete_node(t_tok **opstack);
 void					push(t_tok **a, t_tok **b);
 void					shunting_yard(t_tok **tmp, t_tok **postfix, \
@@ -259,7 +261,7 @@ int						check_astree(t_main *main, t_tok *stack, t_env **env);
 int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
 
-void					parsing(t_main *main);
+void					parsing(t_main *main, t_env **env);
 void					check_lasts(t_main *main, t_tok *stack, int mode);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
@@ -285,5 +287,7 @@ t_wcard					*lstadd_wcard(char *string);
 void					lstback_wcard(t_wcard **pars, t_wcard *new);
 void					lstclear_wcard(t_wcard **lst);
 int						lstsize_wcard(t_wcard *lst);
+
+int						g_exit_status_;
 
 #endif
