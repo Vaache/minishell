@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 16:32:43 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 20:31:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,14 @@ void	check_astree_2(t_main *main, t_tok **stack, t_env **env)
 		&& !((*stack)->right->flag & _PIPE_))
 	{
 		check_lasts(main, (*stack), 1);
-		g_exit_status_ = ast_child(main, &(*stack), env);
+		ast_child(main, &(*stack), env);
+		handle_dollar(g_exit_status_, env);
 	}
 	if ((*stack)->right != NULL && andxor((*stack)) && \
 		!((*stack)->right->flag & _REDIR_) && !((*stack)->right->flag & _PIPE_))
 	{
 		check_lasts(main, (*stack), 1);
-		g_exit_status_ = ast_child_orxand(main, stack, env);
+		ast_child_orxand(main, stack, env);
 		handle_dollar(g_exit_status_, env);
 	}
 }
@@ -74,7 +75,9 @@ void	check_astree_2(t_main *main, t_tok **stack, t_env **env)
 int	ast_child(t_main *main, t_tok **stack, t_env **env)
 {
 	pid_t	pid;
+	int		chidle_exit;
 
+	chidle_exit = 0;
 	if ((*stack)->left->subshell_code && check_types((*stack)->left->type) == 1)
 	{
 		pid = fork();
@@ -85,22 +88,24 @@ int	ast_child(t_main *main, t_tok **stack, t_env **env)
 			(*stack)->err_code = check_astree(main, (*stack)->left, env);
 			exit((*stack)->err_code);
 		}
-		if (wait(&g_exit_status_) < 0)
+		else
 		{
-			perror("minishell");
-			return (0);
+			waitpid(pid, &chidle_exit, 0);
+			g_exit_status_ = chidle_exit % 255;
+			handle_dollar(g_exit_status_, env);
 		}
-		g_exit_status_ %= 255;
 	}
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->left, env);
-	return (0);
+	return (chidle_exit / 255);
 }
 
 int	ast_child_orxand(t_main *main, t_tok **stack, t_env **env)
 {
 	pid_t	pid;
+	int		chidle_exit;
 
+	chidle_exit = 0;
 	if ((*stack)->right->subshell_code && \
 		check_types((*stack)->right->type) == 1)
 	{
@@ -112,14 +117,14 @@ int	ast_child_orxand(t_main *main, t_tok **stack, t_env **env)
 			(*stack)->err_code = check_astree(main, (*stack)->right, env);
 			exit ((*stack)->err_code);
 		}
-		if (wait(&g_exit_status_) < 0)
+		else
 		{
-			perror("minishell");
-			return (0);
+			waitpid(pid, &chidle_exit, 0);
+			g_exit_status_ = chidle_exit % 255;
+			handle_dollar(g_exit_status_, env);
 		}
-		g_exit_status_ %= 255;
 	}
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->right, env);
-	return (0);
+	return (chidle_exit / 255);
 }

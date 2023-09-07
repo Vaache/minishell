@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 16:25:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 20:40:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	handle_heredoc_input(t_main *main, t_tok *tok, char *line)
 	char	*res;
 
 	res = NULL;
-	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &sig_handler_hdoc);
+	signal(SIGQUIT, SIG_IGN);
 	tok->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
 	tok->fd = open(tok->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 0655);
 	while (1)
