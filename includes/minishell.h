@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 15:58:03 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:11:50 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ void					call_expand(t_tok *stack, t_env *env);
 char					*expand(char *str, t_env **env, t_exp *exp);
 int						check_unset(char *str);
 void					pwd_init(t_env **my_env);
-void					sig_handler(int sig);
-void					sig_handler_proc(int sig);
-void					sig_handler_hdoc(int sig);
-void					call_signals(void);
+void					run_signals(int sig);
+void					restore_prompt(int sig);
+void					ctrl_c(int sig);
+void					back_slash(int sig);
 void					ft_export(t_env *my_env);
 int						ft_check(t_env *my_env, char *str);
 void					ft_add(t_env *my_env, char *str);

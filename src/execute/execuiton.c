@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 15:34:04 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:35:58 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	pid_t	pid;
 
 	pid = fork();
+	run_signals(2);
 	if (pid == -1)
 	{
 		perror("Minishell");
@@ -29,8 +30,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	}
 	else if (pid == 0)
 	{
-		signal(SIGINT, &sig_handler_proc);
-		signal(SIGQUIT, &sig_handler_proc);
+		// signal(SIGINT, &sig_handler_proc);j
 		if (io_dup2(stack->_stdin_, stack->_stdout_))
 			exit(EXIT_FAILURE);
 		if (execve(path_cmd, cmd_arr, env) == -1 && \

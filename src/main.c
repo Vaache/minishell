@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 14:51:05 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:39:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	main(int ac, char **av, char **env)
 	my_env = NULL;
 	main_init(&main);
 	print_header();
-	call_signals();
 	my_env = env_init(env, my_env);
+	rl_catch_signals = 0;
 	main_2(&main, my_env);
 	return (0);
 }
@@ -44,7 +44,7 @@ void	main_2(t_main *main, t_env *my_env)
 		str = readline("Minishell 4.2% ");
 		if (str == NULL)
 		{
-			ft_printf(1, "exit\n");
+			exit(g_exit_status_);
 			break ;
 		}
 		if (str && *str)
@@ -57,6 +57,8 @@ void	main_2(t_main *main, t_env *my_env)
 				check_astree(main, main->pars, &my_env);
 				destroy_main(main);
 			}
+			else
+				run_signals(3);
 		}
 		free(str);
 	}

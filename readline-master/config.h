@@ -2,6 +2,8 @@
 /* config.h.in.  Maintained by hand. */
 
 /* Template definitions for autoconf */
+
+/* These are set by AC_USE_SYSTEM_EXTENSIONS */
 #define __EXTENSIONS__ 1
 #define _ALL_SOURCE 1
 #define _GNU_SOURCE 1
@@ -17,12 +19,9 @@
 
 /* #undef _FILE_OFFSET_BITS */
 
-/* Define as the return type of signal handlers (int or void).  */
-#define RETSIGTYPE void
-
-#define VOID_SIGHANDLER 1
-
 /* Characteristics of the compiler. */
+/* #undef inline */
+
 /* #undef sig_atomic_t */
 
 /* #undef size_t */
@@ -58,6 +57,9 @@
 
 /* Define if you have the getpwuid function. */
 #define HAVE_GETPWUID 1
+
+/* Define if you have the gettimeofday function. */
+#define HAVE_GETTIMEOFDAY 1
 
 /* Define if you have the isascii function. */
 #define HAVE_ISASCII 1
@@ -107,6 +109,9 @@
 /* Define if you have the setenv function.  */
 #define HAVE_SETENV 1
 
+/* Define if you have the setitimer function.  */
+#define HAVE_SETITIMER 1
+
 /* Define if you have the setlocale function. */
 #define HAVE_SETLOCALE 1
 
@@ -120,6 +125,9 @@
 
 /* Define if you have the strpbrk function.  */
 #define HAVE_STRPBRK 1
+
+/* Define if you have the sysconf function.  */
+#define HAVE_SYSCONF 1
 
 /* Define if you have the tcgetattr function.  */
 #define HAVE_TCGETATTR 1
@@ -147,8 +155,6 @@
 
 /* and whether it works */
 /* #undef WCWIDTH_BROKEN */
-
-#define STDC_HEADERS 1
 
 /* Define if you have the <dirent.h> header file.  */
 #define HAVE_DIRENT_H 1
@@ -219,6 +225,9 @@
 /* Define if you have the <sys/stream.h> header file.  */
 /* #undef HAVE_SYS_STREAM_H */
 
+/* Define if you have the <sys/time.h> header file.  */
+#define HAVE_SYS_TIME_H 1
+
 /* Define if you have the <termcap.h> header file.  */
 #define HAVE_TERMCAP_H 1
 
@@ -258,8 +267,6 @@
 #define HAVE_DECL_AUDIT_USER_TTY 0
 
 /* Definitions pulled in from aclocal.m4. */
-#define VOID_SIGHANDLER 1
-
 /* #undef GWINSZ_IN_SYS_IOCTL */
 
 #define STRUCT_WINSIZE_IN_SYS_IOCTL 1
@@ -280,6 +287,8 @@
 
 /* #undef HAVE_STRUCT_DIRENT_D_NAMLEN */
 
+#define HAVE_TIMEVAL 1
+
 /* #undef HAVE_BSD_SIGNALS */
 
 #define HAVE_POSIX_SIGNALS 1
@@ -290,7 +299,7 @@
 
 #define HAVE_POSIX_SIGSETJMP 1
 
-#define CTYPE_NON_ASCII 1
+/* #undef CTYPE_NON_ASCII */
 
 /* modify settings or make new ones based on what autoconf tells us. */
 
