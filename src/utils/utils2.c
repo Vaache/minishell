@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 15:50:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:17:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,19 @@ int	check_subsh(t_tok *stack)
 			return (1);
 		temp = temp->next;
 	}
+	return (0);
+}
+
+int	check_for_lexer(char *line, int i)
+{
+	if (line[i] == '\'' || line[i] == '"' || (line[i + 1] == '|' || \
+			(line[i] == '|' && line[i + 1] == '|') || \
+			(line[i] == '&' && line[i + 1] == '&') || \
+			(line[i] == '<' && line[i + 1] == '<') || \
+			(line[i] == '>' && line[i + 1] == '>') || \
+			(line[i] == '>' && line[i + 1] != '>') || \
+			(line[i] == '<' && line[i + 1] != '<') || \
+			line[i] == '|' || line[i] == '|'))
+		return (1);
 	return (0);
 }

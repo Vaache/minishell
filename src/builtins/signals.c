@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:02:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 15:25:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:53:27 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	run_signals(int sig)
 	if (sig == 4)
 	{
 		signal(SIGINT, sig_handler_hdoc);
-		signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
 

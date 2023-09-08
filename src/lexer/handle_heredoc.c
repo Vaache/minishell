@@ -6,14 +6,15 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 15:54:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:10:47 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		handle_heredoc(t_tok **pars, char *line, int i, int start);
-int		read_heredoc_input(t_main *main, t_tok *tok, char *line);
+int		read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env);
+void	write_in_fd(char **res, int fd, t_env *env);
 int		read_heredoc_input_2(char *line, char **res, t_tok *tok);
 
 int	handle_heredoc(t_tok **pars, char *line, int i, int start)
@@ -25,7 +26,7 @@ int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 	return (i + 1);
 }
 
-int	read_heredoc_input(t_main *main, t_tok *tok, char *line)
+int	read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env)
 {
 	char	*res;
 
@@ -43,12 +44,8 @@ int	read_heredoc_input(t_main *main, t_tok *tok, char *line)
 		if (!read_heredoc_input_2(line, &res, tok))
 			break ;
 	}
-	if (res)
-		res = ft_strjoin(res, "\n", 1);
-	else
-		res = ft_strdup("");
-	write(tok->fd, res, ft_strlen(res));
-	_close2_(tok->fd, free_of_n(res, NULL, NULL, -1) - 42);
+	write_in_fd(&res, tok->fd, env);
+	// free(res);
 	return (0);
 }
 
@@ -66,4 +63,30 @@ int	read_heredoc_input_2(char *line, char **res, t_tok *tok)
 		(*res) = strjoin_mode((*res), line, 1);
 	free(line);
 	return (1);
+}
+
+void	write_in_fd(char **res, int fd, t_env *env)
+{
+	t_exp	exp;
+	char	*str;
+
+	exp.i = -1;
+	exp.l = 0;
+	exp.str = NULL;
+	exp.s = NULL;
+	str = NULL;
+	if (res)
+		(*res) = ft_strjoin((*res), "\n", 1);
+	else
+		(*res) = ft_strdup("");
+	if (ft_strchr((*res), '$'))
+	{
+		str = ft_strdup(expand((*res), &env, &exp));
+		free((*res));
+		(*res) = ft_strdup(str);
+		free(str);
+	}
+	write(fd, (*res), ft_strlen((*res)));
+	_close2_(fd, free_of_n((*res), NULL, NULL, -1) - 42);
+	destroy_exp(&exp);
 }

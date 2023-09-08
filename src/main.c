@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 15:21:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:56:21 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	main_2(t_main *main, t_env *my_env)
 
 	while (1)
 	{
+		run_signals(1);
 		save_backup(&main);
 		str = readline("Minishell 4.2% ");
 		if (str == NULL)

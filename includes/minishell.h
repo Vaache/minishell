@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 15:55:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:10:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ void					save_backup(t_main **main);
 void					main_init(t_main *main);
 void					init_hd(t_hd **hd);
 int						check_subsh(t_tok *stack);
+int						check_for_lexer(char *line, int i);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -183,7 +184,8 @@ void					minishell_echo(char **arr);
 void					minishell_cd(char **arr, t_env **my_env);
 void					minishell_pwd(char *str, t_env **env);
 int						minishell_unset(char **arr, t_env **my_env);
-int						minishell_exit(t_tok *stack, char **arr, t_env **env, char *s);
+int						minishell_exit(t_tok *stack, char **arr, t_env **env, \
+																	char *s);
 void					minishell_export(char **arr, t_env **my_env);
 void					call_expand(t_tok *stack, t_env *env);
 char					*expand(char *str, t_env **env, t_exp *exp);
@@ -209,6 +211,7 @@ int						check_types(t_type type);
 int						lstsize(t_tok *lst);
 void					destroy_structure(t_tok *root);
 void					destroy_main(t_main *main);
+void					destroy_exp(t_exp *exp);
 
 t_tok					*lstlast(t_tok *lst);
 void					lstclear(t_tok **lst);
@@ -235,7 +238,7 @@ int						handle_clprnth(t_tok **pars, char *line, \
 int						handle_heredoc(t_tok **pars, char *line, \
 							int i, int start);
 int						read_heredoc_input(t_main *main, t_tok *tok, \
-							char *line);
+							char *line, t_env *env);
 
 int						handle_append(t_tok **pars, char *line, \
 							int i, int start);
