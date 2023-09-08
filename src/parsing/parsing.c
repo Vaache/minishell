@@ -102,7 +102,7 @@ void	parsing(t_main *main, t_env **env)
 	tmp = main->lex;
 	while (tmp)
 	{
-		if (tmp->type == HEREDOC && handle_heredoc_input(main, tmp, NULL))
+		if (tmp->type == HEREDOC && read_heredoc_input(main, tmp, NULL))
 		{
 			handle_dollar(g_exit_status_, env);
 			break ;

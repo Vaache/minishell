@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 20:31:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:23:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int		check_astree(t_main *main, t_tok *stack, t_env **env);
 void	check_astree_1(t_main *main, t_tok **stack, t_env **env);
 void	check_astree_2(t_main *main, t_tok **stack, t_env **env);
-int		ast_child(t_main *main, t_tok **stack, t_env **env);
-int		ast_child_orxand(t_main *main, t_tok **stack, t_env **env);
+int		ast_left_branch(t_main *main, t_tok **stack, t_env **env);
+int		ast_right_branch(t_main *main, t_tok **stack, t_env **env);
 
 int	check_astree(t_main *main, t_tok *stack, t_env **env)
 {
@@ -40,7 +40,7 @@ int	check_astree(t_main *main, t_tok *stack, t_env **env)
 			stack->err_code = pipe_prepair(main, stack, env);
 	else
 		check_astree_2(main, &stack, env);
-	return (0);
+	return (stack->err_code);
 }
 
 void	check_astree_1(t_main *main, t_tok **stack, t_env **env)
@@ -60,24 +60,23 @@ void	check_astree_2(t_main *main, t_tok **stack, t_env **env)
 		&& !((*stack)->right->flag & _PIPE_))
 	{
 		check_lasts(main, (*stack), 1);
-		ast_child(main, &(*stack), env);
-		handle_dollar(g_exit_status_, env);
+		(*stack)->err_code = ast_left_branch(main, &(*stack), env);
 	}
 	if ((*stack)->right != NULL && andxor((*stack)) && \
 		!((*stack)->right->flag & _REDIR_) && !((*stack)->right->flag & _PIPE_))
 	{
 		check_lasts(main, (*stack), 1);
-		ast_child_orxand(main, stack, env);
-		handle_dollar(g_exit_status_, env);
+		(*stack)->err_code = ast_right_branch(main, stack, env);
 	}
+	handle_dollar((*stack)->err_code, env);
 }
 
-int	ast_child(t_main *main, t_tok **stack, t_env **env)
+int	ast_left_branch(t_main *main, t_tok **stack, t_env **env)
 {
 	pid_t	pid;
-	int		chidle_exit;
+	int		status;
 
-	chidle_exit = 0;
+	status = 0;
 	if ((*stack)->left->subshell_code && check_types((*stack)->left->type) == 1)
 	{
 		pid = fork();
@@ -88,24 +87,24 @@ int	ast_child(t_main *main, t_tok **stack, t_env **env)
 			(*stack)->err_code = check_astree(main, (*stack)->left, env);
 			exit((*stack)->err_code);
 		}
-		else
+		if (wait(&status) < 0)
 		{
-			waitpid(pid, &chidle_exit, 0);
-			g_exit_status_ = chidle_exit % 255;
-			handle_dollar(g_exit_status_, env);
+			perror("minishell");
+			return (1);
 		}
+		(*stack)->err_code = status / 256;
 	}
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->left, env);
-	return (chidle_exit / 255);
+	return ((*stack)->err_code);
 }
 
-int	ast_child_orxand(t_main *main, t_tok **stack, t_env **env)
+int	ast_right_branch(t_main *main, t_tok **stack, t_env **env)
 {
 	pid_t	pid;
-	int		chidle_exit;
+	int		status;
 
-	chidle_exit = 0;
+	status = 0;
 	if ((*stack)->right->subshell_code && \
 		check_types((*stack)->right->type) == 1)
 	{
@@ -117,14 +116,14 @@ int	ast_child_orxand(t_main *main, t_tok **stack, t_env **env)
 			(*stack)->err_code = check_astree(main, (*stack)->right, env);
 			exit ((*stack)->err_code);
 		}
-		else
+		if (wait(&status) < 0)
 		{
-			waitpid(pid, &chidle_exit, 0);
-			g_exit_status_ = chidle_exit % 255;
-			handle_dollar(g_exit_status_, env);
+			perror("minishell");
+			return (1);
 		}
+		(*stack)->err_code = status / 256;
 	}
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->right, env);
-	return (chidle_exit / 255);
+	return ((*stack)->err_code);
 }

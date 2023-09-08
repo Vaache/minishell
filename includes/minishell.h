@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 22:11:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:55:23 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int						handle_clprnth(t_tok **pars, char *line, \
 
 int						handle_heredoc(t_tok **pars, char *line, \
 							int i, int start);
-int						handle_heredoc_input(t_main *main, t_tok *tok, \
+int						read_heredoc_input(t_main *main, t_tok *tok, \
 							char *line);
 
 int						handle_append(t_tok **pars, char *line, \

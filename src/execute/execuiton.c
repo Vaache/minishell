@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 22:35:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:44:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	}
 	else if (pid == 0)
 	{
-		// signal(SIGINT, &sig_handler_proc);j
 		if (io_dup2(stack->_stdin_, stack->_stdout_))
 			exit(EXIT_FAILURE);
 		if (execve(path_cmd, cmd_arr, env) == -1 && \
 			execve(cmd_arr[0], cmd_arr, env) == -1)
 		{
-			perror("Minishell");
+			ft_printf(2, "Minishell: %s: is a directory\n", cmd_arr[0]);
 			exit(EXIT_FAILURE);
 		}
 		exit(EXIT_SUCCESS);
@@ -94,10 +93,10 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 		main->flag = 0;
 	}
 	call_expand(stack, *env);
+	if (lstsize(stack) == 1 && stack->cmd[0] == '\0')
+		return (0);
 	cmd_arr = restore_cmd_line(stack, -1);
 	my_env = env_2d(env);
-	if (!cmd_arr)
-		return (2 + free_2d(my_env));
 	cmd_path = check_cmd(cmd_arr[0], main->path);
 	if (!cmd_path)
 		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));

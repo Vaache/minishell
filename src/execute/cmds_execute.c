@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 15:58:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:11:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	check_builtins(t_tok *pars, t_env **env)
 
 	call_expand(pars, *env);
 	arr = restore_cmd_line(pars, -1);
-	if (!arr)
-		return (0);
+	if (!arr || !arr[0])
+		return (1);
 	if (!ft_strcmp(arr[0], _ENV_) || !ft_strcmp(arr[0], _ECHO_) || \
 			!ft_strcmp(arr[0], _PWD_) || !ft_strcmp(arr[0], _CD_) || \
 				!ft_strcmp(arr[0], _EXIT_) || !ft_strcmp(arr[0], _EXPORT_) || \

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 22:39:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:21:16 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int ac, char **av, char **env)
 	print_header();
 	my_env = env_init(env, my_env);
 	rl_catch_signals = 0;
+	init_hd(&main.hd);
 	main_2(&main, my_env);
 	return (0);
 }
@@ -37,17 +38,16 @@ void	main_2(t_main *main, t_env *my_env)
 {
 	char	*str;
 
-	init_hd(&main->hd);
 	while (1)
 	{
 		save_backup(&main);
 		str = readline("Minishell 4.2% ");
 		if (str == NULL)
 		{
+			write(2, "exit\n", 5);
 			exit(g_exit_status_);
-			break ;
 		}
-		if (str && *str)
+		if (*str)
 			add_history(str);
 		if (onlyspace(str) == 1)
 		{
@@ -57,8 +57,6 @@ void	main_2(t_main *main, t_env *my_env)
 				check_astree(main, main->pars, &my_env);
 				destroy_main(main);
 			}
-			else
-				run_signals(3);
 		}
 		free(str);
 	}

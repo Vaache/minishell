@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:43:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,15 @@ int	check_valid(t_main *main)
 	while (tmp->next != NULL)
 	{
 		if (check_types(tmp->type) && check_types(tmp->next->type) == 1)
-			return (parse_error(2, type_is(tmp->next->type), 1));
+			return (parse_error(2, type_is(tmp->next->type), 0));
+		else if (check_types(tmp->type) == 2 && \
+			!ft_strcmp(tmp->next->cmd, "(NULL)"))
+		{
+			if (tmp->next->next)
+				return (parse_error(2, type_is(tmp->next->next->type), 0));
+		}
 		else if (check_types(tmp->type) && tmp->next->type == END)
-			return (parse_error(2, "newline", -1));
+			return (parse_error(2, "newline", 0));
 		tmp = tmp->next;
 	}
 	return (1);
