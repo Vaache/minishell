@@ -93,6 +93,32 @@ void	shunting_yard(t_tok **tmp, t_tok **postfix, t_tok **opstack)
 	}
 }
 
+void	print_ast(t_tok *ast, int indent, int lrc)
+{
+	int	i;
+
+	i = 0;
+	if (!ast)
+		return ;
+	else if (ast->type == END)
+		return (print_ast(ast->right, indent, 0));
+	print_ast(ast->right, indent + 1, 1);
+	while (i++ < indent)
+		printf("\t");
+	if (lrc == 0)
+		printf("\033[38;5;46m╠══════\033[0m[%s][%d][%d]\n", ast->cmd, \
+		(ast->flag & _PIPE_) && 1, ast->subshell_code);
+	else if (lrc == 1)
+		printf("\033[38;5;46m╔══════\033[0m[%s][%d][%d]\n", ast->cmd, \
+		(ast->flag & _PIPE_) && 1, ast->subshell_code);
+	else if (lrc == 2)
+		printf("\033[38;5;46m╚══════\033[0m[%s][%d][%d]\n", ast->cmd, \
+		(ast->flag & _PIPE_) && 1, ast->subshell_code);
+	if (ast->next)
+		print_ast(ast->next, indent + 1, 2);
+	print_ast(ast->left, indent + 1, 2);
+}
+
 void	parsing(t_main *main, t_env **env)
 {
 	t_tok	*tmp;
@@ -105,7 +131,7 @@ void	parsing(t_main *main, t_env **env)
 		if (tmp->type == HEREDOC && read_heredoc_input(main, tmp, NULL, *env))
 		{
 			handle_dollar(g_exit_status_, env);
-			break ;
+			break;
 		}
 		tmp = tmp->next;
 	}

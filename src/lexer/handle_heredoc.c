@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 17:10:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:15:40 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env)
 			break ;
 	}
 	write_in_fd(&res, tok->fd, env);
-	// free(res);
 	return (0);
 }
 

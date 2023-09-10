@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 16:56:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:28:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ void	main_2(t_main *main, t_env *my_env)
 			write(2, "exit\n", 5);
 			exit(g_exit_status_);
 		}
-		if (*str)
-			add_history(str);
-		if (onlyspace(str) == 1)
+		if (onlyspace(str))
 		{
-			lex(str, main, &my_env);
+			lex(&str, main, my_env);
 			if (main->pars)
 			{
-				check_astree(main, main->pars, &my_env);
+				main->exit_status = check_astree(main, main->pars, my_env);
 				destroy_main(main);
 			}
+			handle_dollar(main->exit_status, &my_env);
 		}
+		add_history(str);
 		free(str);
 	}
 }

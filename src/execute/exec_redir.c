@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 16:24:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 09:44:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ int	exec_iocmd(t_main *main, t_tok *stack, t_env **env);
 
 int	redir(t_main *main, t_tok *stack, t_env **env)
 {
-	int		exit_status;
 	int		fd;
 	t_tok	*tmp;
 
-	exit_status = 0;
 	fd = -42;
 	if (stack->type == WRITE_APPEND)
 		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
@@ -42,8 +40,8 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	if (stack->last_red != 1)
 		return (0);
 	if (ft_strcmp(tmp->left->cmd, "(NULL)") && !(tmp->flag & (1 << 7)))
-		exit_status = cmds_execute(main, tmp->left, env, 0);
-	return (exit_status);
+		stack->err_code = cmds_execute(main, tmp->left, env, 0);
+	return (stack->err_code);
 }
 
 int	heredoc(t_main *main, t_tok *stack, t_env **env)
@@ -51,8 +49,6 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	t_tok	*tmp;
 	int		fd;
 
-	if (g_exit_status_ == 130)
-		return (EXIT_FAILURE);
 	fd = open(stack->hdoc_fname, O_RDWR, 0655);
 	if (fd < 0)
 	{
@@ -71,8 +67,8 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	if (stack->last_hdoc != 1)
 		return (0 + unlink(stack->hdoc_fname));
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
-		g_exit_status_ = check_astree(main, tmp->left, env);
-	return (0);
+		stack->err_code = check_astree(main, tmp->left, *env);
+	return (stack->err_code + unlink(stack->hdoc_fname));
 }
 
 int	input(t_main *main, t_tok *stack, t_env **env)
@@ -97,18 +93,26 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	tmp->left->_stdin_ = fd;
 	if (stack->last_input != 1)
 		return (0);
-	g_exit_status_ = cmds_execute(main, tmp->left, env, 0);
+	stack->err_code = cmds_execute(main, tmp->left, env, 0);
 	i = 0;
 	return (0);
 }
 
 int	exec_iocmd(t_main *main, t_tok *stack, t_env **env)
 {
-	if (stack && stack->type == HEREDOC)
-		return (heredoc(main, stack, env));
-	else if (stack->type == WRITE_APPEND || stack->type == WRITE_TRUNC)
-		return (redir(main, stack, env));
-	else if (stack->type == INPUT)
-		return (input(main, stack, env));
-	return (1);
+	check_lasts(main, stack, 0);
+	if (stack->left->left)
+		stack->err_code = check_astree(main, stack->left, *env);
+	if (main->exit_status == EXIT_SUCCESS)
+	{
+		if (stack && stack->type == HEREDOC)
+			return (heredoc(main, stack, env));
+		else if (stack->type == WRITE_APPEND || stack->type == WRITE_TRUNC)
+			return (redir(main, stack, env));
+		else if (stack->type == INPUT)
+			return (input(main, stack, env));
+	}
+	if (stack->hdoc_fname)
+		unlink(stack->hdoc_fname);
+	return (stack->err_code);
 }

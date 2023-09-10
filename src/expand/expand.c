@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:19:02 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/09/08 17:09:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:16:01 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	exp_1(t_exp **tmp)
 	exp->l = exp->i;
 	while (exp->str[exp->l] != '\0' && exp->str[exp->l] != '$' && \
 			exp->str[exp->l] != ' ' && exp->str[exp->l] != '\'' && \
-			exp->str[exp->l] != '=' && exp->str[exp->l] != '\n')
+			exp->str[exp->l] != '=' && exp->str[exp->l] != '\n' && \
+			exp->str[exp->l] != '"')
 		exp->l++;
 }
 
@@ -74,7 +75,8 @@ void	exp_2(t_exp **tmp, t_env **env)
 			if (!ft_strcmp(tmp_env->key, "$?"))
 				exp->s = ft_strjoin(exp->s, tmp_env->data, 1);
 		}
-		else if (exp->l - exp->i != 0 && !ft_strcmp(s1, tmp_env->key))
+		else if (exp->l - exp->i != 0 && !ft_strcmp(s1, tmp_env->key) && \
+															tmp_env->flag != 1)
 			exp->s = ft_strjoin(exp->s, tmp_env->data, 1);
 		tmp_env = tmp_env->next;
 	}

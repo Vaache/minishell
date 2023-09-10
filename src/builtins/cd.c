@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 14:48:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:48:35 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	check_home(t_env **env)
 	if (!ft_strcmp(tmp->key, "HOME") && tmp->flag == 1)
 	{
 		ft_printf(2, "Minishell: cd: HOME not set\n");
+		g_exit_status_ = -42;
 		return (1);
 	}
 	chdir(tmp->data);

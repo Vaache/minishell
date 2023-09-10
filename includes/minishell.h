@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 17:10:39 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:24:31 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ t_env					*env_init(char **env, t_env *my_env);
 t_env					*push_back(t_env **list, t_env *new);
 t_env					*malloc_list(char *env);
 
-void					lex(char *line, t_main *main, t_env **env);
+void					lex(char **line, t_main *main, t_env *env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
@@ -218,10 +218,12 @@ void					lstclear(t_tok **lst);
 void					lstback(t_tok **pars, t_tok *new);
 t_tok					*lstadd(char *string, t_type type, int prc, int flag);
 
-int						handle_dquotes(t_tok **pars, char *line, \
-							int i, int start);
-int						handle_squotes(t_tok **pars, char *line, \
-							int i, int start);
+int						handle_quotes(t_tok **res, char **line, int *i, \
+																int count);
+int						handle_dquotes(t_tok **pars, char **line, int *i, \
+																int start);
+int						handle_squotes(t_tok **pars, char **line, int *i, \
+																int start);
 
 int						handle_xor(t_tok **pars, char *line, \
 							int i, int start);
@@ -260,12 +262,12 @@ t_tok					*abstract_syntax_tree(t_main *main, t_tok **stack);
 t_tok					*most_prev(t_tok *stack);
 
 t_tok					*ast_branch(t_tok *tok);
-int						check_astree(t_main *main, t_tok *stack, t_env **env);
+int						check_astree(t_main *main, t_tok *root, t_env *env);
 int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
 
 void					parsing(t_main *main, t_env **env);
-void					check_lasts(t_main *main, t_tok *stack, int mode);
+int						check_lasts(t_main *main, t_tok *stack, int mode);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);
 char					*rem_quotes_lim(char *limiter);

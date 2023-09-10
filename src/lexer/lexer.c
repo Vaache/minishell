@@ -6,92 +6,92 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 16:52:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:28:46 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		lexer(char *line, t_tok **pars);
-int		lexer_2(t_tok ***pars, char *line, int i, int start);
-void	lex(char *line, t_main *main, t_env **env);
+int		handle_tokens_p1(t_tok **res, char **line, int *i, int counter);
+void	lex(char **line, t_main *main, t_env *env);
+int		lexer(t_tok **res, char **line);
 
-int	lexer(char *line, t_tok **pars)
+int	handle_tokens_p1(t_tok **res, char **line, int *i, int counter)
 {
-	int	start;
-	int	i;
-	int	subsh;
-
-	i = 0;
-	subsh = 0;
-	while (line && line[i])
-	{
-		start = i;
-		while (line[i])
-		{
-			if (line[i] == ')')
-			{
-				if (subsh)
-				{
-					i = handle_clprnth(pars, line, i, start);
-					subsh--;
-				}
-				else
-					i = parse_error(2, "Minishell : Syntax Error `)'\n", 0);
-			}
-			else if (line[i] == '(' && handle_oprnth(pars, line, i, start))
-				subsh++;
-			else if (check_for_lexer(line, i))
-				i = lexer_2(&pars, line, i, start);
-			else if (ft_strchr(" \n\t\v\r\f", line[i]))
-				handle_space(pars, line, i, start);
-			else if (line[i + 1] == '\0')
-				handle_space(pars, line, i + 1, start);
-			else
-			{
-				i++;
-				continue ;
-			}
-			i++;
-			break ;
-		}
-	}
-	lstback(pars, lstadd("AST", END, 1, 2));
+	if ((*line)[*i] == ')')
+		*i = handle_clprnth(res, *line, *i, counter);
+	else if ((*line)[*i] == '(')
+		*i = handle_oprnth(res, *line, *i, counter);
+	else if ((*line)[*i] == '|' && (*line)[*i + 1] == '|')
+		*i = handle_xor(res, *line, *i, counter);
+	else if ((*line)[*i] == '&' && (*line)[*i + 1] == '&')
+		*i = handle_xand(res, *line, *i, counter);
+	else if ((*line)[*i] == '<' && (*line)[*i + 1] == '<')
+		*i = handle_heredoc(res, *line, *i, counter);
+	else if ((*line)[*i] == '>' && (*line)[*i + 1] == '>')
+		*i = handle_append(res, *line, *i, counter);
+	else if ((*line)[*i] == '>')
+		*i = handle_trunc(res, *line, *i, counter);
+	else if ((*line)[*i] == '<')
+		*i = handle_infile(res, *line, *i, counter);
+	else if ((*line)[*i] == '|')
+		*i = handle_pipe(res, *line, *i, counter);
+	else if (ft_strchr(" \n\t\v\r\f\0", (*line)[*i]))
+		handle_space(res, *line, *i, counter);
+	else if ((*line)[*i + 1] == '\0')
+		handle_space(res, *line, *i + 1, counter);
+	else
+		return (0);
 	return (1);
 }
 
-int	lexer_2(t_tok ***pars, char *line, int i, int start)
+int	inner_while(t_tok **res, char **line, int *i, int counter)
 {
-	if (line[i] == '"')
-		i = handle_dquotes((*pars), line, i, start);
-	else if (line[i] == '\'')
-		i = handle_squotes((*pars), line, i, start);
-	else if (line[i] == '|' && line[i + 1] == '|')
-		i = handle_xor((*pars), line, i, start);
-	else if (line[i] == '&' && line[i + 1] == '&')
-		i = handle_xand((*pars), line, i, start);
-	else if (line[i] == '<' && line[i + 1] == '<')
-		i = handle_heredoc((*pars), line, i, start);
-	else if (line[i] == '>' && line[i + 1] == '>')
-		i = handle_append((*pars), line, i, start);
-	else if (line[i] == '>' && line[i + 1] != '>')
-		i = handle_trunc((*pars), line, i, start);
-	else if (line[i] == '<' && line[i + 1] != '<')
-		i = handle_infile((*pars), line, i, start);
-	else if (line[i] == '|')
-		i = handle_pipe((*pars), line, i, start);
-	return (i);
+	int	key;
+
+	while ((*line)[*i])
+	{
+		if ((*line)[*i] == '"' || (*line)[*i] == '\'')
+		{
+			key = handle_quotes(res, line, i, counter);
+			if (key)
+				return (key);
+		}
+		else if (!handle_tokens_p1(res, line, i, counter))
+		{
+			(*i)++;
+			continue ;
+		}
+		break ;
+	}
+	return (0);
 }
 
-void	lex(char *line, t_main *main, t_env **env)
+int	lexer(t_tok **res, char **line)
+{
+	int		i;
+	int		counter;
+
+	i = 0;
+	while (*line && (*line)[i])
+	{
+		counter = i;
+		if (inner_while(res, line, &i, counter) == -42)
+			return (0);
+		i++;
+	}
+	lstback(res, lstadd("AST", END, 1, 2));
+	return (1);
+}
+
+void	lex(char **line, t_main *main, t_env *env)
 {
 	t_tok	*tmp;
 
-	if (!lexer(line, &(main->lex)) || !check_valid(main))
+	if (!lexer(&(main->lex), line) || !check_valid(main) || !main->lex)
 	{
 		destroy_main(main);
-		g_exit_status_ = 258;
-		handle_dollar(g_exit_status_, env);
+		main->exit_status = 258;
 		return ;
 	}
 	tmp = main->lex;
@@ -106,5 +106,5 @@ void	lex(char *line, t_main *main, t_env **env)
 		ft_printf(2, "Minishell: maximum here-document count exceeded");
 		exit(2);
 	}
-	parsing(main, env);
+	parsing(main, &env);
 }

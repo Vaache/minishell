@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:05:48 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 20:52:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 09:43:58 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static pid_t	child_left(t_main *main, t_tok *pars, t_env **env, int *pipes)
 			return (-1);
 		close(pipes[0]);
 		close(pipes[1]);
-		status = check_astree(main, pars, env);
+		status = check_astree(main, pars, *env);
 		exit (status);
 	}
 	return (pid);
@@ -48,7 +48,7 @@ static pid_t	child_right(t_main *main, t_tok *pars, t_env **env, int *pipes)
 			return (-1);
 		close(pipes[0]);
 		close(pipes[1]);
-		status = check_astree(main, pars, env);
+		status = check_astree(main, pars, *env);
 		exit (status);
 	}
 	return (pid);
@@ -79,5 +79,5 @@ int	pipe_prepair(t_main *main, t_tok *pars, t_env **env)
 	close(pipes[1]);
 	waitpid(pid_left, &status, 0);
 	waitpid(pid_right, &status, 0);
-	return (status);
+	return (status / 256);
 }

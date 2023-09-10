@@ -6,44 +6,59 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 15:11:28 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:19:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	check_builtins(t_tok *pars, t_env **env);
-int	check_builtins_2(t_tok *stack, t_env **env, char **arr);
+int	exec_builtins(t_tok *stack, t_env **env, char **arr);
+int	is_builtin(char **arr, t_tok *stack);
+
+int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
+{
+	status = check_builtins(pars, env);
+	if (status == 1 && status != 127)
+		status = call_cmds(main, pars, env);
+	else if (status == -1)
+		return (1);
+	else
+		if (io_backup_dup2(pars->stdin_backup, pars->stdout_backup))
+			return (1);
+	main->flag = 1;
+	if (g_exit_status_ == -42)
+		return (1);
+	return (status);
+}
 
 int	check_builtins(t_tok *pars, t_env **env)
 {
 	char	**arr;
+	int		status;
 
 	call_expand(pars, *env);
 	arr = restore_cmd_line(pars, -1);
 	if (!arr || !arr[0])
 		return (1);
-	if (!ft_strcmp(arr[0], _ENV_) || !ft_strcmp(arr[0], _ECHO_) || \
-			!ft_strcmp(arr[0], _PWD_) || !ft_strcmp(arr[0], _CD_) || \
-				!ft_strcmp(arr[0], _EXIT_) || !ft_strcmp(arr[0], _EXPORT_) || \
-													!ft_strcmp(arr[0], _UNSET_))
-		if (io_dup2(pars->_stdin_, pars->_stdout_))
-			return (-1);
-	if (check_builtins_2(pars, env, arr))
-	{	
-		free_2d(arr);
-		return (1);
+	status = is_builtin(arr, pars);
+	if (!status)
+	{
+		status = exec_builtins(pars, env, arr);
 	}
 	free_2d(arr);
-	return (0);
+	return (status);
 }
 
-int	check_builtins_2(t_tok *stack, t_env **env, char **arr)
+int	exec_builtins(t_tok *stack, t_env **env, char **arr)
 {
 	if (ft_strcmp(arr[0], _ENV_) == 0)
 	{
 		if (arr[1] != NULL)
-			return (0);
+		{
+			ft_printf(2, "%s: %s: No such file or directory\n", arr[0], arr[1]);
+			return (127);
+		}
 		minishell_env(env);
 	}
 	else if (ft_strcmp(arr[0], _ECHO_) == 0)
@@ -53,29 +68,27 @@ int	check_builtins_2(t_tok *stack, t_env **env, char **arr)
 	else if (ft_strcmp(arr[0], _CD_) == 0)
 		minishell_cd(arr, env);
 	else if (ft_strcmp(arr[0], _EXIT_) == 0)
-		minishell_exit(stack, arr, env, NULL);
+		return (minishell_exit(stack, arr, env, NULL));
 	else if (ft_strcmp(arr[0], _EXPORT_) == 0)
 		minishell_export(arr, env);
 	else if (ft_strcmp(arr[0], _UNSET_) == 0)
 		minishell_unset(arr, env);
 	else
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
-int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
+int	is_builtin(char **arr, t_tok *stack)
 {
-	status = check_builtins(pars, env);
-	if (status == 0)
+	if (!ft_strcmp(arr[0], _ENV_) || !ft_strcmp(arr[0], _ECHO_) || \
+			!ft_strcmp(arr[0], _PWD_) || !ft_strcmp(arr[0], _CD_) || \
+			!ft_strcmp(arr[0], _EXIT_) || !ft_strcmp(arr[0], _EXPORT_) || \
+			!ft_strcmp(arr[0], _UNSET_))
 	{
-		pars->err_code = call_cmds(main, pars, env);
-		status = pars->err_code;
+		if (io_dup2(stack->_stdin_, stack->_stdout_))
+			return (-1);
+		else
+			return (0);
 	}
-	else if (status == -1)
-		return (1);
-	else
-		if (io_backup_dup2(pars->stdin_backup, pars->stdout_backup))
-			return (1);
-	main->flag = 1;
-	return (g_exit_status_);
+	return (1);
 }

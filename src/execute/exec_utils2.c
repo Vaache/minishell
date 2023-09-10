@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 14:05:27 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:31:33 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*fill_path_cmd(char *cmd, char **path)
 
 	i = 0;
 	cmdpath = NULL;
-	while (path && path[i])
+	while (path && path[i] && cmd[0] != '\0')
 	{
 		cmdpath = ft_strjoin(path[i], "/", 0);
 		cmdpath = ft_strjoin(cmdpath, cmd, 1);

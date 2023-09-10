@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/07 20:27:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 10:23:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,25 @@ int	exit_error_code(t_env *env, t_tok *stack)
 
 int	check_exit_status(char **arr, char *s, int exit_num, t_tok *stack)
 {
+	if (!check_subsh(stack) && !(stack->flag & _PIPE_))
+		ft_printf(2, "exit\n");
 	if (strlen_2d(arr) == 2 && ft_strcmp(s, arr[1]) == 0)
 	{
-		if (!check_subsh(stack) && !(stack->flag & _PIPE_))
-			ft_printf(2, "exit\n");
 		if (exit_num == 0)
 			return (0);
-		return (g_exit_status_ = exit_num % 256);
+		return (exit_num % 256);
 	}
 	else if (ft_strlen(s) > 19 || check_digit(arr[1]) == 1 || \
 		ft_strcmp(s, arr[1]) != 0)
 	{
-		if (!check_subsh(stack) && !(stack->flag & _PIPE_))
-			ft_printf(2, "exit\n");
 		ft_printf(2, "Minishell: exit: %s: numeric argument required\n", \
 			arr[1]);
 		return (255);
 	}
 	else if (strlen_2d(arr) > 2 && check_digit(arr[1]) == 0)
 	{
-		ft_printf(2, "exit\nMinishell: exit: too many arguments\n");
+		ft_printf(2, " Minishell: exit: too many arguments\n");
 		free(s);
-		g_exit_status_ = 1;
 		return (1000);
 	}
 	return (-1);
@@ -110,7 +107,7 @@ char	*check_zeroes(char *str)
 {
 	char	*tmp;
 
-	if (str != NULL && (str[0] == '0' || \
+	if (str != NULL && ((str[0] == '0' && str[1] == '0') || \
 			((str[0] == '+' || str[0] == '-') && str[1] == '0')))
 	{
 		tmp = ft_strdup(str);

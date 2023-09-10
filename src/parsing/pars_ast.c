@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/05 19:41:00 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:30:27 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,9 @@ t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack)
 	else if (tmp->type == END)
 		return (ast_end(main, new, tmp, stack));
 	else if (check_types(tmp->type))
-	{
 		new = ast_left_right(main, new, tmp, stack);
-		if (new == NULL)
-			return (NULL);
-		return (new);
-	}
 	else if (tmp && tmp->type != END)
-	{
 		new = ast_create_cmd(main, new, tmp, stack);
-		if (new == NULL)
-			return (NULL);
-		return (new);
-	}
 	return (new);
 }
 
