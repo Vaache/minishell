@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 10:28:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 19:56:32 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	main_2(t_main *main, t_env *my_env);
+void	main_2(t_main *main, t_env *my_env, char *str);
 
 int	main(int ac, char **av, char **env)
 {
@@ -28,16 +28,14 @@ int	main(int ac, char **av, char **env)
 	main_init(&main);
 	print_header();
 	my_env = env_init(env, my_env);
-	rl_catch_signals = 0;
 	init_hd(&main.hd);
-	main_2(&main, my_env);
+	rl_catch_signals = 0;
+	main_2(&main, my_env, NULL);
 	return (0);
 }
 
-void	main_2(t_main *main, t_env *my_env)
+void	main_2(t_main *main, t_env *my_env, char *str)
 {
-	char	*str;
-
 	while (1)
 	{
 		run_signals(1);
@@ -46,7 +44,9 @@ void	main_2(t_main *main, t_env *my_env)
 		if (str == NULL)
 		{
 			write(2, "exit\n", 5);
-			exit(g_exit_status_);
+			if (g_exit_status_ == 130)
+				exit(1);
+			exit(main->exit_status);
 		}
 		if (onlyspace(str))
 		{

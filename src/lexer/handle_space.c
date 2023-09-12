@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 18:10:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 16:29:37 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:34:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	handle_space(t_tok **pars, char *line, int i, int start)
 	if (ft_isspace(line, start, i))
 		return ;
 	str = ft_substr(line, start, i - start);
-	if (!ft_isspace(line, start, i) && is_delim(*pars))
+	if (!ft_isspace(line, start, i) && \
+							(is_delim(*pars) || is_delim(*pars) == -1))
 		lstback(pars, lstadd(str, WORD, 0, 1));
 	else if (start > 1 && line[start - 1] == ' ')
 		lstback(pars, lstadd(str, WORD, 0, 2));

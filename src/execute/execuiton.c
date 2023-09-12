@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 10:16:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 16:32:00 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int		call_cmds(t_main *main, t_tok *stack, t_env **env);
 int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
 char	*check_cmd(char *cmd, char **path);
-int		exec_cmds2(pid_t pid, t_tok **stack);
-void	execve_error(char *str);
 
 int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 {
@@ -25,6 +23,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 
 	child_exit = 0;
 	pid = fork();
+	run_signals(2);
 	if (pid == -1)
 	{
 		perror("minishell");
@@ -81,10 +80,7 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 	int		k;
 
 	if (main->flag)
-	{
 		find_path(main, env);
-		main->flag = 0;
-	}
 	call_expand(stack, *env);
 	if (lstsize(stack) == 1 && stack->cmd[0] == '\0')
 		return (0);
@@ -94,7 +90,8 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 	my_env = env_2d(env);
 	cmd_path = check_cmd(cmd_arr[0], main->path);
 	if (!cmd_path)
-		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
+		return (127 + free_of_n(NULL, cmd_arr, my_env, 2) + \
+											free_2d(main->path));
 	k = exec_cmds(cmd_path, cmd_arr, my_env, stack);
 	free_2d(main->path);
 	free_of_n(cmd_path, cmd_arr, my_env, 3);

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:57:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/08/29 16:12:12 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:32:35 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,26 @@ unsigned long long int	ft_atll(char *str)
 {
 	long long	num;
 	int			sing;
+	int			i;
 
 	sing = 1;
 	num = 0;
+	i = 0;
 	if (!str)
 		return (0);
-	while (*str && ((*str == ' ') || *str == '\t' || *str == '\r'
-			|| *str == '\f' || *str == '\v' || *str == '\n'))
-		++str;
-	if (*str == '+' || *str == '-')
+	while (str[i] && ((str[i] == ' ') || str[i] == '\t' || str[i] == '\r'
+			|| str[i] == '\f' || str[i] == '\v' || str[i] == '\n'))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		if (*str == '-')
+		if (str[i] == '-')
 			sing *= -1;
-		++str;
+		i++;
 	}
-	while (*str >= '0' && *str <= '9')
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		num = num * 10 + (*str - '0');
-		++str;
+		num = num * 10 + (str[i] - '0');
+		i++;
 	}
 	return (num * sing);
 }
@@ -75,12 +77,14 @@ int	check_digit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
 	while (str && str[i] != '\0')
 	{
-		if ((str[i] >= 'a' && str[i] <= 'z') || \
-			(str[i] >= 'a' && str[i] <= 'Z'))
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
 			return (1);
-		i++;
 	}
 	return (0);
 }

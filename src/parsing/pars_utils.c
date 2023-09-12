@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:55:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 11:53:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ t_tok	*ast_branch(t_tok *tok)
 	tmp->next = NULL;
 	tmp->prev = NULL;
 	return (tmp);
+}
+
+int	heredoc_input(t_main *main, t_env *env)
+{
+	t_tok	*tmp;
+
+	tmp = main->lex;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC && read_heredoc_input(main, tmp, NULL, env))
+			return (130);
+		tmp = tmp->next;
+	}
+	return (0);
 }

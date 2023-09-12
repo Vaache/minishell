@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 23:04:04 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/01 17:15:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 11:07:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	destroy_structure(t_tok *root)
 	if (root->next)
 		destroy_structure(root->next);
 	if (root->hdoc_fname && root->type == HEREDOC)
-		free (root->hdoc_fname);
+	{
+		unlink (root->hdoc_fname);
+		free(root->hdoc_fname);
+	}
 	if (root->cmd)
 		free (root->cmd);
 	free (root);

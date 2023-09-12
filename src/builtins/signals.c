@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:02:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 17:21:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 16:32:56 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ void	run_signals(int sig)
 	{
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, back_slash);
-	}
-	if (sig == 3)
-	{
-		printf("exit\n");
-		exit(0);
 	}
 	if (sig == 4)
 	{

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 21:22:01 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 09:45:00 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 20:52:53 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_dquotes(t_tok **pars, char **line, int *i, int start)
 		str = ft_substr(*line, *i + 1, count - *i - 1);
 	else
 		str = ft_substr(*line, *i, count - *i);
-	if ((*line)[count] == '"' && is_delim(*pars))
+	if ((*line)[count] == '"' && (is_delim(*pars) || is_delim(*pars) == -1))
 		lstback(pars, lstadd(str, DQUOTE, 0, 1));
 	else if ((*line)[count] == '"' && *i > 1 && (*line)[*i - 1] == ' ')
 		lstback(pars, lstadd(str, DQUOTE, 0, 2));
@@ -55,7 +55,7 @@ int	handle_squotes(t_tok **pars, char **line, int *i, int start)
 	while ((*line)[count] && (*line)[count] != '\'')
 		count++;
 	str = ft_substr(*line, *i + 1, count - *i - 1);
-	if ((*line)[count] == '\'' && is_delim(*pars))
+	if ((*line)[count] == '\'' && (is_delim(*pars) || is_delim(*pars) == -1))
 		lstback(pars, lstadd(str, SQUOTE, 0, 1));
 	else if ((*line)[count] == '\'' && *i > 1 && (*line)[*i - 1] == ' ')
 		lstback(pars, lstadd(str, SQUOTE, 0, 2));

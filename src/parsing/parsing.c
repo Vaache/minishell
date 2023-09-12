@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	parsing(t_main *main, t_env **env);
+void	parsing(t_main *main);
 void	push(t_tok **a, t_tok **b);
 void	delete_node(t_tok **opstack);
 void	shunting_yard(t_tok **tmp, t_tok **postfix, t_tok **opstack);
@@ -119,25 +119,15 @@ void	print_ast(t_tok *ast, int indent, int lrc)
 	print_ast(ast->left, indent + 1, 2);
 }
 
-void	parsing(t_main *main, t_env **env)
+void	parsing(t_main *main)
 {
 	t_tok	*tmp;
 	t_tok	*postfix;
 	t_tok	*opstack;
 
-	tmp = main->lex;
-	while (tmp)
-	{
-		if (tmp->type == HEREDOC && read_heredoc_input(main, tmp, NULL, *env))
-		{
-			handle_dollar(g_exit_status_, env);
-			break;
-		}
-		tmp = tmp->next;
-	}
-	tmp = main->lex;
 	postfix = NULL;
 	opstack = NULL;
+	tmp = main->lex;
 	while (tmp)
 	{
 		shunting_yard(&tmp, &postfix, &opstack);
@@ -146,4 +136,5 @@ void	parsing(t_main *main, t_env **env)
 	while (opstack)
 		push(&opstack, &postfix);
 	main->pars = abstract_syntax_tree(main, &postfix);
+	print_ast(main->pars, 0, 0);
 }

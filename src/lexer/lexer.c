@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 10:28:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 20:58:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	lex(char **line, t_main *main, t_env *env)
 {
 	t_tok	*tmp;
 
-	if (!lexer(&(main->lex), line) || !check_valid(main) || !main->lex)
+	g_exit_status_ = 0;
+	if (!lexer(&(main->lex), line) || !check_valid(main, env) || !main->lex)
 	{
 		destroy_main(main);
 		main->exit_status = 258;
@@ -106,5 +107,5 @@ void	lex(char **line, t_main *main, t_env *env)
 		ft_printf(2, "Minishell: maximum here-document count exceeded");
 		exit(2);
 	}
-	parsing(main, &env);
+	parsing(main);
 }

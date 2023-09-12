@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:11:09 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/08 14:43:26 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 20:51:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		ft_isspace(char *str, int start, int i);
 int		is_delim(t_tok	*pars);
 int		check_types(t_type type);
 char	*type_is(t_type type);
-int		check_valid(t_main *main);
 
 int	ft_isspace(char *str, int start, int i)
 {
@@ -74,7 +73,7 @@ int	is_delim(t_tok	*pars)
 	if (tmp->type == PIPE || tmp->type == HEREDOC)
 		return (1);
 	else if (tmp->type == SUBSH_CLOSE || tmp->type == SUBSH_OPEN)
-		return (1);
+		return (-1);
 	else if (tmp->type == WRITE_APPEND || tmp->type == WRITE_TRUNC || \
 		tmp->type == INPUT)
 		return (1);
@@ -82,28 +81,4 @@ int	is_delim(t_tok	*pars)
 		return (1);
 	else
 		return (0);
-}
-
-int	check_valid(t_main *main)
-{
-	t_tok	*tmp;
-
-	tmp = main->lex;
-	if (!tmp)
-		return (0);
-	while (tmp->next != NULL)
-	{
-		if (check_types(tmp->type) && check_types(tmp->next->type) == 1)
-			return (parse_error(2, type_is(tmp->next->type), 0));
-		else if (check_types(tmp->type) == 2 && \
-			!ft_strcmp(tmp->next->cmd, "(NULL)"))
-		{
-			if (tmp->next->next)
-				return (parse_error(2, type_is(tmp->next->next->type), 0));
-		}
-		else if (check_types(tmp->type) && tmp->next->type == END)
-			return (parse_error(2, "newline", 0));
-		tmp = tmp->next;
-	}
-	return (1);
 }

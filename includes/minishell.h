@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 10:24:31 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 17:03:50 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void					lex(char **line, t_main *main, t_env *env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
-int						check_valid(t_main *main);
+int						check_valid(t_main *main, t_env *env);
 int						check_types(t_type type);
 int						lstsize(t_tok *lst);
 void					destroy_structure(t_tok *root);
@@ -239,6 +239,7 @@ int						handle_clprnth(t_tok **pars, char *line, \
 
 int						handle_heredoc(t_tok **pars, char *line, \
 							int i, int start);
+int						heredoc_input(t_main *main, t_env *env);
 int						read_heredoc_input(t_main *main, t_tok *tok, \
 							char *line, t_env *env);
 
@@ -266,7 +267,7 @@ int						check_astree(t_main *main, t_tok *root, t_env *env);
 int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
 
-void					parsing(t_main *main, t_env **env);
+void					parsing(t_main *main);
 int						check_lasts(t_main *main, t_tok *stack, int mode);
 t_type					ttoa(char *token);
 int						find_limiter_end(char *line, int i, int start);

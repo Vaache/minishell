@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 10:15:40 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/10 20:53:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		read_heredoc_input_2(char *line, char **res, t_tok *tok);
 int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 {
 	handle_space(pars, line, i, start);
-	if (is_delim(*pars))
+	if (is_delim(*pars) && is_delim(*pars) != -1)
 		lstback(pars, lstadd("(NULL)", WORD, 0, 1));
 	lstback(pars, lstadd("<<", HEREDOC, 4, 1));
 	return (i + 1);
