@@ -6,83 +6,58 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 15:07:16 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:47:28 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_valid(t_main *main, t_env *env);
-int	valid_subsh(t_tok *stack, int subshell);
-int	subsh_checks(t_tok *tmp);
+int	check_valid(t_main *main, t_env *env, int sb);
+int	subshell_validation(t_tok *tmp, int *subshell);
 
-int	check_valid(t_main *main, t_env *env)
-{
-	t_tok	*ptr;
-	int		sb;
-
-	ptr = main->lex;
-	sb = 0;
-	if (!valid_subsh(ptr, 0))
-		return (0);
-	while (ptr->next != NULL)
-	{
-		if (ptr->type == HEREDOC && !check_types(ptr->next->type))
-			read_heredoc_input(main, ptr, NULL, env);
-		if (check_types(ptr->type) && check_types(ptr->next->type) == 1)
-			return (parse_error(2, type_is(ptr->next->type), 0));
-		else if (check_types(ptr->type) == 2 && \
-			!ft_strcmp(ptr->next->cmd, "(NULL)"))
-		{
-			if (ptr->next->next)
-				return (parse_error(2, type_is(ptr->next->next->type), 0));
-		}
-		else if (check_types(ptr->type) && ptr->next->type == END)
-			return (parse_error(2, "newline", 0));
-		ptr = ptr->next;
-	}
-	return (1);
-}
-
-int	valid_subsh(t_tok *stack, int subshell)
+int	check_valid(t_main *main, t_env *env, int sb)
 {
 	t_tok	*tmp;
 
-	tmp = stack;
-	while (tmp)
+	tmp = main->lex;
+	while (tmp->next != NULL)
 	{
-		if (tmp->type == SUBSH_OPEN)
-			subshell++;
-		else if (tmp->type == SUBSH_CLOSE)
-			subshell--;
-		if (!subsh_checks(tmp))
+		if (!subshell_validation(tmp, &sb))
 			return (0);
+		if (tmp->type == HEREDOC && !check_types(tmp->next->type))
+			read_heredoc_input(main, tmp, NULL, env);
+		if (check_types(tmp->type) && check_types(tmp->next->type) == 1)
+			return (parse_error(2, type_is(tmp->next->type), 0));
+		else if (check_types(tmp->type) == 2 && \
+			!ft_strcmp(tmp->next->cmd, "(NULL)"))
+		{
+			if (tmp->next->next)
+				return (parse_error(2, type_is(tmp->next->next->type), 0));
+		}
+		else if (check_types(tmp->type) && tmp->next->type == END)
+			return (parse_error(2, "newline", 0));
 		tmp = tmp->next;
 	}
-	if (subshell != 0)
-		return (parse_error(2, ")", 0));
+	if (sb > 0)
+		return (parse_error(2, "newline", 0));
 	return (1);
 }
 
-int	subsh_checks(t_tok *tmp)
+int	subshell_validation(t_tok *tmp, int *subshell)
 {
-	if (tmp->type == SUBSH_OPEN && tmp->next && \
-			tmp->next->type == SUBSH_CLOSE)
+	if (tmp->type == SUBSH_OPEN)
+		(*subshell)++;
+	else if (tmp->type == SUBSH_CLOSE)
+		(*subshell)--;
+	if (tmp->type == SUBSH_CLOSE && (!tmp->prev || \
+		tmp->prev->type == SUBSH_OPEN || (*subshell) < 0))
 		return (parse_error(2, ")", 0));
-	if (tmp->type == SUBSH_OPEN && tmp->prev && \
-				tmp->next && !check_types(tmp->prev->type) && \
-				tmp->next->type != END)
+	if (tmp->type == SUBSH_OPEN && tmp->prev && !check_types(tmp->prev->type))
 	{
-		printf("%s\n", tmp->next->cmd);	
-		return (parse_error(2, tmp->next->cmd, 0));
+		if (tmp->next->type != END && tmp->prev->type != SUBSH_OPEN)
+			return (parse_error(2, tmp->next->cmd, 0));
+		else if (tmp->prev->type != SUBSH_OPEN)
+			return (parse_error(2, "newline", 0));
 	}
-	if (tmp->type == SUBSH_CLOSE && tmp->next && \
-					!check_types(tmp->next->type) && \
-			tmp->next->type != END && ft_strcmp(tmp->next->cmd, "(NULL)"))
-		return (parse_error(2, tmp->next->cmd, 0));
-	if (tmp->type == SUBSH_OPEN && check_types(tmp->next->type) && \
-					tmp->next && tmp->next->next && \
-					tmp->next->next->type == SUBSH_CLOSE)
-		return (parse_error(2, tmp->next->cmd, 0));
 	return (1);
 }

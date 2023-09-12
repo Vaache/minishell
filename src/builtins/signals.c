@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 15:02:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 16:32:56 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:43:56 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ctrl_c(int sig)
 void	back_slash(int sig)
 {
 	g_exit_status_ = 131;
-	printf("Quit: 3\n");
+	ft_printf(2, "Quit: 3\n");
 	(void)sig;
 }
 

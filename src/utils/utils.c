@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 17:57:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 15:32:35 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:51:05 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ unsigned long long int	ft_atll(char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	while (str[i] && ((str[i] == ' ') || str[i] == '\t' || str[i] == '\r'
+	while (str && str[i] && ((str[i] == ' ') || str[i] == '\t' || str[i] == '\r'
 			|| str[i] == '\f' || str[i] == '\v' || str[i] == '\n'))
 		i++;
-	if (str[i] == '+' || str[i] == '-')
+	if (str && str[i] && (str[i] == '+' || str[i] == '-'))
 	{
 		if (str[i] == '-')
 			sing *= -1;

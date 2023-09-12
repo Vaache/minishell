@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 21:07:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:41:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int		check_astree(t_main *main, t_tok *root, t_env *env);
 int		ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status);
 int		ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status);
+void	config_left_dups(t_tok *stack);
+void	config_right_dups(t_tok *stack);
 
 int	check_astree(t_main *main, t_tok *root, t_env *env)
 {
@@ -27,14 +29,14 @@ int	check_astree(t_main *main, t_tok *root, t_env *env)
 		return (root->err_code);
 	}
 	if (root->left == NULL && root->right == NULL)
-	{
-		root->err_code = cmds_execute(main, root, &env, 0);
-		return (root->err_code);
-	}
+		return (root->err_code = cmds_execute(main, root, &env, 0));
 	if (root->left && root->right && check_types(root->type) == 2)
 		root->err_code = exec_iocmd(main, root, &env);
 	else if (root->left && root->right && root->type == PIPE)
+	{
+		config_right_dups(root);
 		root->err_code = pipe_prepair(main, root, &env);
+	}
 	if (root->left != NULL && !(root->left->flag & _REDIR_) && \
 		!(root->left->flag & _PIPE_))
 		root->err_code = ast_left_branch(main, &root, &env, status);
@@ -49,6 +51,7 @@ int	ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status)
 {
 	pid_t	pid;
 
+	config_left_dups(*stack);
 	if (check_lasts(main, *stack, 1) && (*stack)->left->subshell_code && \
 									check_types((*stack)->left->type) == 1)
 	{
@@ -76,6 +79,7 @@ int	ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status)
 {
 	pid_t	pid;
 
+	config_right_dups(*stack);
 	if (check_lasts(main, *stack, 1) && (*stack)->right->subshell_code && \
 		check_types((*stack)->right->type) == 1)
 	{
@@ -97,4 +101,32 @@ int	ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status)
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->right, *env);
 	return ((*stack)->err_code);
+}
+
+void	config_right_dups(t_tok *stack)
+{
+	if (stack->stdin_backup != -42)
+		stack->right->stdin_backup = stack->stdin_backup;
+	if (stack->stdout_backup != -42)
+		stack->right->stdout_backup = stack->stdout_backup;
+	if (stack->_stdin_ != -42)
+		stack->right->_stdin_ = stack->_stdin_;
+	if (stack->_stdout_ != -42)
+		stack->right->_stdout_ = stack->_stdout_;
+	if (stack->fd != -42)
+		stack->right->fd = stack->fd;
+}
+
+void	config_left_dups(t_tok *stack)
+{
+	if (stack->stdin_backup != -42)
+		stack->left->stdin_backup = stack->stdin_backup;
+	if (stack->stdout_backup != -42)
+		stack->left->stdout_backup = stack->stdout_backup;
+	if (stack->_stdin_ != -42)
+		stack->left->_stdin_ = stack->_stdin_;
+	if (stack->_stdout_ != -42)
+		stack->left->_stdout_ = stack->_stdout_;
+	if (stack->fd != -42)
+		stack->right->fd = stack->fd;
 }

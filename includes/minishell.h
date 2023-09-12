@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 17:03:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:46:51 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef enum e_token_type
 typedef struct s_tok
 {
 	char			*cmd;
+	char			*exit_tmp;
 	char			*hdoc_fname;
 	t_type			type;
 	int				prc;
@@ -206,7 +207,7 @@ void					lex(char **line, t_main *main, t_env *env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
-int						check_valid(t_main *main, t_env *env);
+int						check_valid(t_main *main, t_env *env, int sb);
 int						check_types(t_type type);
 int						lstsize(t_tok *lst);
 void					destroy_structure(t_tok *root);
@@ -287,6 +288,8 @@ int						exec_iocmd(t_main *main, t_tok *stack, t_env **env);
 int						pipe_prepair(t_main *main, t_tok *pars, t_env **env);
 int						io_dup2(int _stdin_, int _stdout_);
 int						io_backup_dup2(int _stdin_backup_, int _stdout_backup_);
+void					config_left_dups(t_tok *stack);
+void					config_right_dups(t_tok *stack);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);
