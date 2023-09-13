@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 16:48:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/13 20:12:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	t_tok	*tmp;
 
 	fd = -42;
+	if (stack->left && check_types(stack->left->type) == 2)
+		stack->err_code = check_astree(main, stack->left, *env);
 	if (stack->type == WRITE_APPEND)
 		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
 	else if (stack->type == WRITE_TRUNC)
@@ -67,7 +69,7 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	if (stack->last_hdoc != 1 || tmp->left->type == PIPE)
 		return (0 + unlink(stack->hdoc_fname));
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
-		stack->err_code = check_astree(main, tmp->left, *env);
+		stack->err_code = cmds_execute(main, tmp->left, env, 0);
 	return (stack->err_code + unlink(stack->hdoc_fname));
 }
 
@@ -87,7 +89,7 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	if (i == 1)
 		return (1);
 	tmp = stack;
-	while (tmp->left->type != WORD && check_types(tmp->left->type) != 1)
+	while (tmp->left->type != WORD)
 		tmp = tmp->left;
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;

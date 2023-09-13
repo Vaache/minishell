@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 16:41:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/13 21:25:30 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int	ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status)
 
 void	config_right_dups(t_tok *stack)
 {
+	if (stack->type == END)
+		return ;
 	if (stack->stdin_backup != -42)
 		stack->right->stdin_backup = stack->stdin_backup;
 	if (stack->stdout_backup != -42)
@@ -119,6 +121,8 @@ void	config_right_dups(t_tok *stack)
 
 void	config_left_dups(t_tok *stack)
 {
+	if (stack->type == END)
+		return ;
 	if (stack->stdin_backup != -42)
 		stack->left->stdin_backup = stack->stdin_backup;
 	if (stack->stdout_backup != -42)

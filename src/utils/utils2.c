@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 21:27:38 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/13 21:25:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ char	*trim_zeroes(char *s)
 			if (s[j] != '0')
 				break ;
 		}
-		if (!str)
-			return (ft_strdup("0"));
-		str = ft_strdup(&s[j]);
-		return (str);
+		if (s[j] == '\0')
+		{
+			str = ft_strdup("0");
+			return (str);
+		}
+		return (&s[j]);
 	}
 	return (s);
 }

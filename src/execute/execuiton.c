@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 16:23:35 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/13 20:21:55 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	else if (pid == 0)
 	{
 		if (io_dup2(stack->_stdin_, stack->_stdout_))
-			return (EXIT_FAILURE);
+			exit (EXIT_FAILURE);
 		if (execve(path_cmd, cmd_arr, env) == -1 && \
 			execve(cmd_arr[0], cmd_arr, env) == -1)
 		{
