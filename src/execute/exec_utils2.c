@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 17:02:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:57:00 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,29 @@ int	andxor(t_tok *stack)
 	}
 	else
 		return (1);
+}
+
+int	open_out(t_tok *stack)
+{
+	int	fd;
+
+	fd = 0;
+	if (stack->type == WRITE_APPEND)
+		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
+	else if (stack->type == WRITE_TRUNC)
+		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
+	if (fd == -1)
+		perror("minishell");
+	return (fd);
+}
+
+int	open_input(t_tok *stack)
+{
+	int	fd;
+
+	fd = open(stack->right->cmd, O_RDONLY);
+	if (fd < 0)
+		ft_printf(2, "minishell: %s: No such file or directory\n", \
+									stack->right->cmd);
+	return (fd);
 }

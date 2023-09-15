@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:10 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 17:05:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:59:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ t_tok	*find_second_arg(t_tok *stack)
 		return (NULL);
 	return (tmp);
 }
-

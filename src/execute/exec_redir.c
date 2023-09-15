@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 18:39:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:56:48 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,9 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	int		fd;
 	t_tok	*tmp;
 
-	fd = -42;
-	if (stack->type == WRITE_APPEND)
-		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
-	else if (stack->type == WRITE_TRUNC)
-		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
-	if (fd == -1)
-	{
-		perror("Minishell");
+	fd = open_out(stack);
+	if (fd < 0)
 		return (1);
-	}
 	tmp = stack;
 	while (tmp->left->type != WORD && check_types(tmp->left->type) != 1)
 		tmp = tmp->left;
@@ -68,8 +61,8 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	if (stack->last_hdoc != 1 || tmp->left->type == PIPE || \
 			(check_types(stack->left->type) == 2 && stack->left->sub))
 		return (0 + unlink(stack->hdoc_fname));
-	// if (ft_strcmp(stack->right->cmd, "(NULL)"))
-	// 	stack->err_code = execute_second_arg(main, stack, *env);
+	if (ft_strcmp(stack->right->cmd, "(NULL)"))
+		stack->err_code = execute_second_arg(main, stack, *env);
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
 		stack->err_code |= cmds_execute(main, tmp->left, env, 0);
 	return (stack->err_code);
@@ -81,16 +74,14 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	int			fd;
 	t_tok		*tmp;
 
-	fd = open(stack->right->cmd, O_RDONLY);
-	if (fd < 0)
-	{
-		ft_printf(2, "minishell: %s: No such file or directory\n", \
-									stack->right->cmd);
-		i = 1;
-		return (EXIT_FAILURE);
-	}
 	if (i == 1)
 		return (1);
+	fd = open_input(stack);
+	if (fd < 0)
+	{
+		i = 1;
+		return (1);
+	}
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
@@ -98,14 +89,12 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 		stack->last_input = 1;
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
-	// if (ft_strcmp(stack->right->cmd, "(NULL)"))
-	// 	stack->err_code = execute_second_arg(main, stack, *env);
 	if (stack->last_input != 1 || (check_types(stack->left->type) == 2 && \
 															stack->left->sub))
 		return (0);
-	stack->err_code = check_astree(main, tmp->left, *env);
+	stack->err_code |= check_astree(main, tmp->left, *env);
 	i = 0;
-	return (0);
+	return (stack->err_code);
 }
 
 int	exec_iocmd(t_main *main, t_tok *stack, t_env **env)

@@ -6,28 +6,26 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/14 18:07:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:57:24 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_valid(t_main *main, t_env *env, int sb);
+int	check_valid(t_main *main, t_env *env, int *sb);
 int	subshell_validation(t_tok *tmp, int *subshell);
 
-int	check_valid(t_main *main, t_env *env, int sb)
+int	check_valid(t_main *main, t_env *env, int *sb)
 {
 	t_tok	*tmp;
 
 	tmp = main->lex;
 	while (tmp->next != NULL)
 	{
-		if (!subshell_validation(tmp, &sb))
+		if (!subshell_validation(tmp, sb))
 			return (0);
 		if (check_types(tmp->type) == 2 && !ft_strcmp(tmp->next->cmd, "*"))
 			return (ft_printf(2, "Minishell: *: ambiguous redirect\n") * 0);
-		if (tmp->type == HEREDOC && ft_strcmp(tmp->next->cmd, "(NULL)"))
-			read_heredoc_input(main, tmp, NULL, env);
 		if (check_types(tmp->type) && check_types(tmp->next->type) == 1)
 			return (parse_error(2, type_is(tmp->next->type), 0));
 		if (check_types(tmp->type) == 1 && tmp->prev == NULL)
@@ -37,10 +35,12 @@ int	check_valid(t_main *main, t_env *env, int sb)
 				return (parse_error(2, type_is(tmp->next->next->type), 0));
 		if (check_types(tmp->type) && tmp->next->type == END)
 			return (parse_error(2, "newline", 0));
+		if (tmp->type == HEREDOC && ft_strcmp(tmp->next->cmd, "(NULL)"))
+			read_heredoc_input(main, tmp, NULL, env);
+		if (check_types(tmp->type) == 2 && tmp->type != HEREDOC)
+			find_limiter(tmp->next);
 		tmp = tmp->next;
 	}
-	if (sb > 0)
-		return (parse_error(2, "newline", 0));
 	return (1);
 }
 

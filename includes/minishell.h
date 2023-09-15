@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 17:04:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:56:35 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void					lex(char **line, t_main *main, t_env *env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
-int						check_valid(t_main *main, t_env *env, int sb);
+int						check_valid(t_main *main, t_env *env, int *sb);
 int						check_types(t_type type);
 int						lstsize(t_tok *lst);
 void					destroy_structure(t_tok *root);
@@ -254,8 +254,10 @@ int						handle_infile(t_tok **pars, char *line, \
 void					handle_space(t_tok **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env **env);
+void					find_limiter(t_tok *stack);
+void					push_redir(t_tok *to, t_tok *from);
+void					pop_redir(t_tok *tok);
 
-char					**restore_cmd_line(t_tok *stack, int i);
 void					delete_node(t_tok **opstack);
 void					push(t_tok **a, t_tok **b);
 void					shunting_yard(t_tok **tmp, t_tok **postfix, \
@@ -268,11 +270,10 @@ int						check_astree(t_main *main, t_tok *root, t_env *env);
 int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
 															int status);
 
+char					**restore_cmd_line(t_tok *stack, int i);
 void					parsing(t_main *main);
 int						check_lasts(t_main *main, t_tok *stack, int mode);
 t_type					ttoa(char *token);
-int						find_limiter_end(char *line, int i, int start);
-char					*rem_quotes_lim(char *limiter);
 char					*token_is(t_type token);
 int						andxor(t_tok *stack);
 int						call_cmds(t_main *main, t_tok *stack, t_env **env);
@@ -293,6 +294,8 @@ int						io_dup2(int _stdin_, int _stdout_);
 int						io_backup_dup2(int _stdin_backup_, int _stdout_backup_);
 void					config_left_dups(t_tok *stack);
 void					config_right_dups(t_tok *stack);
+int						open_out(t_tok *stack);
+int						open_input(t_tok *stack);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);

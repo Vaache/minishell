@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 20:45:00 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:59:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:54:31 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,68 +72,4 @@ t_type	ttoa(char *token)
 	else if (token[0] == '\0')
 		return (END);
 	return (WORD);
-}
-
-int	find_limiter_end(char *line, int i, int start)
-{
-	int	end;
-
-	end = start;
-	while (line[end] && line[end] != ' ')
-	{
-		if (line[end] != '\0' && line[end] == '"')
-			while (line[++end] != '\0' && line[end] != '"')
-				;
-		if (line[end] != '\0' && line[end] == '\'')
-			while (line[++end] != '\0' && line[end] != '\'')
-				;
-		if (check_delim(line, end))
-			break ;
-		if (line[end] != '\0')
-			end++;
-	}
-	if (end == start)
-	{
-		if (line[i] == '\0')
-			return (parse_error(2, "newline", 1));
-		return (parse_error(2, (char *)token_is(ttoa(line + start)), 0));
-	}
-	return (end);
-}
-
-char	*rem_quotes_lim(char *limiter)
-{
-	int		i;
-	int		quote;
-	char	*str;
-
-	i = -1;
-	quote = quote_count(limiter);
-	if (quote == -1)
-		return (NULL);
-	str = ft_calloc(ft_strlen(limiter) - quote, sizeof(char));
-	if (!str)
-		return (NULL);
-	i = ((quote = 0));
-	while (limiter && limiter[i])
-	{
-		if (limiter[i] == '"' || limiter[i] == '\'')
-			i++;
-		else
-			str[quote++] = limiter[i++];
-	}
-	free(limiter);
-	return (str);
-}
-
-int	check_delim(char *line, int end)
-{
-	if (line[end] == '&' && line[end + 1] == '&')
-		return (1);
-	else if (line[end] == '|' || line[end] == '<' || \
-		line[end] == '>')
-		return (1);
-	else if (line[end] == '(' || line[end] == ')')
-		return (1);
-	return (0);
 }

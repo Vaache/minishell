@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 18:43:37 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:59:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,31 +84,42 @@ int	lexer(t_tok **res, char **line)
 	return (1);
 }
 
-void	lex(char **line, t_main *main, t_env *env)
+int	heredoc_valid(t_main *main, t_tok *stack)
 {
 	t_tok	*tmp;
 
-	g_exit_status_ = 0;
-	if (!lexer(&(main->lex), line) || !check_valid(main, env, 0) || !main->lex)
-	{
-		destroy_main(main);
-		main->exit_status = 258;
-		return ;
-	}
-	tmp = main->lex;
+	tmp = stack;
 	while (tmp)
 	{
 		if (tmp->type == HEREDOC)
 			main->hdoc++;
-		if (check_types(tmp->type) == 2 && tmp->next->next && !check_types(tmp->next->next->type) && tmp->next->next->type != END)
-			tmp->next->next->flag = 1;
 		tmp = tmp->next;
 	}
 	if (main->hdoc > 15)
 	{
 		ft_printf(2, "Minishell: maximum here-document count exceeded");
-		exit(2);
+		return (1);
 	}
+	return (0);
+}
+
+void	lex(char **line, t_main *main, t_env *env)
+{
+	int		sb;
+
+	g_exit_status_ = 0;
+	sb = 0;
+	if (!lexer(&(main->lex), line) || !check_valid(main, env, &sb) || \
+													!main->lex || sb > 0)
+	{
+		if (sb > 0)
+			parse_error(2, "newline", 0);
+		destroy_main(main);
+		main->exit_status = 258;
+		return ;
+	}
+	if (heredoc_valid(main, main->lex))
+		exit (2);
 	main->hdoc = 0;
 	parsing(main);
 }

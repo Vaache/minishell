@@ -6,17 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 17:05:47 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:59:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		handle_heredoc(t_tok **pars, char *line, int i, int start);
 int		read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env);
-void	write_in_fd(char **res, int fd, t_env *env);
 int		read_heredoc_input_2(char *line, char **res, char *limiter);
-char	*find_limiter(t_tok *stack);
+int		handle_heredoc(t_tok **pars, char *line, int i, int start);
+void	write_in_fd(char **res, int fd, t_env *env);
+void	find_limiter(t_tok *stack);
 
 int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 {
@@ -30,12 +30,11 @@ int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 int	read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env)
 {
 	char	*res;
-	char	*limiter;
 
 	res = NULL;
 	tok->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
 	tok->fd = open(tok->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 0655);
-	limiter = find_limiter(tok->next);
+	find_limiter(tok->next);
 	run_signals(4);
 	while (1)
 	{
@@ -44,7 +43,7 @@ int	read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env)
 			free(res);
 			return (130);
 		}
-		if (!read_heredoc_input_2(line, &res, limiter))
+		if (!read_heredoc_input_2(line, &res, tok->next->cmd))
 			break ;
 	}
 	write_in_fd(&res, tok->fd, env);
@@ -57,7 +56,6 @@ int	read_heredoc_input_2(char *line, char **res, char *limiter)
 	if (!line || ft_strcmp(line, limiter) == 0)
 	{
 		free(line);
-		free(limiter);
 		return (0);
 	}
 	if (!(*res))
@@ -94,21 +92,31 @@ void	write_in_fd(char **res, int fd, t_env *env)
 	destroy_exp(&exp);
 }
 
-char	*find_limiter(t_tok *stack)
+void	find_limiter(t_tok *stack)
 {
-	char	*str;
 	t_tok	*tmp;
+	t_tok	*cmd_l;
 
-	str = ft_strdup(stack->cmd);
 	tmp = stack->next;
+	cmd_l = stack->prev->prev;
 	while (tmp && tmp->cmd)
 	{
 		if (tmp->flag & (1 << 1) || check_types(tmp->type) || \
 				tmp->type == END)
 			break ;
-		str = ft_strjoin(str, tmp->cmd, 1);
+		stack->cmd = ft_strjoin(stack->cmd, tmp->cmd, 1);
 		tmp = tmp->next;
+		pop_redir(tmp->prev);
 	}
-	return (str);
+	while (cmd_l->prev && check_types(cmd_l->prev->type) == 2)
+		cmd_l = cmd_l->prev->prev;
+	if (!ft_strcmp(cmd_l->cmd, "(NULL)"))
+		return ;
+	while (tmp && tmp->cmd)
+	{
+		if (check_types(tmp->type) || tmp->type == END)
+			break ;
+		tmp = tmp->next;
+		push_redir(cmd_l, tmp->prev);
+	}
 }
-
