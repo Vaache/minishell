@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/13 20:11:36 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:04:17 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_tok
 	int				prc;
 	int				flag;
 	int				err_code;
-	int				subshell_code;
+	int				sub;
 	int				last_red;
 	int				last_hdoc;
 	int				last_input;
@@ -188,7 +188,7 @@ int						minishell_unset(char **arr, t_env **my_env);
 int						minishell_exit(t_tok *stack, char **arr, t_env **env, \
 																	char *s);
 void					minishell_export(char **arr, t_env **my_env);
-void					call_expand(t_tok *stack, t_env *env);
+int						call_expand(t_tok *stack, t_env *env);
 char					*expand(char *str, t_env **env, t_exp *exp);
 int						check_unset(char *str);
 void					pwd_init(t_env **my_env);
@@ -276,7 +276,10 @@ char					*rem_quotes_lim(char *limiter);
 char					*token_is(t_type token);
 int						andxor(t_tok *stack);
 int						call_cmds(t_main *main, t_tok *stack, t_env **env);
-char					*check_cmd(char *cmd, char **path);
+char					*check_cmd(t_main *main, t_tok *stack, char *cmd, \
+															char **path);
+int						execute_second_arg(t_main *main, t_tok *stack, t_env *env);
+t_tok					*find_second_arg(t_tok *stack);
 void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
 int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, \

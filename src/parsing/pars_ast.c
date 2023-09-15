@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 12:43:56 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/14 21:50:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack)
 t_tok	*ast_left_right(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
 {
 	new = ast_branch(tmp);
-	if (tmp->subshell_code)
-		new->subshell_code = 1;
+	if (tmp->sub)
+		new->sub = 1;
 	delete_node(stack);
 	new->right = most_prev(abstract_syntax_tree(main, stack));
 	new->left = most_prev(abstract_syntax_tree(main, stack));
@@ -78,8 +78,8 @@ t_tok	*ast_create_cmd(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
 	if (tmp && tmp->cmd && (tmp->flag & 1) == 1)
 	{
 		new = ast_branch(tmp);
-		if (tmp->subshell_code)
-			new->subshell_code = 1;
+		if (tmp->sub)
+			new->sub = 1;
 		delete_node(stack);
 		while (main && main->temp)
 			push(&main->temp, &new);

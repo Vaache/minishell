@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/13 20:12:25 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:39:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	t_tok	*tmp;
 
 	fd = -42;
-	if (stack->left && check_types(stack->left->type) == 2)
-		stack->err_code = check_astree(main, stack->left, *env);
 	if (stack->type == WRITE_APPEND)
 		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
 	else if (stack->type == WRITE_TRUNC)
@@ -39,7 +37,10 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 		tmp = tmp->left;
 	tmp->left->stdout_backup = main->stdout_backup;
 	tmp->left->_stdout_ = fd;
-	if (stack->last_red != 1)
+	if (check_types(stack->type) == 2 && stack->sub)
+		stack->last_red = 1;
+	if (stack->last_red != 1 || (check_types(stack->left->type) == 2 && \
+			stack->left->sub))
 		return (0);
 	if (ft_strcmp(tmp->left->cmd, "(NULL)") && !(tmp->flag & (1 << 7)))
 		stack->err_code = check_astree(main, tmp->left, *env);
@@ -59,18 +60,19 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	}
 	tmp = stack;
 	while (tmp->left->type != WORD)
-	{
-		if (tmp->left->type == HEREDOC && check_types(tmp->left->type) != 1)
-			unlink(tmp->left->hdoc_fname);
 		tmp = tmp->left;
-	}
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
-	if (stack->last_hdoc != 1 || tmp->left->type == PIPE)
+	if (check_types(stack->type) == 2 && stack->sub)
+		stack->last_hdoc = 1;
+	if (stack->last_hdoc != 1 || tmp->left->type == PIPE || \
+			(check_types(stack->left->type) == 2 && stack->left->sub))
 		return (0 + unlink(stack->hdoc_fname));
+	// if (ft_strcmp(stack->right->cmd, "(NULL)"))
+	// 	stack->err_code = execute_second_arg(main, stack, *env);
 	if (ft_strcmp(tmp->left->cmd, "(NULL)"))
-		stack->err_code = cmds_execute(main, tmp->left, env, 0);
-	return (stack->err_code + unlink(stack->hdoc_fname));
+		stack->err_code |= cmds_execute(main, tmp->left, env, 0);
+	return (stack->err_code);
 }
 
 int	input(t_main *main, t_tok *stack, t_env **env)
@@ -82,7 +84,8 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	fd = open(stack->right->cmd, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("minishell");
+		ft_printf(2, "minishell: %s: No such file or directory\n", \
+									stack->right->cmd);
 		i = 1;
 		return (EXIT_FAILURE);
 	}
@@ -91,9 +94,14 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
+	if (check_types(stack->type) == 2 && stack->sub)
+		stack->last_input = 1;
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
-	if (stack->last_input != 1)
+	// if (ft_strcmp(stack->right->cmd, "(NULL)"))
+	// 	stack->err_code = execute_second_arg(main, stack, *env);
+	if (stack->last_input != 1 || (check_types(stack->left->type) == 2 && \
+															stack->left->sub))
 		return (0);
 	stack->err_code = check_astree(main, tmp->left, *env);
 	i = 0;
@@ -103,6 +111,8 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 int	exec_iocmd(t_main *main, t_tok *stack, t_env **env)
 {
 	check_lasts(main, stack, 0);
+	if (stack->left->left && check_types(stack->left->type) == 2)
+		stack->err_code = check_astree(main, stack->left, *env);
 	if (main->exit_status == EXIT_SUCCESS)
 	{
 		if (stack && stack->type == HEREDOC)

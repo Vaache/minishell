@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:24:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/13 21:25:58 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/14 19:59:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	minishell_exit(t_tok *stack, char **arr, t_env **env, char *s)
 		return (exit_error_code(*env, stack));
 	if (arr[1] != NULL && ((arr[1][0] == '0' && arr[1][1] == '0') || \
 			((arr[1][0] == '+' || arr[1][0] == '-') && arr[1][1] == '0')))
-			stack->exit_tmp = check_zeroes(arr[1]);
+		stack->exit_tmp = check_zeroes(arr[1]);
 	else
 		stack->exit_tmp = arr[1];
 	status = ft_atll(arr[1]);
@@ -70,11 +70,7 @@ int	check_exit_status(char **arr, char *s, long long status, t_tok *stack)
 		ft_printf(2, "exit\n");
 	if (strlen_2d(arr) == 2 && ft_strcmp(s, stack->exit_tmp) == 0 && \
 											check_digit(arr[1]) != 1)
-	{
-		if (status == 0)
-			return (0);
 		return ((unsigned char)status);
-	}
 	else if (ft_strlen(s) > 19 || check_digit(arr[1]) == 1 || \
 		ft_strcmp(s, stack->exit_tmp) != 0)
 	{

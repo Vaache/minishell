@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 14:33:14 by rmkrtchy          #+#    #+#             */
-/*   Updated: 2023/09/07 14:27:01 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/14 19:13:50 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	export(char **arr, int i, t_env **my_env)
 	{
 		if (ft_check((*my_env), arr[i]) == 2)
 			;
-		else if (ft_strchr(arr[i], '=') != 0)
+		else if (ft_strchr(arr[i], '='))
 		{
 			if (ft_check((*my_env), arr[i]) == 0)
 				tmp = push_back(&tmp, malloc_list(arr[i]));
@@ -93,6 +93,7 @@ int	ft_check(t_env *my_env, char *str)
 {
 	t_env	*tmp;
 	int		i;
+	char	*s;
 
 	tmp = my_env;
 	i = -1;
@@ -107,13 +108,14 @@ int	ft_check(t_env *my_env, char *str)
 			return (2);
 		}
 	}
+	s = ft_substr(str, 0, i);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, str, i) == 0)
-			return (1);
+		if (ft_strcmp(tmp->key, s) == 0)
+			return (1 + free_of_n(s, NULL, NULL, -1));
 		tmp = tmp->next;
 	}
-	return (0);
+	return (0 + free_of_n(s, NULL, NULL, -1));
 }
 
 void	ft_add(t_env *my_env, char *str)

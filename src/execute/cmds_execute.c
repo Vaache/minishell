@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/13 20:40:20 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:57:05 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ int	is_builtin(char **arr, t_tok *stack);
 int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
 {
 	status = check_builtins(pars, env);
-	if (status == 1 && status != 127)
+	if (status == 1)
 		status = call_cmds(main, pars, env);
-	else if (status == -1)
-		return (1);
 	else
 		if (io_backup_dup2(pars->stdin_backup, pars->stdout_backup))
 			return (1);
@@ -36,10 +34,18 @@ int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
 int	check_builtins(t_tok *pars, t_env **env)
 {
 	char	**arr;
+	char	*str;
 	int		status;
 
-	call_expand(pars, *env);
 	status = 0;
+	str = ft_strdup(pars->cmd);
+	if (call_expand(pars, *env) && pars->cmd[0] == '\0' && lstsize(pars) == 1)
+	{
+		free (pars->cmd);
+		pars->cmd = str;
+		return (1);
+	}
+	free(str);
 	arr = restore_cmd_line(pars, -1);
 	if (!arr || !arr[0])
 		return (1);

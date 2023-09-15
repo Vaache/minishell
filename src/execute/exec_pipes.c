@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:05:48 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 16:27:05 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:36:25 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	pipe_prepair(t_main *main, t_tok *pars, t_env **env)
 	int		pipes[2];
 	int		status;
 
+	config_right_dups(pars);
 	pars->left->flag |= _PIPE_;
 	pars->right->flag |= _PIPE_;
 	if (pipe(pipes) == -1)

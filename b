@@ -1,0 +1,10 @@
+Makefile$
+a$
+includes$
+libs$
+ls$
+minishell$
+obj$
+readline-master$
+readline_update$
+src$

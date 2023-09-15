@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 15:42:22 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:43:37 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	lex(char **line, t_main *main, t_env *env)
 	{
 		if (tmp->type == HEREDOC)
 			main->hdoc++;
+		if (check_types(tmp->type) == 2 && tmp->next->next && !check_types(tmp->next->next->type) && tmp->next->next->type != END)
+			tmp->next->next->flag = 1;
 		tmp = tmp->next;
 	}
 	if (main->hdoc > 15)
@@ -107,5 +109,6 @@ void	lex(char **line, t_main *main, t_env *env)
 		ft_printf(2, "Minishell: maximum here-document count exceeded");
 		exit(2);
 	}
+	main->hdoc = 0;
 	parsing(main);
 }

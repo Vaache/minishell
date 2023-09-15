@@ -1,8 +1,8 @@
-/Users/vhovhann/Desktop/minishell
 Makefile
 a
 includes
 libs
+ls
 minishell
 obj
 readline-master

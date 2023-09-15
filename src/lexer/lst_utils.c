@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 19:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 21:28:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/14 21:50:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_tok	*lstadd(char *string, t_type type, int prc, int flag)
 	tmp->last_red = -1;
 	tmp->last_hdoc = 0;
 	tmp->last_input = -1;
-	tmp->subshell_code = 0;
+	tmp->sub = 0;
 	tmp->fd = -42;
 	tmp->_stdin_ = -42;
 	tmp->_stdout_ = -42;

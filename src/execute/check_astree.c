@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/13 21:25:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:35:49 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,13 @@ int	check_astree(t_main *main, t_tok *root, t_env *env)
 
 	status = 0;
 	if (!root)
-	{
-		root->err_code = 258;
-		return (root->err_code);
-	}
+		return (root->err_code = 258);
 	if (root->left == NULL && root->right == NULL)
 		return (root->err_code = cmds_execute(main, root, &env, 0));
 	if (root->left && root->right && check_types(root->type) == 2)
 		root->err_code = exec_iocmd(main, root, &env);
 	else if (root->left && root->right && root->type == PIPE)
-	{
-		config_right_dups(root);
 		root->err_code = pipe_prepair(main, root, &env);
-	}
 	if (root->left != NULL && !(root->left->flag & _REDIR_) && \
 		!(root->left->flag & _PIPE_))
 		root->err_code = ast_left_branch(main, &root, &env, status);
@@ -52,7 +46,7 @@ int	ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status)
 	pid_t	pid;
 
 	config_left_dups(*stack);
-	if (check_lasts(main, *stack, 1) && (*stack)->left->subshell_code && \
+	if (check_lasts(main, *stack, 1) && (*stack)->left->sub && \
 									check_types((*stack)->left->type) == 1)
 	{
 		pid = fork();
@@ -80,7 +74,7 @@ int	ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status)
 	pid_t	pid;
 
 	config_right_dups(*stack);
-	if (check_lasts(main, *stack, 1) && (*stack)->right->subshell_code && \
+	if (check_lasts(main, *stack, 1) && (*stack)->right->sub && \
 		check_types((*stack)->right->type) == 1)
 	{
 		pid = fork();

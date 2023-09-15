@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/10 13:32:08 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:02:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	find_path(t_main *main, t_env **env)
 		if (ft_strcmp(tmp->key, "PATH") == 0)
 		{
 			if (tmp->flag == 1)
-			{
-				main->path = NULL;
-				return ;
-			}
+				main->flag = 1;
+			else
+				main->flag = 0;
 			break ;
 		}
 		tmp = tmp->next;
 	}
-	main->path = ft_split(tmp->data, ':');
+	if (!main->path)
+		main->path = ft_split(tmp->data, ':');
 }
 
 char	*fill_path_cmd(char *cmd, char **path)
@@ -44,7 +44,9 @@ char	*fill_path_cmd(char *cmd, char **path)
 
 	i = 0;
 	cmdpath = NULL;
-	while (path && path[i] && cmd[0] != '\0')
+	if (cmd[0] == '\0' && ft_strlen(cmd) == 1)
+		return (NULL);
+	while (path && path[i])
 	{
 		cmdpath = ft_strjoin(path[i], "/", 0);
 		cmdpath = ft_strjoin(cmdpath, cmd, 1);

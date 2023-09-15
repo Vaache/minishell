@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:55:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/12 21:27:48 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/14 21:50:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tok	*ast_branch(t_tok *tok)
 	tmp->last_red = tok->last_red;
 	tmp->last_hdoc = tok->last_hdoc;
 	tmp->last_input = tok->last_input;
-	tmp->subshell_code = 0;
+	tmp->sub = 0;
 	tmp->fd = -42;
 	tmp->_stdin_ = -42;
 	tmp->_stdout_ = -42;

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/13 21:25:19 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/14 21:50:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_subsh(t_tok *stack)
 	temp = stack;
 	while (temp)
 	{
-		if (temp->subshell_code)
+		if (temp->sub)
 			return (1);
 		temp = temp->next;
 	}
