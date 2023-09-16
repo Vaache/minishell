@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 21:59:10 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:51:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	find_limiter(t_tok *stack)
 
 	tmp = stack->next;
 	cmd_l = stack->prev->prev;
+	if (tmp->type == SUBSH_OPEN || tmp->type == SUBSH_CLOSE)
+		return ;
 	while (tmp && tmp->cmd)
 	{
 		if (tmp->flag & (1 << 1) || check_types(tmp->type) || \

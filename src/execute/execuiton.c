@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:30:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:56:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ int		call_cmds(t_main *main, t_tok *stack, t_env **env);
 int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
 char	*check_cmd(t_main *main, t_tok *stack, char *cmd, char **path);
 
-void static	exec_error(char *cmd, int err_num, t_tok *stack)
+int static	exec_error(char *cmd, int err_num)
 {
 	if (err_num == 13)
-	{
 		ft_printf(2, "minishell: %s: is a directory\n", cmd);
-		stack->err_code = 125;
-	}
 	else
 		ft_printf(2, "minishell: %s: Permission denied\n", cmd);
+	return (125);
 }
 
 int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
@@ -46,7 +44,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 			exit (EXIT_FAILURE);
 		if (execve(path_cmd, cmd_arr, env) == -1)
 		{
-			exec_error(path_cmd, errno, stack);
+			stack->err_code = exec_error(path_cmd, errno);
 			exit(EXIT_FAILURE + stack->err_code);
 		}
 		exit(EXIT_SUCCESS);
@@ -64,7 +62,11 @@ char	*check_cmd(t_main *main, t_tok *stack, char *cmd, char **path)
 		if (access(cmd, F_OK) == -1)
 			ft_printf(2, "Minishell: %s: No such file or directory\n", cmd);
 		else
+		{
+			stack->err_code = -2;
 			ft_printf(2, "Minishell: %s: Permission denied\n", cmd);
+			return (NULL);
+		}
 		stack->err_code = -1;
 		return (NULL);
 	}
@@ -105,10 +107,11 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 	cmd_path = check_cmd(main, stack, cmd_arr[0], main->path);
 	if (main->flag == 2)
 		return (destroy_unsetcase(cmd_path, cmd_arr, my_env, stack));
-	if (!cmd_path || stack->err_code == -1)
+	if ((!cmd_path && stack->err_code == -1) || \
+									(!cmd_path && stack->err_code == 0))
 		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
-	if (!cmd_path)
-		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
+	if (!cmd_path && stack->err_code == -2)
+		return (126 + free_of_n(NULL, cmd_arr, my_env, 2));
 	k = exec_cmds(cmd_path, cmd_arr, my_env, stack);
 	free_of_n(cmd_path, cmd_arr, my_env, 3);
 	return (error_code(k));
