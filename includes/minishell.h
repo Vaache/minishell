@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 21:56:35 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:32:06 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,8 @@ int						andxor(t_tok *stack);
 int						call_cmds(t_main *main, t_tok *stack, t_env **env);
 char					*check_cmd(t_main *main, t_tok *stack, char *cmd, \
 															char **path);
-int						execute_second_arg(t_main *main, t_tok *stack, t_env *env);
+int						execute_second_arg(t_main *main, t_tok *stack, \
+																t_env *env);
 t_tok					*find_second_arg(t_tok *stack);
 void					find_path(t_main *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);

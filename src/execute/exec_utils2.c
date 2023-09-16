@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 21:57:00 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:20:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*fill_path_cmd(char *cmd, char **path)
 
 	i = 0;
 	cmdpath = NULL;
-	if (cmd[0] == '\0' && ft_strlen(cmd) == 1)
+	if (cmd[0] == '\0')
 		return (NULL);
 	while (path && path[i])
 	{

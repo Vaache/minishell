@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 23:04:04 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 18:27:02 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:31:09 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ void	destroy_main(t_main *main)
 		return ;
 	destroy_structure(main->lex);
 	destroy_structure(main->pars);
-	main->pars = NULL;
+	main->hdoc = 0;
+	main->redir = 0;
+	main->input = 0;
 	main->lex = NULL;
+	main->pars = NULL;
+	main->temp = NULL;
+	main->last_hdoc = -42;
 }
 
 void	destroy_structure(t_tok *root)

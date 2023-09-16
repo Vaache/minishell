@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:20 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/14 17:18:55 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:33:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	minishell_cd(char **arr, t_env **my_env)
 	else if (chdir(arr[1]) != 0)
 	{
 		ft_printf(2, "Minishell: cd: no such file or directory: %s\n", arr[1]);
-		g_exit_status_ = 1;
+		g_exit_status_ = -42;
 		return ;
 	}
 	minishell_cd_helper(str, my_env);

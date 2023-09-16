@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 13:35:49 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:32:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	check_astree(t_main *main, t_tok *root, t_env *env)
 	if (!root)
 		return (root->err_code = 258);
 	if (root->left == NULL && root->right == NULL)
-		return (root->err_code = cmds_execute(main, root, &env, 0));
+	{
+		root->err_code = cmds_execute(main, root, &env, 0);
+		return (root->err_code);
+	}
 	if (root->left && root->right && check_types(root->type) == 2)
 		root->err_code = exec_iocmd(main, root, &env);
 	else if (root->left && root->right && root->type == PIPE)

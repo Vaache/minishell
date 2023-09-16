@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 17:01:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:30:50 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 
 	if (main->flag)
 		find_path(main, env);
-	if (call_expand(stack, *env) && stack->cmd[0] == '\0' && \
-			lstsize(stack) == 1)
+	if (call_expand(stack, *env) && stack->cmd[0] == '\0')
 		return (0);
 	cmd_arr = restore_cmd_line(stack, -1);
 	if (!cmd_arr || !cmd_arr[0])
@@ -106,8 +105,8 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 	cmd_path = check_cmd(main, stack, cmd_arr[0], main->path);
 	if (main->flag == 2)
 		return (destroy_unsetcase(cmd_path, cmd_arr, my_env, stack));
-	if (!cmd_path && stack->err_code == -1)
-		return (126 + free_of_n(NULL, cmd_arr, my_env, 2));
+	if (!cmd_path || stack->err_code == -1)
+		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
 	if (!cmd_path)
 		return (127 + free_of_n(NULL, cmd_arr, my_env, 2));
 	k = exec_cmds(cmd_path, cmd_arr, my_env, stack);
