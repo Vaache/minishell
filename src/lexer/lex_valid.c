@@ -24,8 +24,6 @@ int	check_valid(t_main *main, t_env *env, int *sb)
 	{
 		if (!subshell_validation(tmp, sb))
 			return (0);
-		if (check_types(tmp->type) == 2 && !ft_strcmp(tmp->next->cmd, "*"))
-			return (ft_printf(2, "Minishell: *: ambiguous redirect\n"), 0);
 		if (check_types(tmp->type) && check_types(tmp->next->type) == 1)
 			return (parse_error(2, type_is(tmp->next->type), 0));
 		if (check_types(tmp->type) == 1 && tmp->prev == NULL)
