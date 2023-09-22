@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 23:04:04 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:31:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:00:05 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	destroy_main(t_main *main)
 	main->hdoc = 0;
 	main->redir = 0;
 	main->input = 0;
+	if (main->path)
+		free_2d(main->path);
+	main->path = NULL;
 	main->lex = NULL;
 	main->pars = NULL;
 	main->temp = NULL;

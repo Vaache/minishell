@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:56:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:06:49 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	call_cmds(t_main *main, t_tok *stack, t_env **env)
 	char	**my_env;
 	int		k;
 
-	if (main->flag)
+	if (main->flag || main->path == NULL)
 		find_path(main, env);
 	if (call_expand(stack, *env) && stack->cmd[0] == '\0')
 		return (0);
