@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/27 16:43:51 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:58:26 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_valid(t_main *main, t_env *env, int *sb);
+int	check_valid(t_main *main, t_env *env, int *sb, int flag);
 int	subshell_validation(t_tok *tmp, int *subshell);
 
-int	check_valid(t_main *main, t_env *env, int *sb)
+int	check_valid(t_main *main, t_env *env, int *sb, int flag)
 {
 	t_tok	*tmp;
 
@@ -35,7 +35,7 @@ int	check_valid(t_main *main, t_env *env, int *sb)
 				return (parse_error(2, type_is(tmp->next->next->type), 0));
 		if (check_types(tmp->type) && tmp->next->type == END)
 			return (parse_error(2, "newline", 0));
-		if (tmp->type == HEREDOC && ft_strcmp(tmp->next->cmd, "(NULL)"))
+		if (tmp->type == HEREDOC && ft_strcmp(tmp->next->cmd, "(NULL)") && flag == 0)
 			read_heredoc_input(main, tmp, NULL, env);
 		if (check_types(tmp->type) == 2 && tmp->type != HEREDOC)
 			find_limiter(main, tmp->next);

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/26 22:18:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:57:57 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void					lex(char **line, t_main *main, t_env *env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
-int						check_valid(t_main *main, t_env *env, int *sb);
+int						check_valid(t_main *main, t_env *env, int *sb, int flag);
 int						check_types(t_type type);
 int						lstsize(t_tok *lst);
 void					destroy_structure(t_tok *root);
