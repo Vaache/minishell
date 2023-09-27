@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 19:20:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:37:42 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status)
 			perror("minishell");
 			return (1);
 		}
-		(*stack)->err_code = status / 256;
+		(*stack)->err_code = (unsigned char)status;
 	}
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->left, *env);
@@ -91,7 +91,7 @@ int	ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status)
 			perror("minishell");
 			return (1);
 		}
-		(*stack)->err_code = status / 256;
+		(*stack)->err_code = (unsigned char)status;
 	}
 	else
 		(*stack)->err_code = check_astree(main, (*stack)->right, *env);
