@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:32:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/26 22:18:52 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int						handle_infile(t_tok **pars, char *line, \
 void					handle_space(t_tok **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env **env);
-void					find_limiter(t_tok *stack);
+void					find_limiter(t_main *main, t_tok *stack);
 void					push_redir(t_tok *to, t_tok *from);
 void					pop_redir(t_tok *tok);
 

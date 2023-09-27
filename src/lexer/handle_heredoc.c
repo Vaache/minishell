@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/22 18:50:23 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:42:52 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env);
 int		read_heredoc_input_2(char *line, char **res, char *limiter);
 int		handle_heredoc(t_tok **pars, char *line, int i, int start);
 void	write_in_fd(char **res, int fd, t_env *env);
-void	find_limiter(t_tok *stack);
+void	find_limiter(t_main *main, t_tok *stack);
 
 int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 {
@@ -34,7 +34,7 @@ int	read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env)
 	res = NULL;
 	tok->hdoc_fname = ft_strdup(main->hd->matrix[++main->hd->i]);
 	tok->fd = open(tok->hdoc_fname, O_RDWR | O_CREAT | O_TRUNC, 0655);
-	find_limiter(tok->next);
+	find_limiter(main, tok->next);
 	run_signals(4);
 	while (1)
 	{
@@ -92,33 +92,37 @@ void	write_in_fd(char **res, int fd, t_env *env)
 	destroy_exp(&exp);
 }
 
-void	find_limiter(t_tok *stack)
+void	find_limiter(t_main *main, t_tok *stack)
 {
 	t_tok	*tmp;
 	t_tok	*cmd_l;
 
 	tmp = stack->next;
 	cmd_l = stack->prev->prev;
-	if (tmp->type == SUBSH_OPEN || tmp->type == SUBSH_CLOSE)
+	if (stack->type == SUBSH_OPEN || stack->type == SUBSH_CLOSE)
 		return ;
-	while (tmp && tmp->cmd)
+	while (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
+		|| tmp->type == DQUOTE) && !(tmp->flag & 1 << 1))
 	{
-		if (tmp->flag & (1 << 1) || check_types(tmp->type) || \
-				tmp->type == END)
-			break ;
 		stack->cmd = ft_strjoin(stack->cmd, tmp->cmd, 1);
 		tmp = tmp->next;
 		pop_redir(tmp->prev);
 	}
 	while (cmd_l->prev && check_types(cmd_l->prev->type) == 2)
 		cmd_l = cmd_l->prev->prev;
-	if (!ft_strcmp(cmd_l->cmd, "(NULL)"))
+	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && tmp->cmd && \
+	(tmp->type != WORD && tmp->type != SQUOTE && tmp->type != DQUOTE))
 		return ;
-	while (tmp && tmp->cmd)
+	while (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
+		|| tmp->type == DQUOTE))
 	{
-		if (check_types(tmp->type) || tmp->type == END)
-			break ;
 		tmp = tmp->next;
 		push_redir(cmd_l, tmp->prev);
+	}
+	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && !cmd_l->prev)
+	{
+		main->lex = main->lex->next;
+		main->lex->flag |= 1;
+		pop_redir(cmd_l);
 	}
 }

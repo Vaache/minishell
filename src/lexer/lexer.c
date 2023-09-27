@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 22:44:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:46:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,13 @@ void	lex(char **line, t_main *main, t_env *env)
 	g_exit_status_ = 0;
 	sb = 0;
 	if (!lexer(&(main->lex), line) || !check_valid(main, env, &sb) || \
-													!main->lex || sb > 0)
+					!check_valid(main, env, &sb) || !main->lex || sb > 0)
 	{
 		if (sb > 0)
 			parse_error(2, "newline", 0);
 		destroy_main(main);
 		main->exit_status = 258;
+		handle_dollar(main->exit_status, &env);
 		return ;
 	}
 	if (heredoc_valid(main, main->lex))

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 22:47:06 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:43:51 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_valid(t_main *main, t_env *env, int *sb)
 		if (tmp->type == HEREDOC && ft_strcmp(tmp->next->cmd, "(NULL)"))
 			read_heredoc_input(main, tmp, NULL, env);
 		if (check_types(tmp->type) == 2 && tmp->type != HEREDOC)
-			find_limiter(tmp->next);
+			find_limiter(main, tmp->next);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -52,13 +52,16 @@ int	subshell_validation(t_tok *tmp, int *subshell)
 		(*subshell)--;
 	if (tmp->type == SUBSH_CLOSE && (!tmp->prev || \
 		tmp->prev->type == SUBSH_OPEN || (*subshell) < 0))
-		return (parse_error(2, ")", 0));
+		return (parse_error(2, ")", 0 + (*subshell = 0)));
+	if (tmp->type == SUBSH_CLOSE && (tmp->next->type == WORD || \
+			tmp->next->type == SQUOTE || tmp->next->type == DQUOTE))
+		return (parse_error(2, tmp->next->cmd, 0 + (*subshell = 0)));
 	if (tmp->type == SUBSH_OPEN && tmp->prev && !check_types(tmp->prev->type))
 	{
 		if (tmp->next->type != END && tmp->prev->type != SUBSH_OPEN)
-			return (parse_error(2, tmp->next->cmd, 0));
+			return (parse_error(2, tmp->next->cmd, 0) + (*subshell = 0));
 		else if (tmp->prev->type != SUBSH_OPEN)
-			return (parse_error(2, "newline", 0));
+			return (parse_error(2, "newline", 0) + (*subshell = 0));
 	}
 	return (1);
 }
