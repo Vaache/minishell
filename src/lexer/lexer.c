@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/28 15:17:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:55:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,28 @@ int	heredoc_valid(t_main *main, t_tok *stack)
 	return (0);
 }
 
+void	valid_redir(t_tok **tok)
+{
+	t_tok	*tmp;
+
+	tmp = (*tok);
+	while (tmp && tmp->next)
+	{
+		if (!ft_strcmp(tmp->cmd, "(NULL)") && check_types(tmp->next->type) != 2)
+		{
+			tmp->next->prc = 0;
+			tmp->next->flag = 1;
+			tmp->next->prev = tmp->prev;
+			tmp->prev->next = tmp->next;
+			tmp->next = NULL;
+			tmp->prev = NULL;
+			free(tmp->cmd);
+			tmp->cmd = NULL;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	lex(char **line, t_main *main, t_env *env)
 {
 	int		sb;
@@ -122,5 +144,6 @@ void	lex(char **line, t_main *main, t_env *env)
 	if (heredoc_valid(main, main->lex))
 		exit (2);
 	main->hdoc = 0;
+	valid_redir(&main->lex);
 	parsing(main);
 }

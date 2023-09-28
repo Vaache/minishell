@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/27 16:42:52 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:20:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	find_limiter(t_main *main, t_tok *stack)
 
 	tmp = stack->next;
 	cmd_l = stack->prev->prev;
-	if (stack->type == SUBSH_OPEN || stack->type == SUBSH_CLOSE)
-		return ;
 	while (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
 		|| tmp->type == DQUOTE) && !(tmp->flag & 1 << 1))
 	{

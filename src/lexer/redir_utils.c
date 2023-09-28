@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 21:52:49 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/27 16:42:56 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:55:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pop_redir(t_tok *tok);
 void	push_redir(t_tok *to, t_tok *from)
 {
 	from->prev->next = from->next;
-	from->next->prev = from->prev;	
+	from->next->prev = from->prev;
 	from->next = to->next;
 	to->next = from;
 	from->prev = to;
@@ -29,7 +29,7 @@ void	push_redir(t_tok *to, t_tok *from)
 void	pop_redir(t_tok *tok)
 {
 	t_tok	*tmp;
-	
+
 	tmp = tok;
 	if (tok->prev)
 	{	

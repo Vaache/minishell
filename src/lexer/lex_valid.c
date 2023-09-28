@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/27 16:58:26 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:21:29 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_valid(t_main *main, t_env *env, int *sb, int flag)
 			return (parse_error(2, "newline", 0));
 		if (tmp->type == HEREDOC && ft_strcmp(tmp->next->cmd, "(NULL)") && flag == 0)
 			read_heredoc_input(main, tmp, NULL, env);
-		if (check_types(tmp->type) == 2 && tmp->type != HEREDOC)
+		if ((check_types(tmp->type) == 2 && tmp->type != HEREDOC) && flag == 0)
 			find_limiter(main, tmp->next);
 		tmp = tmp->next;
 	}
