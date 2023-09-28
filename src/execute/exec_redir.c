@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 19:14:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:13:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,19 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 
 int	input(t_main *main, t_tok *stack, t_env **env)
 {
-	static int	i = 0;
 	int			fd;
 	t_tok		*tmp;
 
-	if (i == 1)
+	if (main->fd_err == 1)
 		return (1);
 	fd = open_input(stack);
 	if (fd < 0)
 	{
-		i = 1;
+		main->fd_err = 1;
 		return (1);
 	}
+	else
+		main->fd_err = 0;
 	tmp = stack;
 	while (tmp->left->type != WORD)
 		tmp = tmp->left;
@@ -93,7 +94,6 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 															stack->left->sub))
 		return (0);
 	stack->err_code |= check_astree(main, tmp->left, *env);
-	i = 0;
 	return (stack->err_code);
 }
 

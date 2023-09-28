@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/27 16:57:57 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:11:10 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_main
 	int			hdoc;
 	int			input;
 	int			flag;
+	int			fd_err;
 	char		**path;
 	int			last_hdoc;
 	int			last_redir;
