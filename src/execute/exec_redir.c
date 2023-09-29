@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/28 15:42:05 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:59:14 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	if (fd < 0)
 		return (1);
 	tmp = stack;
-	while (tmp->left->type != WORD && check_types(tmp->left->type) != 1)
+	while (tmp->left->type != WORD && check_types(tmp->left->type) != 1 && \
+					(tmp->left->type != DQUOTE && tmp->left->type != SQUOTE))
 		tmp = tmp->left;
 	tmp->left->stdout_backup = main->stdout_backup;
 	tmp->left->_stdout_ = fd;
@@ -52,7 +53,8 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 		return (EXIT_FAILURE);
 	}
 	tmp = stack;
-	while (tmp->left->type != WORD)
+	while (tmp->left->type != WORD && tmp->left->type != DQUOTE && \
+										tmp->left->type != SQUOTE)
 		tmp = tmp->left;
 	tmp->left->stdin_backup = main->stdin_backup;
 	tmp->left->_stdin_ = fd;
@@ -77,14 +79,12 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 		return (1);
 	fd = open_input(stack);
 	if (fd < 0)
-	{
-		main->fd_err = 1;
-		return (1);
-	}
+		return (main->fd_err = 1, 1);
 	else
 		main->fd_err = 0;
 	tmp = stack;
-	while (tmp->left->type != WORD)
+	while (tmp->left->type != WORD && tmp->left->type != DQUOTE && \
+										tmp->left->type != SQUOTE)
 		tmp = tmp->left;
 	if (check_types(stack->type) == 2 && stack->sub)
 		stack->last_input = 1;

@@ -84,7 +84,7 @@ void	shunting_yard(t_tok **tmp, t_tok **postfix, t_tok **opstack)
 		else if ((*tmp)->type != SUBSH_OPEN)
 		{
 			while (*opstack && lstlast(*opstack)->prc >= (*tmp)->prc && \
-					(*opstack)->type != SUBSH_OPEN)
+					lstlast(*opstack)->type != SUBSH_OPEN)
 				push(opstack, postfix);
 			lstback(opstack, ast_branch(*tmp));
 		}

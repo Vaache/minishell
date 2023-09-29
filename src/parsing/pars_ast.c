@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/14 21:50:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:22:11 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_tok	*most_prev(t_tok *stack)
 		return (NULL);
 	while (tmp && tmp->prev != NULL)
 		tmp = tmp->prev;
-	if (!tmp)
-		return (NULL);
 	return (tmp);
 }
 
@@ -42,7 +40,7 @@ t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack)
 	if (!tmp)
 		return (NULL);
 	else if (tmp->type == END)
-		return (ast_end(main, new, tmp, stack));
+		new = ast_end(main, new, tmp, stack);
 	else if (check_types(tmp->type))
 		new = ast_left_right(main, new, tmp, stack);
 	else if (tmp && tmp->type != END)
@@ -85,7 +83,7 @@ t_tok	*ast_create_cmd(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
 			push(&main->temp, &new);
 		return (new);
 	}
-	return (new);
+	return (NULL);
 }
 
 t_tok	*ast_end(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
