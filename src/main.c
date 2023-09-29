@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 16:03:09 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 20:46:36 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **env)
 	}
 	my_env = NULL;
 	main_init(&main);
-	print_header();
+	// print_header();
 	my_env = env_init(env, my_env);
 	init_hd(&main.hd);
 	rl_catch_signals = 0;

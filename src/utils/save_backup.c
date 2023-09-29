@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 20:32:30 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:32:21 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 20:46:05 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,4 @@ void	save_backup(t_main **main)
 	if ((*main)->stdout_backup == -1)
 		perror("Minishell");
 	(*main)->hd->i = -1;
-	(*main)->exit_status = 0;
 }

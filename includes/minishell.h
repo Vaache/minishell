@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 11:57:32 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 20:33:45 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_main
 	int			hdoc;
 	int			input;
 	int			flag;
+	int			fd_check;
 	int			fd_err;
 	char		**path;
 	int			last_hdoc;
@@ -297,8 +298,8 @@ int						io_dup2(int _stdin_, int _stdout_);
 int						io_backup_dup2(int _stdin_backup_, int _stdout_backup_);
 void					config_left_dups(t_tok *stack);
 void					config_right_dups(t_tok *stack);
-int						open_out(t_tok *stack);
-int						open_input(t_tok *stack);
+int						open_input(t_main *main, t_tok *stack);
+int						open_out(t_main *main, t_tok *stack);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);

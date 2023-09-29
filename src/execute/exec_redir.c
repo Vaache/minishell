@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 11:59:14 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 20:43:11 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	int		fd;
 	t_tok	*tmp;
 
-	fd = open_out(stack);
+	fd = open_out(main, stack);
 	if (fd < 0)
 		return (1);
 	tmp = stack;
@@ -75,13 +75,13 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	int			fd;
 	t_tok		*tmp;
 
-	if (main->fd_err == 1)
+	if (main->fd_check == 1)
 		return (1);
-	fd = open_input(stack);
+	fd = open_input(main, stack);
 	if (fd < 0)
-		return (main->fd_err = 1, 1);
+		return (main->fd_check = 1, 1);
 	else
-		main->fd_err = 0;
+		main->fd_check = 0;
 	tmp = stack;
 	while (tmp->left->type != WORD && tmp->left->type != DQUOTE && \
 										tmp->left->type != SQUOTE)

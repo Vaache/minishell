@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:19:34 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/14 19:15:54 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 20:23:59 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ char	**restore_cmd_line(t_tok *stack, int i)
 	{
 		mode = ((tmp->flag & (1 << 1)) && 1);
 		if (mode == 0 && check_types(tmp->type) == 0 && \
-			!ft_strchr(tmp->cmd, '*'))
+			!ft_strchr(tmp->cmd, '*') && tmp->cmd[0] != '\0')
 		{
 			if (i < 0)
 				i++;
 			cmd_matrix[i] = ft_strjoin(cmd_matrix[i], tmp->cmd, 1);
 		}
-		else
+		else if (tmp->cmd[0] != '\0')
 			cmd_matrix = fill_cmd_matrix(cmd_matrix, tmp->cmd, wcard, &i);
 		tmp = tmp->next;
 	}

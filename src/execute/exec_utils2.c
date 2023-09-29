@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/22 19:10:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 20:43:38 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,34 @@ int	andxor(t_tok *stack)
 		return (1);
 }
 
-int	open_out(t_tok *stack)
+int	open_out(t_main *main, t_tok *stack)
 {
-	int	fd;
+	int			fd;
 
 	fd = 0;
 	if (stack->type == WRITE_APPEND)
 		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_APPEND, 0655);
 	else if (stack->type == WRITE_TRUNC)
 		fd = open(stack->right->cmd, O_RDWR | O_CREAT | O_TRUNC, 0655);
-	if (fd == -1)
-		perror("minishell");
+	if (fd == -1 && !main->fd_err)
+	{
+		main->fd_err = 1;
+		ft_printf(2, "minishell: %s: No such file or directory\n", \
+									stack->right->cmd);
+	}
 	return (fd);
 }
 
-int	open_input(t_tok *stack)
+int	open_input(t_main *main, t_tok *stack)
 {
 	int	fd;
 
 	fd = open(stack->right->cmd, O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 && !main->fd_err)
+	{
+		main->fd_err = 1;
 		ft_printf(2, "minishell: %s: No such file or directory\n", \
 									stack->right->cmd);
+	}
 	return (fd);
 }
