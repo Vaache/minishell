@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 14:21:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:18:20 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,21 @@ void	valid_redir(t_tok **tok)
 			tmp->prev = NULL;
 			free(tmp->cmd);
 			free(tmp);
+			tmp = (*tok);
+			continue ;
 		}
-		else if (tmp->type == WORD && check_types(tmp->next->type) == 2 && \
-																tmp->flag != 3)
+		else if ((tmp->type == WORD || tmp->type == DQUOTE || \
+											tmp->type == SQUOTE) && \
+			(tmp->prev == NULL || check_types(tmp->prev->type) == 1 || \
+				tmp->prev->type == SUBSH_OPEN))
+		{
 			tmp->flag = 3;
+			while (tmp && (tmp->type == WORD || tmp->type == DQUOTE || \
+													tmp->type == SQUOTE))
+				tmp = tmp->next;
+		}
+		if (!tmp)
+			return ;
 		tmp = tmp->next;
 	}
 }

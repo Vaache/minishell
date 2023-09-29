@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 13:41:50 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:09:03 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,20 @@ void	find_limiter(t_main *main, t_tok *stack)
 	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && tmp->cmd && \
 	(tmp->type != WORD && tmp->type != SQUOTE && tmp->type != DQUOTE))
 		return ;
-	while (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
+	if (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
 		|| tmp->type == DQUOTE))
 	{
-		tmp = tmp->next;
-		push_redir(cmd_l, tmp->prev);
+		while (tmp && tmp->next && (tmp->type == WORD || tmp->type == SQUOTE || \
+			tmp->type == DQUOTE) && tmp->next->type != END && \
+			check_types(tmp->next->type) <= 0 && tmp->next->type != SUBSH_CLOSE)
+						tmp = tmp->next;
+		while ((tmp->type == WORD || tmp->type == SQUOTE || \
+						tmp->type == DQUOTE) && tmp->prev && \
+			check_types(tmp->prev->type) != 2 && tmp->prev->type != SUBSH_OPEN)
+		{
+			tmp = tmp->prev;
+			push_redir(cmd_l, tmp->next);
+		}
 	}
 	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && !cmd_l->prev)
 	{
