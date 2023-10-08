@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 20:47:04 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/10/08 14:36:39 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ void	lex(char **line, t_main *main, t_env *env)
 {
 	int		sb;
 
-	g_exit_status_ = 0;
 	main->exit_status = 0;
+	g_exit_status_ = 0;
 	sb = 0;
 	if (!lexer(&(main->lex), line) || !check_valid(main, env, &sb, 0) || \
 					!check_valid(main, env, &sb, 1) || !main->lex || sb > 0)

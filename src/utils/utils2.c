@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:53:27 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:57:24 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:14:19 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,18 @@ int	check_subsh(t_tok *stack)
 	return (0);
 }
 
-int	check_for_lexer(char *line, int i)
+int	fill_command(t_tok *tok)
 {
-	if (line[i] == '\'' || line[i] == '"' || \
-			(line[i] == '|' && line[i + 1] == '|') || \
-			(line[i] == '&' && line[i + 1] == '&') || \
-			(line[i] == '<' && line[i + 1] == '<') || \
-			(line[i] == '>' && line[i + 1] == '>') || \
-			(line[i] == '>' && line[i + 1] != '>') || \
-			(line[i] == '<' && line[i + 1] != '<') || \
-			line[i] == '|')
-		return (1);
+	t_tok	*tmp;
+
+	tmp = tok;
+	while (tmp)
+	{
+		if (check_types(tmp->type) == 2 && tmp->type != HEREDOC && \
+			(tmp->next->next->type == WORD || tmp->next->next->type == DQUOTE || \
+				tmp->next->next->type == SQUOTE))
+			return (1);
+		tmp = tmp->next;
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 20:33:45 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/10/01 12:27:02 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ void					save_backup(t_main **main);
 void					main_init(t_main *main);
 void					init_hd(t_hd **hd);
 int						check_subsh(t_tok *stack);
-int						check_for_lexer(char *line, int i);
 
 /***********************************************/
 /************* MINISHELL_BUILTINS **************/
@@ -258,6 +257,7 @@ void					handle_space(t_tok **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env **env);
 void					find_limiter(t_main *main, t_tok *stack);
+int						fill_command(t_tok *tok);
 void					push_redir(t_tok *to, t_tok *from);
 void					pop_redir(t_tok *tok);
 
