@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:30:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/03 18:50:30 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/11/11 19:52:18 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	minishell_pwd(char *str, t_env **env)
 	else if (!ft_strcmp(tmp->key, "PWD"))
 	{
 		printf("%s\n", tmp->pwd);
+		free(tmp->data);
 		tmp->data = ft_strdup(tmp->pwd);
 	}
 	free(buff);
