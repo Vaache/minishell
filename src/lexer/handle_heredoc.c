@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/10/01 14:16:07 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:00:46 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,12 @@ void	find_limiter(t_main *main, t_tok *stack)
 
 	tmp = stack->next;
 	cmd_l = stack->prev->prev;
+	if (cmd_l->prev && ft_strcmp(cmd_l->prev->cmd, "(NULL)") && \
+		check_types(cmd_l->prev->type) != 1)
+		cmd_l = stack->prev->prev->prev;
+	else
+		while (cmd_l && cmd_l->prev && check_types(cmd_l->prev->type) == 2)
+			cmd_l = cmd_l->prev->prev;
 	while (tmp && tmp->cmd && (tmp->type == WORD || tmp->type == SQUOTE \
 		|| tmp->type == DQUOTE) && !(tmp->flag & 1 << 1))
 	{
@@ -106,8 +112,6 @@ void	find_limiter(t_main *main, t_tok *stack)
 		tmp = tmp->next;
 		pop_redir(tmp->prev);
 	}
-	while (cmd_l->prev && check_types(cmd_l->prev->type) == 2)
-		cmd_l = cmd_l->prev->prev;
 	if (!ft_strcmp(cmd_l->cmd, "(NULL)") && tmp->cmd && \
 	(tmp->type != WORD && tmp->type != SQUOTE && tmp->type != DQUOTE))
 		return ;
