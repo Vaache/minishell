@@ -6,15 +6,15 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:11:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 11:35:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		call_cmds(t_main *main, t_tok *stack, t_env **env);
+int		call_cmds(t_shell *main, t_tok *stack, t_env **env);
 int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
-char	*check_cmd(t_main *main, t_tok *stack, char *cmd, char **path);
+char	*check_cmd(t_shell *main, t_tok *stack, char *cmd, char **path);
 
 int static	exec_error(char *cmd, int err_num)
 {
@@ -53,7 +53,7 @@ int	exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack)
 	return (child_exit / 256);
 }
 
-char	*check_cmd(t_main *main, t_tok *stack, char *cmd, char **path)
+char	*check_cmd(t_shell *main, t_tok *stack, char *cmd, char **path)
 {
 	char	*cmd_path;
 
@@ -89,7 +89,7 @@ int static	destroy_unsetcase(char *path, char **arr, char **env, t_tok *s)
 	return (127);
 }
 
-int	call_cmds(t_main *main, t_tok *stack, t_env **env)
+int	call_cmds(t_shell *main, t_tok *stack, t_env **env)
 {
 	char	*cmd_path;
 	char	**cmd_arr;

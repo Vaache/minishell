@@ -6,14 +6,14 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:53:35 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/11/30 16:01:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		handle_tokens_p1(t_tok **res, char **line, int *i, int counter);
-void	lex(char **line, t_main *main, t_env *env);
+void	lex(char **line, t_shell *main, t_env *env);
 int		lexer(t_tok **res, char **line);
 
 int	handle_tokens_p1(t_tok **res, char **line, int *i, int counter)
@@ -84,7 +84,7 @@ int	lexer(t_tok **res, char **line)
 	return (1);
 }
 
-int	heredoc_valid(t_main *main, t_tok *stack)
+int	heredoc_valid(t_shell *main, t_tok *stack)
 {
 	t_tok	*tmp;
 
@@ -103,7 +103,7 @@ int	heredoc_valid(t_main *main, t_tok *stack)
 	return (0);
 }
 
-void	lex(char **line, t_main *main, t_env *env)
+void	lex(char **line, t_shell *main, t_env *env)
 {
 	int		sb;
 

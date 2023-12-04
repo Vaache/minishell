@@ -6,17 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 16:10:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 20:43:38 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	find_path(t_main *main, t_env **env);
+void	find_path(t_shell *main, t_env **env);
 char	*fill_path_cmd(char *cmd, char **path);
 int		andxor(t_tok *stack);
 
-void	find_path(t_main *main, t_env **env)
+void	find_path(t_shell *main, t_env **env)
 {
 	t_env	*tmp;
 
@@ -75,7 +75,7 @@ int	andxor(t_tok *stack)
 		return (1);
 }
 
-int	open_out(t_main *main, t_tok *stack)
+int	open_out(t_shell *main, t_tok *stack)
 {
 	int			fd;
 
@@ -93,7 +93,7 @@ int	open_out(t_main *main, t_tok *stack)
 	return (fd);
 }
 
-int	open_input(t_main *main, t_tok *stack)
+int	open_input(t_shell *main, t_tok *stack)
 {
 	int	fd;
 

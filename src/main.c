@@ -6,18 +6,18 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:24:32 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/10/08 14:37:34 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	main_2(t_main *main, t_env *my_env, char *str);
+void	main_2(t_shell *main, t_env *my_env, char *str);
 
 int	main(int ac, char **av, char **env)
 {
 	t_env		*my_env;
-	t_main		main;
+	t_shell		main;
 
 	if (ac != 1 || av[1] != NULL)
 	{
@@ -34,7 +34,7 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-void	main_2(t_main *main, t_env *my_env, char *str)
+void	main_2(t_shell *main, t_env *my_env, char *str)
 {
 	while (1)
 	{

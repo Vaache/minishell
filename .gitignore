@@ -1,10 +1,6 @@
 .DS_Store
 readline_update
 .vscode
-obj
-libs/libft/obj
-libs/libft/libft.a
-libs/Fdprintf/obj
-libs/Fdprintf/libftprintf.a
-
+*.a
+*.o
 minishell

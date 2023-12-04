@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/11/30 15:55:17 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_valid(t_main *main, t_env *env, int *sb, int fl);
+int	check_valid(t_shell *main, t_env *env, int *sb, int fl);
 int	subshell_validation(t_tok *tmp, int *subshell);
 
-int	check_valid(t_main *main, t_env *env, int *sb, int fl)
+int	check_valid(t_shell *main, t_env *env, int *sb, int fl)
 {
 	t_tok	*tmp;
 

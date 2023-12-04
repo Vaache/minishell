@@ -6,13 +6,13 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 20:43:45 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 20:34:53 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	main_init(t_main *main)
+void	main_init(t_shell *main)
 {
 	main->hd = NULL;
 	main->lex = NULL;

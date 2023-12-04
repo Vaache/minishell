@@ -6,19 +6,19 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:48:15 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 11:37:05 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_astree(t_main *main, t_tok *root, t_env *env);
-int		ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status);
-int		ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status);
+int		check_astree(t_shell *main, t_tok *root, t_env *env);
+int		ast_left_branch(t_shell *main, t_tok **stack, t_env **env, int status);
+int		ast_right_branch(t_shell *main, t_tok **stack, t_env **env, int status);
 void	config_left_dups(t_tok *stack);
 void	config_right_dups(t_tok *stack);
 
-int	check_astree(t_main *main, t_tok *root, t_env *env)
+int	check_astree(t_shell *main, t_tok *root, t_env *env)
 {
 	int		status;
 
@@ -44,7 +44,7 @@ int	check_astree(t_main *main, t_tok *root, t_env *env)
 	return (root->err_code);
 }
 
-int	ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status)
+int	ast_left_branch(t_shell *main, t_tok **stack, t_env **env, int status)
 {
 	pid_t	pid;
 
@@ -72,7 +72,7 @@ int	ast_left_branch(t_main *main, t_tok **stack, t_env **env, int status)
 	return ((*stack)->err_code);
 }
 
-int	ast_right_branch(t_main *main, t_tok **stack, t_env **env, int status)
+int	ast_right_branch(t_shell *main, t_tok **stack, t_env **env, int status)
 {
 	pid_t	pid;
 

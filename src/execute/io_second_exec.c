@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:10 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/15 21:59:18 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		execute_second_arg(t_main *main, t_tok *stack, t_env *env);
+int		execute_second_arg(t_shell *main, t_tok *stack, t_env *env);
 t_tok	*find_second_arg(t_tok *stack);
 
-int	execute_second_arg(t_main *main, t_tok *stack, t_env *env)
+int	execute_second_arg(t_shell *main, t_tok *stack, t_env *env)
 {
 	t_tok	*tmp;
 

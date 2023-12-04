@@ -6,17 +6,17 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 22:33:39 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/11/30 16:00:46 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env);
+int		read_heredoc_input(t_shell *main, t_tok *tok, char *line, t_env *env);
 int		read_heredoc_input_2(char *line, char **res, char *limiter);
 int		handle_heredoc(t_tok **pars, char *line, int i, int start);
 void	write_in_fd(char **res, int fd, t_env *env);
-void	find_limiter(t_main *main, t_tok *stack);
+void	find_limiter(t_shell *main, t_tok *stack);
 
 int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 {
@@ -27,7 +27,7 @@ int	handle_heredoc(t_tok **pars, char *line, int i, int start)
 	return (i + 1);
 }
 
-int	read_heredoc_input(t_main *main, t_tok *tok, char *line, t_env *env)
+int	read_heredoc_input(t_shell *main, t_tok *tok, char *line, t_env *env)
 {
 	char	*res;
 
@@ -92,7 +92,7 @@ void	write_in_fd(char **res, int fd, t_env *env)
 	destroy_exp(&exp);
 }
 
-void	find_limiter(t_main *main, t_tok *stack)
+void	find_limiter(t_shell *main, t_tok *stack)
 {
 	t_tok	*tmp;
 	t_tok	*cmd_l;

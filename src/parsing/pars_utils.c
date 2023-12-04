@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:55:12 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/14 21:50:59 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_tok	*ast_branch(t_tok *tok)
 	return (tmp);
 }
 
-int	heredoc_input(t_main *main, t_env *env)
+int	heredoc_input(t_shell *main, t_env *env)
 {
 	t_tok	*tmp;
 

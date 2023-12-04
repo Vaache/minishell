@@ -6,16 +6,16 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 18:29:21 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 14:22:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack);
-t_tok	*ast_end(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack);
-t_tok	*ast_left_right(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack);
-t_tok	*ast_create_cmd(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack);
+t_tok	*abstract_syntax_tree(t_shell *main, t_tok **stack);
+t_tok	*ast_end(t_shell *main, t_tok *new, t_tok *tmp, t_tok **stack);
+t_tok	*ast_left_right(t_shell *main, t_tok *new, t_tok *tmp, t_tok **stack);
+t_tok	*ast_create_cmd(t_shell *main, t_tok *new, t_tok *tmp, t_tok **stack);
 t_tok	*most_prev(t_tok *stack);
 
 t_tok	*most_prev(t_tok *stack)
@@ -30,7 +30,7 @@ t_tok	*most_prev(t_tok *stack)
 	return (tmp);
 }
 
-t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack)
+t_tok	*abstract_syntax_tree(t_shell *main, t_tok **stack)
 {
 	t_tok	*tmp;
 	t_tok	*new;
@@ -48,7 +48,7 @@ t_tok	*abstract_syntax_tree(t_main *main, t_tok **stack)
 	return (new);
 }
 
-t_tok	*ast_left_right(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
+t_tok	*ast_left_right(t_shell *main, t_tok *new, t_tok *tmp, t_tok **stack)
 {
 	new = ast_branch(tmp);
 	if (tmp->sub)
@@ -66,7 +66,7 @@ t_tok	*ast_left_right(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
 	return (new);
 }
 
-t_tok	*ast_create_cmd(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
+t_tok	*ast_create_cmd(t_shell *main, t_tok *new, t_tok *tmp, t_tok **stack)
 {
 	while (tmp && tmp->cmd && (tmp->flag & 1) == 0)
 	{
@@ -86,7 +86,7 @@ t_tok	*ast_create_cmd(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
 	return (NULL);
 }
 
-t_tok	*ast_end(t_main *main, t_tok *new, t_tok *tmp, t_tok **stack)
+t_tok	*ast_end(t_shell *main, t_tok *new, t_tok *tmp, t_tok **stack)
 {
 	new = ast_branch(tmp);
 	delete_node(stack);

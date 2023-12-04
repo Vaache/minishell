@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 18:55:11 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/10/01 12:27:02 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:54 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ typedef struct s_tok
 //	@tparam	t_toker	*pars
 //	@tparam	t_toker	*lex
 //	@tparam	t_toker	*temp
-typedef struct s_main
+typedef struct s_shell
 {
 	int			exit_status;
 	int			redir;
@@ -149,7 +149,7 @@ typedef struct s_main
 	t_tok		*lex;
 	t_tok		*temp;
 	t_hd		*hd;
-}				t_main;
+}				t_shell;
 /********************************************/
 /************* MINISHELL_UTILS **************/
 /********************************************/
@@ -173,8 +173,8 @@ int						_close2_(int fd1, int fd2);
 int						_close_(int fd);
 int						close_pipes(int fd[2]);
 int						quote_count(char *limiter);
-void					save_backup(t_main **main);
-void					main_init(t_main *main);
+void					save_backup(t_shell **main);
+void					main_init(t_shell *main);
 void					init_hd(t_hd **hd);
 int						check_subsh(t_tok *stack);
 
@@ -204,16 +204,16 @@ t_env					*env_init(char **env, t_env *my_env);
 t_env					*push_back(t_env **list, t_env *new);
 t_env					*malloc_list(char *env);
 
-void					lex(char **line, t_main *main, t_env *env);
+void					lex(char **line, t_shell *main, t_env *env);
 int						ft_isspace(char *str, int start, int i);
 int						is_delim(t_tok	*pars);
 char					*type_is(t_type type);
-int						check_valid(t_main *main, t_env *env, int *sb, int fl);
+int						check_valid(t_shell *main, t_env *env, int *sb, int fl);
 void					valid_redir(t_tok **tok);
 int						check_types(t_type type);
 int						lstsize(t_tok *lst);
 void					destroy_structure(t_tok *root);
-void					destroy_main(t_main *main);
+void					destroy_main(t_shell *main);
 void					destroy_exp(t_exp *exp);
 
 t_tok					*lstlast(t_tok *lst);
@@ -242,8 +242,8 @@ int						handle_clprnth(t_tok **pars, char *line, \
 
 int						handle_heredoc(t_tok **pars, char *line, \
 							int i, int start);
-int						heredoc_input(t_main *main, t_env *env);
-int						read_heredoc_input(t_main *main, t_tok *tok, \
+int						heredoc_input(t_shell *main, t_env *env);
+int						read_heredoc_input(t_shell *main, t_tok *tok, \
 							char *line, t_env *env);
 
 int						handle_append(t_tok **pars, char *line, \
@@ -256,7 +256,7 @@ int						handle_infile(t_tok **pars, char *line, \
 void					handle_space(t_tok **pars, char *line, \
 							int i, int start);
 void					handle_dollar(int exit_status, t_env **env);
-void					find_limiter(t_main *main, t_tok *stack);
+void					find_limiter(t_shell *main, t_tok *stack);
 int						fill_command(t_tok *tok);
 void					push_redir(t_tok *to, t_tok *from);
 void					pop_redir(t_tok *tok);
@@ -265,41 +265,41 @@ void					delete_node(t_tok **opstack);
 void					push(t_tok **a, t_tok **b);
 void					shunting_yard(t_tok **tmp, t_tok **postfix, \
 														t_tok **opstack);
-t_tok					*abstract_syntax_tree(t_main *main, t_tok **stack);
+t_tok					*abstract_syntax_tree(t_shell *main, t_tok **stack);
 t_tok					*most_prev(t_tok *stack);
 
 t_tok					*ast_branch(t_tok *tok);
-int						check_astree(t_main *main, t_tok *root, t_env *env);
-int						cmds_execute(t_main *main, t_tok *pars, t_env **env, \
+int						check_astree(t_shell *main, t_tok *root, t_env *env);
+int						cmds_execute(t_shell *main, t_tok *pars, t_env **env, \
 															int status);
 
 char					**restore_cmd_line(t_tok *stack, int i);
-void					parsing(t_main *main);
-int						check_lasts(t_main *main, t_tok *stack, int mode);
+void					parsing(t_shell *main);
+int						check_lasts(t_shell *main, t_tok *stack, int mode);
 t_type					ttoa(char *token);
 char					*token_is(t_type token);
 int						andxor(t_tok *stack);
-int						call_cmds(t_main *main, t_tok *stack, t_env **env);
-char					*check_cmd(t_main *main, t_tok *stack, char *cmd, \
+int						call_cmds(t_shell *main, t_tok *stack, t_env **env);
+char					*check_cmd(t_shell *main, t_tok *stack, char *cmd, \
 															char **path);
-int						execute_second_arg(t_main *main, t_tok *stack, \
+int						execute_second_arg(t_shell *main, t_tok *stack, \
 																t_env *env);
 t_tok					*find_second_arg(t_tok *stack);
-void					find_path(t_main *main, t_env **env);;
+void					find_path(t_shell *main, t_env **env);;
 char					*fill_path_cmd(char *cmd, char **path);
 int						exec_cmds(char *path_cmd, char **cmd_arr, char **env, \
 									t_tok *stack);
-int						redir(t_main *main, t_tok *stack, t_env **env);
-int						heredoc(t_main *main, t_tok *stack, t_env **env);
-int						input(t_main *main, t_tok *stack, t_env **env);
-int						exec_iocmd(t_main *main, t_tok *stack, t_env **env);
-int						pipe_prepair(t_main *main, t_tok *pars, t_env **env);
+int						redir(t_shell *main, t_tok *stack, t_env **env);
+int						heredoc(t_shell *main, t_tok *stack, t_env **env);
+int						input(t_shell *main, t_tok *stack, t_env **env);
+int						exec_iocmd(t_shell *main, t_tok *stack, t_env **env);
+int						pipe_prepair(t_shell *main, t_tok *pars, t_env **env);
 int						io_dup2(int _stdin_, int _stdout_);
 int						io_backup_dup2(int _stdin_backup_, int _stdout_backup_);
 void					config_left_dups(t_tok *stack);
 void					config_right_dups(t_tok *stack);
-int						open_input(t_main *main, t_tok *stack);
-int						open_out(t_main *main, t_tok *stack);
+int						open_input(t_shell *main, t_tok *stack);
+int						open_out(t_shell *main, t_tok *stack);
 
 void					get_file(char *path, t_wcard **wcard);
 t_wcard					*lstadd_wcard(char *string);

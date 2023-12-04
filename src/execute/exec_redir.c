@@ -6,18 +6,18 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:41:54 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/29 20:43:11 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	redir(t_main *main, t_tok *stack, t_env **env);
-int	input(t_main *main, t_tok *stack, t_env **env);
-int	heredoc(t_main *main, t_tok *stack, t_env **env);
-int	exec_iocmd(t_main *main, t_tok *stack, t_env **env);
+int	redir(t_shell *main, t_tok *stack, t_env **env);
+int	input(t_shell *main, t_tok *stack, t_env **env);
+int	heredoc(t_shell *main, t_tok *stack, t_env **env);
+int	exec_iocmd(t_shell *main, t_tok *stack, t_env **env);
 
-int	redir(t_main *main, t_tok *stack, t_env **env)
+int	redir(t_shell *main, t_tok *stack, t_env **env)
 {
 	int		fd;
 	t_tok	*tmp;
@@ -41,7 +41,7 @@ int	redir(t_main *main, t_tok *stack, t_env **env)
 	return (stack->err_code);
 }
 
-int	heredoc(t_main *main, t_tok *stack, t_env **env)
+int	heredoc(t_shell *main, t_tok *stack, t_env **env)
 {
 	t_tok	*tmp;
 	int		fd;
@@ -70,7 +70,7 @@ int	heredoc(t_main *main, t_tok *stack, t_env **env)
 	return (stack->err_code);
 }
 
-int	input(t_main *main, t_tok *stack, t_env **env)
+int	input(t_shell *main, t_tok *stack, t_env **env)
 {
 	int			fd;
 	t_tok		*tmp;
@@ -97,7 +97,7 @@ int	input(t_main *main, t_tok *stack, t_env **env)
 	return (stack->err_code);
 }
 
-int	exec_iocmd(t_main *main, t_tok *stack, t_env **env)
+int	exec_iocmd(t_shell *main, t_tok *stack, t_env **env)
 {
 	check_lasts(main, stack, 0);
 	if (stack->left->left && check_types(stack->left->type) == 2)

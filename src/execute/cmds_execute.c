@@ -6,7 +6,7 @@
 /*   By: vhovhann <vhovhann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:17:41 by vhovhann          #+#    #+#             */
-/*   Updated: 2023/09/16 16:44:41 by vhovhann         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:26:44 by vhovhann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_builtins(t_tok *pars, t_env **env);
 int	exec_builtins(t_tok *stack, t_env **env, char **arr);
 int	is_builtin(char **arr, t_tok *stack);
 
-int	cmds_execute(t_main *main, t_tok *pars, t_env **env, int status)
+int	cmds_execute(t_shell *main, t_tok *pars, t_env **env, int status)
 {
 	status = check_builtins(pars, env);
 	if (status == 1)
