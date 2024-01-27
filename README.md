@@ -69,8 +69,6 @@ export
 unset
 env
 exit
-Contributing
-Contributions are welcome! Please follow the CONTRIBUTING.md guidelines.
 
 
 
