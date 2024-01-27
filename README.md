@@ -61,7 +61,6 @@ Use pipes:
 ls -l | grep .txt
 Built-in Commands
 Minishell supports the following built-in commands:
-
 echo
 cd
 pwd
