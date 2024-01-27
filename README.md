@@ -38,33 +38,28 @@ Minishell is a simplified shell program developed as part of the 42 school curri
    ```bash
    git clone https://github.com/your-username/minishell.git
    cd minishell
-Build the project:
-bash
-Copy code
-make
-Usage
-Run the Minishell executable:
+2. Build the project:
+	```bash
+	make
+3. Usage:
+	Run the Minishell executable:
+	```bash
+	./minishell	
 
-bash
-Copy code
-./minishell
 Once the shell is running, you can enter commands as you would in a regular shell.
 
 Command Examples
 Execute a command:
 
-bash
-Copy code
+```bash
 ls -l
 Redirect output to a file:
 
-bash
-Copy code
+```bash
 ls > output.txt
 Use pipes:
 
-bash
-Copy code
+```bash
 ls -l | grep .txt
 Built-in Commands
 Minishell supports the following built-in commands:
