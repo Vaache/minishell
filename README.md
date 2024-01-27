@@ -72,13 +72,6 @@ exit
 Contributing
 Contributions are welcome! Please follow the CONTRIBUTING.md guidelines.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-javascript
-Copy code
-
-Feel free to customize this template based on the specific requirements and guidelines of your 42 school. Additionally, make sure to update the placeholders (e.g., `your-username`, `CONTRIBUTING.md`, `LICENSE`) with the relevant information for your project.
 
 
 
