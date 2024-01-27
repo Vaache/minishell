@@ -40,7 +40,7 @@ Minishell is a simplified shell program developed as part of the 42 school curri
    cd minishell
 2. Build the project:
 	```bash
-	make
+	make readline; make
 3. Usage:
 	Run the Minishell executable:
 	```bash
