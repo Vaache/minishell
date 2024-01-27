@@ -55,11 +55,9 @@ Execute a command:
 ls -l
 Redirect output to a file:
 
-```bash
 ls > output.txt
 Use pipes:
 
-```bash
 ls -l | grep .txt
 Built-in Commands
 Minishell supports the following built-in commands:
