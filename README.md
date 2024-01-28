@@ -39,7 +39,7 @@ Minishell is a simplified shell program developed as part of the 42 school curri
 	make readline; make
    ```
 ### Usage:
-Run the Minishell executable:
+1. Run the Minishell executable:
    ```bash
 	./minishell
 	```
