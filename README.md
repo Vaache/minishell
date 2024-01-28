@@ -42,8 +42,6 @@ Minishell is a simplified shell program developed as part of the 42 school curri
 1. Run the Minishell executable:
    ```bash
 	./minishell
-	```
-
 
 ### Built-in Commands
 Minishell supports the following built-in commands:
