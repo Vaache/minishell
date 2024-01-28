@@ -38,13 +38,13 @@ Minishell is a simplified shell program developed as part of the 42 school curri
 ### Built-in Commands
 Minishell supports the following built-in commands:
 
-echo
-cd
-pwd
-export
-unset
-env
-exit
+- `echo`
+- `cd`
+- `pwd`
+- `export`
+- `unset`
+- `env`
+- `exit`
 
 
 ### Bonus
@@ -52,8 +52,8 @@ Additional Features
 Job Control: Implement job control features like fg, bg, and jobs.
 Command Line Editing: Add line editing capabilities with features like history, arrow key navigation, and editing.
 Tab Completion: Support tab completion for commands and file paths.
-Logical Operators
-&& and ||: Implement the logical operators && and || to allow chaining of commands based on the success or failure of previous commands.
+### Logical Operators
+- **&& and ||:** Implement the logical operators `&&` and `||` to allow chaining of commands based on the success or failure of previous commands.
 
 ```bash
 command1 && command2  # Execute command2 only if command1 succeeds
