@@ -33,7 +33,9 @@ Minishell is a simplified shell program developed as part of the 42 school curri
    ```bash
    git clone https://github.com/Vaache/minishell.git
    cd minishell
+   ```
 2. Build the project:
+	```bash
 	make readline; make
    ```
 ### Usage:
