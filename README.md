@@ -33,15 +33,26 @@ Minishell is a simplified shell program developed as part of the 42 school curri
    ```bash
    git clone https://github.com/Vaache/minishell.git
    cd minishell
-   ```
 2. Build the project:
 	```bash
 	make readline; make
-   ```
 ### Usage:
 1. Run the Minishell executable:
    ```bash
 	./minishell
+
+### Command Examples
+1. Execute a command:
+	```bash
+	ls -l
+
+2. Redirect output to a file:
+	```bash
+	ls > output.txt
+
+3. Use pipes:
+	```bash
+	ls -l | grep .txt
 
 ### Built-in Commands
 Minishell supports the following built-in commands:
@@ -63,16 +74,14 @@ Tab Completion: Support tab completion for commands and file paths.
 ### Logical Operators
 1. - **&& and ||:** Implement the logical operators `&&` and `||` to allow chaining of commands based on the success or failure of previous commands.
 
-```bash
-command1 && command2  # Execute command2 only if command1 succeeds
-command1 || command2  # Execute command2 only if command1 fails
-```
+	```bash
+	command1 && command2  # Execute command2 only if command1 succeeds
+	command1 || command2  # Execute command2 only if command1 fails
 
 ### Command Grouping
 1. Command Grouping with (): Allow command grouping using parentheses to change the precedence of execution.
 	```bash
 	(command1 && command2) || command3
-	```
 
 ### Testing
 Include comprehensive test cases to ensure the correctness and robustness of your shell.
