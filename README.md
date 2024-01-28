@@ -69,7 +69,7 @@ command1 || command2  # Execute command2 only if command1 fails
 ```
 
 ### Command Grouping
-Command Grouping with (): Allow command grouping using parentheses to change the precedence of execution.
+1. Command Grouping with (): Allow command grouping using parentheses to change the precedence of execution.
 	```bash
 	(command1 && command2) || command3
 	```
