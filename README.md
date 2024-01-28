@@ -32,7 +32,8 @@ Minishell is a simplified shell program developed as part of the 42 school curri
 1. Clone the repository:
    ```bash
    git clone https://github.com/Vaache/minishell.git
-   cd minishell```
+   cd minishell
+   ```
 
 ### Built-in Commands
 Minishell supports the following built-in commands:
@@ -56,12 +57,14 @@ Logical Operators
 
 ```bash
 command1 && command2  # Execute command2 only if command1 succeeds
-command1 || command2  # Execute command2 only if command1 fails```
+command1 || command2  # Execute command2 only if command1 fails
+```
 
 ### Command Grouping
 Command Grouping with (): Allow command grouping using parentheses to change the precedence of execution.
 	```bash
-	(command1 && command2) || command3```
+	(command1 && command2) || command3
+	```
 
 ### Testing
 Include comprehensive test cases to ensure the correctness and robustness of your shell.
