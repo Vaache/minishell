@@ -12,8 +12,6 @@ Minishell is a simplified shell program developed as part of the 42 school curri
 - [Command Examples](#command-examples)
 - [Built-in Commands](#built-in-commands)
 - [Bonus](#bonus)
-- [Contributing](#contributing)
-- [License](#license)
 - [Testing](#testing)
 
 ## Features
@@ -32,7 +30,7 @@ Minishell is a simplified shell program developed as part of the 42 school curri
 
 ### Installation
 1. Clone the repository:
-   ```bash
+   ```bash```
    git clone https://github.com/Vaache/minishell.git
    cd minishell
 
@@ -56,13 +54,13 @@ Tab Completion: Support tab completion for commands and file paths.
 Logical Operators
 && and ||: Implement the logical operators && and || to allow chaining of commands based on the success or failure of previous commands.
 
-```bash
+```bash```
 command1 && command2  # Execute command2 only if command1 succeeds
 command1 || command2  # Execute command2 only if command1 fails
 
-Command Grouping
+### Command Grouping
 Command Grouping with (): Allow command grouping using parentheses to change the precedence of execution.
-	```bash
+	```bash```
 	(command1 && command2) || command3
 
 ### Testing
