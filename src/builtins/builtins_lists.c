@@ -81,15 +81,18 @@ char	**env_2d(t_env **env)
 	tmp = (*env);
 	while (tmp)
 	{
+		my_env[i] = ft_strdup(tmp->key);
+		my_env[i] = ft_strjoin(my_env[i], "=", 1);
 		if (tmp->flag == 0)
 		{
-			my_env[i] = ft_strdup(tmp->key);
-			my_env[i] = ft_strjoin(my_env[i], "=", 1);
 			my_env[i] = ft_strjoin(my_env[i], tmp->data, 1);
-			i++;
+		} else {
+			my_env[i] = ft_strjoin(my_env[i], "", 1);
 		}
+		i++;
 		tmp = tmp->next;
 	}
 	my_env[i] = NULL;
 	return (my_env);
 }
+
