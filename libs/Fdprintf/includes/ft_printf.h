@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <limits.h>
+# include <stdint.h>
 
 int	ft_print_char(int c, int fd);
 int	ft_print_int(int n, int fd);

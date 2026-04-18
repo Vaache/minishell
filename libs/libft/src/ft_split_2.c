@@ -14,8 +14,11 @@
 
 static void	ft_free(char **s, size_t i)
 {
-	while (i-- >= 0)
-		free (s[i]);
+	while (i > 0)
+	{
+		i--;
+		free(s[i]);
+	}
 	free(s);
 }
 

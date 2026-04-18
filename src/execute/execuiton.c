@@ -16,7 +16,7 @@ int		call_cmds(t_shell *main, t_tok *stack, t_env **env);
 int		exec_cmds(char *path_cmd, char **cmd_arr, char **env, t_tok *stack);
 char	*check_cmd(t_shell *main, t_tok *stack, char *cmd, char **path);
 
-int static	exec_error(char *cmd, int err_num)
+static int	exec_error(char *cmd, int err_num)
 {
 	if (err_num == 13)
 		ft_printf(2, "minishell: %s: is a directory\n", cmd);
@@ -82,7 +82,7 @@ char	*check_cmd(t_shell *main, t_tok *stack, char *cmd, char **path)
 	return (cmd_path);
 }
 
-int static	destroy_unsetcase(char *path, char **arr, char **env, t_tok *s)
+static int	destroy_unsetcase(char *path, char **arr, char **env, t_tok *s)
 {
 	ft_printf(2, "minishell: %s: No such file or directory\n", s->cmd);
 	free_of_n(path, arr, env, 3);

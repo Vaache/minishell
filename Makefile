@@ -54,7 +54,7 @@ readline:
 	cd readline-master && make clean && ./configure --prefix=$(PREFIX) && make && make install
 
 $(NAME): $(OBJ) $(HEADER)
-	@$(CC) $(CFLAGS) $(LINKERS) $(LIBFT) -o $(NAME) $(OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LINKERS)
 	@echo $(PURPLE) $(TEXT) COMPILED $(RESET)
 
 
