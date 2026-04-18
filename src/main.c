@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 void	main_2(t_shell *main, t_env *my_env, char *str);
+int		g_exit_status_;
 
 int	main(int ac, char **av, char **env)
 {

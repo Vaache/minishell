@@ -21,6 +21,7 @@
 # include <dirent.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "libft.h"
@@ -307,6 +308,6 @@ void					lstback_wcard(t_wcard **pars, t_wcard *new);
 void					lstclear_wcard(t_wcard **lst);
 int						lstsize_wcard(t_wcard *lst);
 
-int						g_exit_status_;
+extern int				g_exit_status_;
 
 #endif

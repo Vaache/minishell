@@ -103,9 +103,6 @@ void	exp_3(t_exp **tmp)
 
 char	*expand(char *str, t_env **env, t_exp *exp)
 {
-	char	*s1;
-
-	s1 = NULL;
 	exp->str = ft_strdup(str);
 	if (onlydollar(exp->str))
 		return ("$");
